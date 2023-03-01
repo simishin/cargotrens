@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Home</title>
+  <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
+</head>
+<body>
+<!-- вставим фрагмент header -->
+<header th:insert="layout/page-layouts.html :: header"></header>
+
+<!-- главная страница -->
+<h1>Something wrong</h1>
+<h2>Error code: [[${errorCode}]]</h2>
+<h2>Message: [[${msg}]]</h2>
+<a th:href="@{/}">Go Home</a>
+
+
+<!-- вставим фрагмент footer -->
+<footer th:insert="layout/page-layouts.html :: footer"></footer>
+</body>
+</html>
