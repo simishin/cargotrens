@@ -2,12 +2,15 @@ package w.cargotrens.model.entity;
 
 import jakarta.persistence.*;
 
+import static w.cargotrens.utilits.Loger.getCurrentMethodNameq;
+import static w.cargotrens.utilits.Loger.prnq;
+
 @Entity
 @Table(name = "person_t")
 @Inheritance(
         strategy = InheritanceType.JOINED
 )
-public class Person {
+public class Person implements Party {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -25,6 +28,14 @@ public class Person {
     private User user;
 
     public Person() { }
+
+    public Person(String name, String description) {
+        this.affordability = 1;
+        this.name = name;
+        this.description = description;
+        this.user = null;
+    }
+
     public Integer  getId() { return id; }
     public void     setId(Integer id) { this.id = id; }
     public Integer  getAffordability() { return affordability; }
@@ -35,4 +46,23 @@ public class Person {
     public void     setDescription(String description) { this.description = description; }
     public User     getUser() { return user; }
     public void     setUser(User user) { this.user = user; }
+
+    @Override
+    public boolean equals(Object obj){
+        assert prnq("---------"+getCurrentMethodNameq()+"/t"+(obj instanceof Party));
+        if (!(obj instanceof Party)) return false;
+        Person x = (Person)obj;
+        return this.getName().equals(x.getName());
+    }
+
+    /**
+     * Наложение на существующий объект новые параметры другого объекта
+     * @param x накладываемый объект
+     */
+    public void merge(Person x){
+        if (! x.name.isBlank()) this.name=x.name;
+        if (! x.description.isBlank()) this.description=x.description;
+        if ( x.affordability != this.affordability ) this.affordability= x.affordability;
+        if ( x.user != null) this.user=x.user;
+    }
 }

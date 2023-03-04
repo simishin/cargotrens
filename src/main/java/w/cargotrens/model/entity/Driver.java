@@ -9,7 +9,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "driver_t")
-public class Driver  extends Person {
+public class Driver  extends Person implements Party {
 //    @Id
 //    @GeneratedValue(strategy = GenerationType.IDENTITY)
 //    private Integer id;

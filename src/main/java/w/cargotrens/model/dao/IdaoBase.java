@@ -1,4 +1,6 @@
 package w.cargotrens.model.dao;
+import w.cargotrens.model.entity.Boss;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -8,4 +10,5 @@ public interface IdaoBase<E> {
     E delete(Integer id);
     default E update(E item){ return null; }
     default E save(E item){ return null; }
+    Class<E> getClazz();
 }

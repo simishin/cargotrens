@@ -29,10 +29,18 @@ public class User {
     //--------------------------------------------------------------
     public User() {}
     public User(String login, String password) {
+        this(login, password,  null); }
+
+    public User(String login, String password, Party x) {
         this.login = login;
         this.password = password;
-        this.iRole =3;
+        this.person = (Person) x;
+        if (x instanceof Boss) this.iRole = 1;
+        else  if (x instanceof Dispatcher) this.iRole = 2;
+        else  if (x instanceof Driver) this.iRole = 3;
+        else this.iRole = 0;
     }
+
     public Integer  getIRole() { return iRole; }
     public void     setIRole(Integer iRole) { this.iRole = iRole; }
     public Integer  getId() { return id; }
