@@ -2,30 +2,14 @@
  * Диспетчер
  */
 package w.cargotrens.model.entity;
-
 import jakarta.persistence.*;
-
 import java.util.HashSet;
 import java.util.Set;
-
 import static w.cargotrens.utilits.Loger.prnv;
 
 @Entity
 @Table(name = "dispatcher_t")
 public class Dispatcher  extends Person implements Party {
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    private Integer id;
-//
-//    @Column
-//    private Integer affordability;
-//
-//    @Column(nullable = false)
-//    private String name;
-//
-//    @Column(columnDefinition = "varchar(192) default 'description'")
-//    private String description;
-
     @OneToMany(mappedBy = "dispatcher", cascade = CascadeType.ALL)
     private Set<Order> listOrder;
 
@@ -61,8 +45,6 @@ public class Dispatcher  extends Person implements Party {
     public boolean equals(Object obj){
         if (!(obj instanceof Dispatcher)) return false;
         return super.equals(obj);
-//        Dispatcher x = (Dispatcher)obj;
-//        return this.getName().equals(x.getName());
     }
     public void merge(Dispatcher x){
         assert prnv("+++");

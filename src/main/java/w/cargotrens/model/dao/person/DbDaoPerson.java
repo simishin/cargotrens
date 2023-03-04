@@ -25,7 +25,7 @@ public class DbDaoPerson implements IdaoBase<Person> {
     }
 
     @Override
-    public Person delete(Integer id) {
+    public Optional<Person> delete(Integer id) {
         return null;
     }
 
@@ -43,7 +43,4 @@ public class DbDaoPerson implements IdaoBase<Person> {
     public Person save(Person item) {
         return IdaoBase.super.save(item);
     }
-    @Override
-    public Class getClazz(){ return Person.class; }
-
 }

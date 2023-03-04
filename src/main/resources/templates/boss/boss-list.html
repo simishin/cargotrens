@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Clients List</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
+</head>
+<body>
+    <header th:insert="layout/page-layouts.html :: header"></header>
+    <h1>Clients List</h1>
+
+    <!-- вывод goodMsg если он есть -->
+    <div th:if="${gooMsg != null}" class="alert alert-success">
+        [[${gooMsg}]]
+    </div>
+
+    <table class="table-bordered">
+        <thead class="table-dark">
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <th:block th:each="client: ${clients}">
+                <tr>
+                    <td>[[${client.id}]]</td>
+                    <td>[[${client.name}]]</td>
+                    <td>
+                        <a th:href="@{'/client/delete/'+${client.id}}"
+                        class="btn bg-danger">Delete</a>
+                        <a th:href="@{'/client/update/'+${client.id}}"
+                           class="btn bg-primary">Edit</a>
+                        <a th:href="@{'/client/detail/'+${client.id}}"
+                           class="btn bg-warning">Detail</a>
+
+                    </td>
+                </tr>
+            </th:block>
+        </tbody>
+    </table>
+    </div>
+    <br>
+    <div>
+        <a th:href="@{/client/add}" class="btn btn-success">На дбавление </a>
+    </div>
+    <input type="button" onclick="history.back();" value="Назад"/>
+    <a th:href="@{/}">На главную страницу</a>
+</body>
+</html>

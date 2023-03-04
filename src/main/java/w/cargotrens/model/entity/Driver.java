@@ -96,9 +96,6 @@ public class Driver  extends Person implements Party {
     public boolean equals(Object obj){
         if (!(obj instanceof Driver)) return false;
         return super.equals(obj);
-//
-//        Driver x = (Driver)obj;
-//        return this.getName().equals(x.getName());
     }
     public void merge(Driver x){
         assert prnv("+++");

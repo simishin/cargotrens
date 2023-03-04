@@ -8,9 +8,8 @@ public interface IdaoBase<E> {
     public List<E> findAll();
     Optional<E> findById(Integer id);
     Optional<E> findById(String name);
-    E delete(Integer id);
+    Optional<E>  delete(Integer id);
     boolean delete(String name);
     default E update(E item){ return null; }
     default E save(E item){ return null; }
-    Class<E> getClazz();
 }

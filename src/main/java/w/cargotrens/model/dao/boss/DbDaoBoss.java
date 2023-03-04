@@ -15,8 +15,6 @@ import static w.cargotrens.utilits.Loger.prnv;
 public class DbDaoBoss implements IdaoBoss{
     @Autowired
     private BossRepository repository;
-//    @Autowired
-//    private UserRepository userRepository;
     @Autowired
     private DbDaoUser dbDaoUser;
 
@@ -38,18 +36,16 @@ public class DbDaoBoss implements IdaoBoss{
     }
 
     @Override
-    public Boss delete(Integer id) {
+    public Optional<Boss> delete(Integer id) {
         Optional<Boss> elm =  repository.findById(id);
         elm.ifPresent(obj -> repository.deleteById(id));
-        return elm.get();
+        return elm;
     }
     @Override
     public boolean delete(String name){
         assert prnv("");
         for (Boss x: repository.findAll())
             if (x.getName().equals(name)) {
-//                int z = x.getUser().getId();
-//                userRepository.findById(z).get().setIRole(0);
                 delete(x.getId());
                 return true;
             }
@@ -60,40 +56,18 @@ public class DbDaoBoss implements IdaoBoss{
     public Boss update(Boss item) {
         assert prnv("");
         //проверка на существование объекта
-        for (Boss x: repository.findAll()) {
-            if (x.getId() == item.getId()) {//есть такой элемент => edit
-                assert prnq("есть такой элемент по id " + x.getId() + " = " + item.getId());
-                x.merge(item);
-                return repository.save(x);
-            }
-
-            if (x.equals(item)) {//есть такой элемент => edit
+        for (Boss x: repository.findAll())
+             if (x.equals(item)) {//есть такой элемент => edit
                 assert prnq("есть такой элемент по имени " + x.getId() + " = " + item.getId());
                 x.merge(item);
                 return repository.save(x);
             }
-        }
         //проверка на существование логина
         assert prnq("проверка на существование логина");
-//        User z = null;
-//        for (User y: userRepository.findAll())
-//            if ( y.getLogin().equals(item.getName())) {
-//                item.setUser(y);
-//                return repository.save(item);
-//            }
-//        assert prnq("новый");
-//        z = new User(item.getName(), item.getName());
-//        dbDaoUser.addUser(z);
-//        item.setUser(z);
         item.setUser(dbDaoUser.presenceLogin(item));
         return repository.save(item);
     }//update
 
     @Override
-    public Boss save(Boss item) {
-//        return IdaoBoss.super.save(item);
-        return update(item);
-    }
-    @Override
-    public Class getClazz(){ return Boss.class; }
+    public Boss save(Boss item) { return update(item); }
 }

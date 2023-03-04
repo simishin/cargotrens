@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Detail Client</title>
+  <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
+</head>
+<body>
+<div class="container-fluid text-center">
+  <h1>Detail Client</h1>
+  <p>[[${client}]]</p>
+  <a th:href="@{/client}" class="btn btn-danger">Cancel</a>
+  <a th:href="@{/}">На главную страницу</a>
+</div>
+</body>
+</html>
