@@ -5,7 +5,10 @@ package w.cargotrens.model.entity;
 
 import jakarta.persistence.*;
 
+import java.util.HashSet;
 import java.util.Set;
+
+import static w.cargotrens.utilits.Loger.prnv;
 
 @Entity
 @Table(name = "dispatcher_t")
@@ -30,7 +33,12 @@ public class Dispatcher  extends Person implements Party {
     @JoinColumn(name = "boss_id")
     private Boss boss;
 
-    public Dispatcher() {
+    public Dispatcher() {}
+
+    public Dispatcher(String name, String description, Boss boss) {
+        super(name, description);
+        this.listOrder = new HashSet<Order>();
+        this.boss = boss;
     }
 
     public Set<Order> getListOrder() {
@@ -48,4 +56,17 @@ public class Dispatcher  extends Person implements Party {
     public void setBoss(Boss boss) {
         this.boss = boss;
     }
+
+    @Override
+    public boolean equals(Object obj){
+        if (!(obj instanceof Dispatcher)) return false;
+        return super.equals(obj);
+//        Dispatcher x = (Dispatcher)obj;
+//        return this.getName().equals(x.getName());
+    }
+    public void merge(Dispatcher x){
+        assert prnv("+++");
+        super.merge((Person)x);
+    }//merge
+
 }

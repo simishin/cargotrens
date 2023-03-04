@@ -49,9 +49,8 @@ public class Person implements Party {
 
     @Override
     public boolean equals(Object obj){
-        assert prnq("---------"+getCurrentMethodNameq()+"/t"+(obj instanceof Party));
-        if (!(obj instanceof Party)) return false;
         Person x = (Person)obj;
+        if (this.getId().equals(x.getId())) return true;
         return this.getName().equals(x.getName());
     }
 

@@ -10,6 +10,10 @@ import w.cargotrens.model.entity.User;
 
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static w.cargotrens.utilits.Loger.prnv;
+
 @SpringBootTest
 class DbDaoBossTest {
     @Autowired
@@ -31,10 +35,17 @@ class DbDaoBossTest {
 
     @Test
     void findById() {
+        System.out.println("----- Start Test DbDaoBossTest findById");
+        String q = "vasa31";
+        assertNull(x.findById(q),"@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+        prnv(" ==> "+ x.findById(q));
     }
 
     @Test
     void delete() {
+        System.out.println("----- Start Test DbDaoBossTest delete");
+        String q = "vasa0";
+        prnv(" ==> "+ x.delete(q));
     }
 
     @Test

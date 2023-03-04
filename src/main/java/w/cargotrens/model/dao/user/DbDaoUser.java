@@ -3,6 +3,8 @@ package w.cargotrens.model.dao.user;
 import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import w.cargotrens.model.entity.Party;
+import w.cargotrens.model.entity.Person;
 import w.cargotrens.model.entity.User;
 import java.util.List;
 import java.util.Optional;
@@ -37,5 +39,12 @@ public class DbDaoUser implements IDaoUser{
         userRepository.findById(id).ifPresent(client -> userRepository.deleteById(id));
     }
 
-
+    public User presenceLogin(Person item) {
+        for (User y : userRepository.findAll())
+            if (y.getLogin().equals(item.getName()))
+                return y;
+        User z = new User(item.getName(), item.getName());
+        addUser(z);
+        return z;
+    }//presenceLogin
 }

@@ -2,7 +2,6 @@ package w.cargotrens.model.dao.person;
 
 import org.springframework.stereotype.Service;
 import w.cargotrens.model.dao.IdaoBase;
-import w.cargotrens.model.entity.Boss;
 import w.cargotrens.model.entity.Person;
 
 import java.util.List;
@@ -17,12 +16,22 @@ public class DbDaoPerson implements IdaoBase<Person> {
 
     @Override
     public Optional<Person> findById(Integer id) {
-        return Optional.empty();
+        return Optional.empty();//создание пустого объекта
+    }
+
+    @Override
+    public Optional<Person> findById(String name) {
+        return Optional.empty();//создание пустого объекта
     }
 
     @Override
     public Person delete(Integer id) {
         return null;
+    }
+
+    @Override
+    public boolean delete(String name) {
+        return false;
     }
 
     @Override
@@ -35,6 +44,6 @@ public class DbDaoPerson implements IdaoBase<Person> {
         return IdaoBase.super.save(item);
     }
     @Override
-    public Class getClazz(){ return Boss.class; }
+    public Class getClazz(){ return Person.class; }
 
 }

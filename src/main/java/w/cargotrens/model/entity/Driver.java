@@ -5,7 +5,10 @@ package w.cargotrens.model.entity;
 
 import jakarta.persistence.*;
 
+import java.util.HashSet;
 import java.util.Set;
+
+import static w.cargotrens.utilits.Loger.prnv;
 
 @Entity
 @Table(name = "driver_t")
@@ -39,7 +42,15 @@ public class Driver  extends Person implements Party {
     @JoinColumn(name = "boss_id")
     private Boss boss;
 
-    public Driver() {
+    public Driver() {}
+
+    public Driver(String name, String description, Float playload, Integer orientation, Float tonnage, Boss boss) {
+        super(name, description);
+        this.playload = playload;
+        this.orientation = orientation;
+        this.tonnage = tonnage;
+        this.listOrder = new HashSet<Order>();
+        this.boss = boss;
     }
 
     public Float getPlayload() {
@@ -81,4 +92,20 @@ public class Driver  extends Person implements Party {
     public void setBoss(Boss boss) {
         this.boss = boss;
     }
-}
+    @Override
+    public boolean equals(Object obj){
+        if (!(obj instanceof Driver)) return false;
+        return super.equals(obj);
+//
+//        Driver x = (Driver)obj;
+//        return this.getName().equals(x.getName());
+    }
+    public void merge(Driver x){
+        assert prnv("+++");
+        super.merge((Person)x);
+        if (x.playload > 0 && !x.playload.equals(this.playload)) this.playload = x.playload;
+        if (x.tonnage > 0 && !x.tonnage.equals(this.tonnage)) this.tonnage = x.tonnage;
+        if (x.orientation >= 0 && !x.orientation.equals(this.orientation)) this.orientation = x.orientation;
+    }//merge
+
+}//Driver

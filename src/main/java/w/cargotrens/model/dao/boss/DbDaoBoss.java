@@ -3,9 +3,7 @@ package w.cargotrens.model.dao.boss;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import w.cargotrens.model.dao.user.DbDaoUser;
-import w.cargotrens.model.dao.user.UserRepository;
 import w.cargotrens.model.entity.Boss;
-import w.cargotrens.model.entity.User;
 
 import java.util.List;
 import java.util.Optional;
@@ -17,8 +15,8 @@ import static w.cargotrens.utilits.Loger.prnv;
 public class DbDaoBoss implements IdaoBoss{
     @Autowired
     private BossRepository repository;
-    @Autowired
-    private UserRepository userRepository;
+//    @Autowired
+//    private UserRepository userRepository;
     @Autowired
     private DbDaoUser dbDaoUser;
 
@@ -31,6 +29,13 @@ public class DbDaoBoss implements IdaoBoss{
     public Optional<Boss> findById(Integer id) {
         return repository.findById(id);
     }
+    @Override
+    public Optional<Boss> findById(String name) {
+        for (Boss x: repository.findAll())
+            if (x.getName().equals(name))
+                return repository.findById(x.getId());
+        return Optional.empty();
+    }
 
     @Override
     public Boss delete(Integer id) {
@@ -38,6 +43,18 @@ public class DbDaoBoss implements IdaoBoss{
         elm.ifPresent(obj -> repository.deleteById(id));
         return elm.get();
     }
+    @Override
+    public boolean delete(String name){
+        assert prnv("");
+        for (Boss x: repository.findAll())
+            if (x.getName().equals(name)) {
+//                int z = x.getUser().getId();
+//                userRepository.findById(z).get().setIRole(0);
+                delete(x.getId());
+                return true;
+            }
+        return false;
+    }//delete
 
     @Override
     public Boss update(Boss item) {
@@ -58,22 +75,24 @@ public class DbDaoBoss implements IdaoBoss{
         }
         //проверка на существование логина
         assert prnq("проверка на существование логина");
-        User z = null;
-        for (User y: userRepository.findAll())
-            if ( y.getLogin().equals(item.getName())) {
-                item.setUser(y);
-                return repository.save(item);
-            }
-        assert prnq("новый");
-        z = new User(item.getName(), item.getName());
-        dbDaoUser.addUser(z);
-        item.setUser(z);
+//        User z = null;
+//        for (User y: userRepository.findAll())
+//            if ( y.getLogin().equals(item.getName())) {
+//                item.setUser(y);
+//                return repository.save(item);
+//            }
+//        assert prnq("новый");
+//        z = new User(item.getName(), item.getName());
+//        dbDaoUser.addUser(z);
+//        item.setUser(z);
+        item.setUser(dbDaoUser.presenceLogin(item));
         return repository.save(item);
     }//update
 
     @Override
     public Boss save(Boss item) {
-        return IdaoBoss.super.save(item);
+//        return IdaoBoss.super.save(item);
+        return update(item);
     }
     @Override
     public Class getClazz(){ return Boss.class; }
