@@ -20,7 +20,6 @@ public class BossController {
     @Autowired
     private IdaoBoss dao;
 
-
     @GetMapping("")
     public String  listAll(Model model){
 //        List<Boss> x = dao.findAll();

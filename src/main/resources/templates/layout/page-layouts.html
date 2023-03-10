@@ -11,36 +11,29 @@
     </div>
 
     <!-- пример header  -->
-    <div th:fragment="header">
+    <div th:fragment="header" >
         <ul class="nav justify-content-center">
             <li class="nav-item">
-                <a class="nav-link" area-current="page" th:href="@{/client/}">Clients</a>
+<!--                <a class="nav-link" area-current="page" th:href="@{/client/}">Clients</a>-->
             </li>
             <li class="nav-item">
                 <a class="nav-link" area-current="page" th:href="@{/order/}">Orders</a>
             </li>
 
+            <li><a class="nav-link" area-current="page" th:href="@{/}">На главную страницу</a></li>
             <li class="nav-item">
                 <form th:action="@{/logout}" th:method="post">
-                    <button class="btn btn-primary">Log Out</button>
+                    <button class="nav-link" area-current="page">Log Out</button>
                 </form>
             </li>
             <li><input type="button" onclick="history.back();" value="Назад"/></li>
-            <li><a th:href="@{/}">На главную страницу</a></li>
-            <li class="nav-item">
-                <form th:action="@{/logout}" th:method="post">
-                    <button class="btn btn-primary">Log Out</button>
-                </form>
-            </li>
         </ul>
-
-
     </div>
 
     <!-- пример фрагмента футера -->
     <div class="container-fluid text-center fixed-bottom text-bg-dark"
         th:fragment="footer">
-        <h4>Cargo transportation <i> Developed by S.I. Mishin 2023 &copy; v1.0.0 </i></i></h4>
+        <p>Cargo transportation <i> Developed by S.I. Mishin 2023 &copy; v1.0.0 </i></i></p>
     </div>
 </body>
 </html>

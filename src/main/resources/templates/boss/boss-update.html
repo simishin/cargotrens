@@ -2,19 +2,21 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>Update Client</title>
+  <title>Update Boss</title>
   <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
 </head>
 <body>
 <div class="container-fluid text-center">
-  <h1>Update Client</h1>
-  <form method="post" th:action="@{/client/update}" th:object="${client}">
+  <h1>Внесение изменений в карточку Администратора</h1>
+  <form method="post" th:action="@{/boss/update}" th:object="${elm}">
     <input th:field="*{id}" hidden>
-    <label for="client-name">Client Name:</label>
-    <input id="client-name" th:type="text" th:field="*{name}" required minlength="1" maxlength="233"/>
+    <label for="rx">Имя:</label>
+    <input id="rx" th:type="text" th:field="*{name}" required minlength="1" maxlength="233"/>
+    <label for="ry">Примечание:</label>
+    <input id="ry" th:type="text" th:field="*{description}"  minlength="1" maxlength="233"/>
     <button class="btn btn-success">Сохранить</button>
   </form>
-  <a th:href="@{/client}" class="btn btn-danger">Cancel</a>
+  <a th:href="@{/boss}" class="btn btn-danger">Cancel</a>
   <a th:href="@{/}">На главную страницу</a>
 </div>
 </body>

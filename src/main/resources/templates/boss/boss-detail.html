@@ -2,15 +2,17 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>Detail Client</title>
+  <title>Detail Boss</title>
   <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
 </head>
 <body>
-<div class="container-fluid text-center">
-  <h1>Detail Client</h1>
-  <p>[[${client}]]</p>
-  <a th:href="@{/client}" class="btn btn-danger">Cancel</a>
-  <a th:href="@{/}">На главную страницу</a>
-</div>
+  <header th:insert="layout/page-layouts.html :: header"></header>
+  <div class="container-fluid text-center">
+    <h1>Дополнителная информация администратора</h1>
+    <p>[[${elm}]]</p>
+    <a th:href="@{/boss}" class="btn btn-danger">Cancel</a>
+    <a th:href="@{/}" class="btn btn-danger">На главную страницу</a>
+  </div>
+  <footer  th:insert="layout/page-layouts.html :: footer"></footer>
 </body>
 </html>

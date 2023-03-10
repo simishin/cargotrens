@@ -70,4 +70,6 @@ public class DbDaoDriver implements IdaoDriver{
     public Driver save(Driver item) {
         return update(item);
     }
+
+    public Integer count(){ return ((List<Driver>) repository.findAll()).size(); }
 }

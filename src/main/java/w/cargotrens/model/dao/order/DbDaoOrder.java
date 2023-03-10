@@ -1,5 +1,6 @@
 package w.cargotrens.model.dao.order;
 import org.springframework.stereotype.Service;
+import w.cargotrens.model.entity.Driver;
 import w.cargotrens.model.entity.Order;
 import java.util.List;
 import java.util.Optional;
@@ -59,4 +60,14 @@ public class DbDaoOrder implements IdaoOrder {
     }//update
     @Override
     public Order save(Order item) { return update(item); }
+
+    @Override
+    public Integer countReady() {
+        return (int) ((List<Order>) repository.findAll()).stream().filter(s -> s.getDriver() == null).count();
+    }
+
+    @Override
+    public Integer countDeliver() {
+        return (int) ((List<Order>) repository.findAll()).stream().filter(s -> s.getDriver() != null).count();
+    }
 }//class DbDaoOrder

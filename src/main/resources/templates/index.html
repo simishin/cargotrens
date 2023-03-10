@@ -3,30 +3,78 @@
 <head>
     <meta charset="UTF-8">
     <title>Грузовые перевозки</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap-theme.min.css}"/>
 </head>
-<body>
+<body class="wrapper">
 <!--    <header th:insert="layout/page-layouts.html :: header"></header>-->
-    <h1>Грузовые перевозки</h1>
+
     <!-- вставим фрагмент текста -->
-    <div th:insert="layout/page-layouts.html :: test"></div>
-    <br>
-    <a th:href="@{boss/}">На страницу  с косой client-list (boss-list.html)</a>
-    <br>
-    <a th:href="@{boss}">На страницу  без косой client-list (boss-list.html)</a>
-    <br>
-    <a th:href="@{boss/add}">На дбавление </a>
-    <br>
-<!--    <a th:href="@{item}">На страницу  без косой item-list (item-list.html)</a>-->
-<!--    <br>-->
-<!--    <a th:href="@{item/add}">На дбавление </a>-->
-<!--    <br>-->
-<!--    <a th:href="@{order}">На страницу  без косой order-list (order-list.html)</a>-->
-<!--    <br>-->
-<!--    <a th:href="@{order/add}">На дбавление </a>-->
-<!--    <br>-->
-<!--    <a th:href="@{orderitem}">На страницу  без косой orderitem-list (orderitem-list.html)</a>-->
-<!--    <br>-->
-<!--    <a th:href="@{orderitem/add}">На дбавление </a>-->
+<!--    <div th:insert="layout/page-layouts.html :: test"></div>-->
+    <div class="container-fluid">
+        <h1>Грузовые перевозки</h1>
+        <div class="container-fluid" >
+            <a href="#" class="btn btn-info" role="button" data-toggle="tooltip" data-placement="bottom"
+               title="Создание заказа, Поручение заказа водителю, Текущее сосотояние отработки Заказа">Заказы</a>
+            <a href="#" class="btn btn-info" role="button" data-toggle="tooltip" data-placement="bottom"
+               title="Список водителей, личная карточка водителя">Водители</a>
+            <a href="#" class="btn btn-info" role="button" data-toggle="tooltip" data-placement="bottom"
+               title="Список диспетчеров, управление Заказами">Диспетчеры</a>
+            <a href="boss" class="btn btn-info" role="button" data-toggle="tooltip" data-placement="bottom"
+               title="Список администраторов, управление аккаунтами диспетчеров и водителей">Администраторы</a>
+            <a href="login" class="btn btn-info" role="button" data-toggle="tooltip" data-placement="bottom"
+               title="Регистрация для получения доступа к информации">Регистрация</a>
+            <a href="#" class="btn btn-info" role="button" data-toggle="tooltip" data-placement="bottom"
+               title="Закрытие текущего доступа к информации">Выход</a>
+        </div>
+        <br>
+        <div class="fixed-bottom">
+            <div class="col-md-4 text-center table-dark bg-secondary">
+                <h4 >На сегодня: </h4>
+                <p>В конторе работает <mark>[[${ix}]]</mark> водителей</p>
+                <p>Подготовлено к доставке <mark>[[${iy}]]</mark> Заказов</p>
+                <p>Доставляется <mark>[[${iz}]]</mark> Заказов</p>
+                <br><br>
+            </div>
+        </div>
+
+    <!--        <button class="btn btn-success">-->
+<!--            <span class="badge">57</span>-->
+<!--        </button>-->
+        <!--    <a th:href="@{item}">На страницу  без косой item-list (item-list.html)</a>-->
+        <!--    <br>-->
+        <!--    <a th:href="@{item/add}">На дбавление </a>-->
+        <!--    <br>-->
+        <!--    <a th:href="@{order}">На страницу  без косой order-list (order-list.html)</a>-->
+        <!--    <br>-->
+        <!--    <a th:href="@{order/add}">На дбавление </a>-->
+        <!--    <br>-->
+        <!--    <a th:href="@{orderitem}">На страницу  без косой orderitem-list (orderitem-list.html)</a>-->
+        <!--    <br>-->
+        <!--    <a th:href="@{orderitem/add}">На дбавление </a>-->
+    </div>
     <footer  th:insert="layout/page-layouts.html :: footer"></footer>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        html, body, .wrapper {
+            width: 100%;
+            height: 100%;
+        }
+        .wrapper {
+            /*background: aquamarine;*/
+            background-image: url("./imgBg/bg-avto.jpg");
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+    </style>
+<script>
+    $(document).ready (function(){
+        $('a[data-toggle="tooltip"]').toolbar;
+    });
+</script>
 </body>
 </html>

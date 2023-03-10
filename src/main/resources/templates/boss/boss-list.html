@@ -2,12 +2,12 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Clients List</title>
+    <title>Boss List</title>
     <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
 </head>
 <body>
     <header th:insert="layout/page-layouts.html :: header"></header>
-    <h1>Clients List</h1>
+    <h1>Список администраторов</h1>
 
     <!-- вывод goodMsg если он есть -->
     <div th:if="${gooMsg != null}" class="alert alert-success">
@@ -15,7 +15,7 @@
     </div>
 
     <table class="table-bordered">
-        <thead class="table-dark">
+        <thead >
             <tr>
                 <th>Id</th>
                 <th>Name</th>
@@ -23,16 +23,16 @@
             </tr>
         </thead>
         <tbody>
-            <th:block th:each="client: ${clients}">
+            <th:block th:each="elm: ${elms}">
                 <tr>
-                    <td>[[${client.id}]]</td>
-                    <td>[[${client.name}]]</td>
+                    <td>[[${elm.id}]]</td>
+                    <td>[[${elm.name}]]</td>
                     <td>
-                        <a th:href="@{'/client/delete/'+${client.id}}"
+                        <a th:href="@{'/boss/delete/'+${elm.id}}"
                         class="btn bg-danger">Delete</a>
-                        <a th:href="@{'/client/update/'+${client.id}}"
+                        <a th:href="@{'/boss/update/'+${elm.id}}"
                            class="btn bg-primary">Edit</a>
-                        <a th:href="@{'/client/detail/'+${client.id}}"
+                        <a th:href="@{'/boss/detail/'+${elm.id}}"
                            class="btn bg-warning">Detail</a>
 
                     </td>
@@ -43,9 +43,10 @@
     </div>
     <br>
     <div>
-        <a th:href="@{/client/add}" class="btn btn-success">На дбавление </a>
+        <a th:href="@{/boss/add}" class="btn btn-success">На добавление </a>
+        <input type="button" onclick="history.back();" value="Назад"/>
+        <a th:href="@{/}" class="btn btn-success">На главную страницу</a>
     </div>
-    <input type="button" onclick="history.back();" value="Назад"/>
-    <a th:href="@{/}">На главную страницу</a>
+    <footer  th:insert="layout/page-layouts.html :: footer"></footer>
 </body>
 </html>

@@ -61,7 +61,7 @@ public class Person implements Party {
     public void merge(Person x){
         if (! x.name.isBlank()) this.name=x.name;
         if (! x.description.isBlank()) this.description=x.description;
-        if ( x.affordability != this.affordability ) this.affordability= x.affordability;
+        if ( x.affordability >= 0 && x.affordability != this.affordability ) this.affordability= x.affordability;
         if ( x.user != null) this.user=x.user;
     }
 }
