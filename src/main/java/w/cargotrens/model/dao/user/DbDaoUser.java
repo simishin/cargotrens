@@ -1,9 +1,8 @@
 package w.cargotrens.model.dao.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import w.cargotrens.model.entity.Party;
 import w.cargotrens.model.entity.Person;
 import w.cargotrens.model.entity.User;
 import java.util.List;
@@ -11,8 +10,8 @@ import java.util.Optional;
 
 @Service
 public class DbDaoUser implements IDaoUser{
-//    @Autowired
-//    private PasswordEncoder encoder;
+    @Autowired
+    private PasswordEncoder encoder;
     @Autowired
     private UserRepository userRepository;
 
@@ -24,8 +23,8 @@ public class DbDaoUser implements IDaoUser{
         for (User y: userRepository.findAll())
             if ( y.getLogin().equals(user.getLogin())) return null;
         // перед добавлением пользователя захешируем его пароль
-//        String encodedPassword = encoder.encode(user.getPassword());
-        String encodedPassword = user.getPassword(); //заглушка *************
+        String encodedPassword = encoder.encode(user.getPassword());
+//        String encodedPassword = user.getPassword(); //заглушка *************
         user.setPassword(encodedPassword); //устанавливаем пароль
         return userRepository.save(user);
     }

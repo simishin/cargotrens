@@ -22,6 +22,8 @@ class DbDaoUserTest {
         System.out.println("Start Test DbDaoUserTest *********************");
         User user = new User("tst", "tst");
         daoUser.addUser(user);
+        user = new User("test_user_01", "qwerty");
+        daoUser.addUser(user);
     }
 
     @Test
