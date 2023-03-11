@@ -7,7 +7,7 @@
 </head>
 <body>
 <!-- вставим фрагмент header -->
-<header th:insert="layout/page-layouts.html :: header"></header>
+<header th:insert="~{layout/page-layouts.html :: header}"></header>
 
 <!-- главная страница -->
 <h1>Something wrong</h1>
@@ -17,6 +17,6 @@
 
 
 <!-- вставим фрагмент footer -->
-<footer th:insert="layout/page-layouts.html :: footer"></footer>
+<footer th:insert="~{layout/page-layouts.html :: footer}"></footer>
 </body>
 </html>

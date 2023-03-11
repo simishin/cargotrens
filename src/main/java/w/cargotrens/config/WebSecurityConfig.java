@@ -26,8 +26,8 @@ public class WebSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
             .authorizeHttpRequests((requests) -> requests
-                .requestMatchers("/","/webjars/**","/img/**","./imgBg/**","/img").permitAll()
-                .requestMatchers("/client/*").hasRole("ADMIN")
+                .requestMatchers("/","/webjars/**").permitAll()
+//                .requestMatchers("/client/*").hasRole("ADMIN")
                 .anyRequest().authenticated()
             )
             .formLogin((form) -> form

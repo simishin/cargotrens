@@ -5,7 +5,6 @@
   <title>Login</title>
 </head>
 <body>
-  <header th:insert="layout/page-layouts.html :: header"></header>
   <h1>Sign in</h1>
   <th:block th:if="${param.error}" class="alert">
     Error
@@ -24,6 +23,5 @@
     </label>
     <button> Sign in </button>
   </form>
-  <footer  th:insert="layout/page-layouts.html :: footer"></footer>
 </body>
 </html>

@@ -53,7 +53,7 @@
         <!--    <br>-->
         <!--    <a th:href="@{orderitem/add}">На дбавление </a>-->
     </div>
-    <footer  th:insert="layout/page-layouts.html :: footer"></footer>
+    <footer  th:insert="~{layout/page-layouts.html :: footer}"></footer>
 
     <style>
         * {
@@ -66,7 +66,7 @@
         }
         .wrapper {
             /*background: aquamarine;*/
-            background-image: url("/img/bg-avto.jpg");
+            background-image: url("bg-avto.jpg");
             /*background-image: url("./imgBg/bg-avto.jpg");*/
             background-repeat: no-repeat;
             background-size: cover;
