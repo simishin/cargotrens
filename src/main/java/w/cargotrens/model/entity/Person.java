@@ -15,7 +15,7 @@ public class Person implements Party {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @Column
-    private Integer affordability;
+    private Integer affordability; //доступность
 
     @Column(nullable = false)
     private String name;

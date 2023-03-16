@@ -7,6 +7,8 @@ import w.cargotrens.model.entity.User;
 import java.util.Collection;
 import java.util.Collections;
 
+import static w.cargotrens.utilits.Loger.prnv;
+
 // класс-сервис для работы с суностью пользователя
 public class DbUserDetails implements UserDetails {
     private User dbUser;  // сущность пользователя из БД
@@ -16,7 +18,16 @@ public class DbUserDetails implements UserDetails {
     public DbUserDetails(User dbUser) { this.dbUser = dbUser;}
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.<GrantedAuthority>singletonList(new SimpleGrantedAuthority("ROLE_ADMIN"));
+//        String z;
+//        switch (this.dbUser.getIRole()){
+//            case 1:  z= "ROLE_ADMIN"; break;
+//            case 2:  z= "ROLE_DISPC"; break;
+//            case 3:  z= "ROLE_DRIVR"; break;
+//            default: z=""; prnv("no is Role :" +this.dbUser.getIRole());
+//        }
+        prnv("---> "+this.dbUser.getSRole());
+        return Collections.<GrantedAuthority>singletonList(
+                new SimpleGrantedAuthority(this.dbUser.getSRole()));
     }
     @Override
     public String getPassword() { return dbUser.getPassword(); }

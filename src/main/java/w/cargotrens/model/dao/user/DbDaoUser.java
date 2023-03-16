@@ -38,7 +38,7 @@ public class DbDaoUser implements IDaoUser{
         userRepository.findById(id).ifPresent(client -> userRepository.deleteById(id));
     }
 
-    public User presenceLogin(Person item) {
+    public User presenceLogin(Person item) { //login присутствие
         for (User y : userRepository.findAll())
             if (y.getLogin().equals(item.getName()))
                 return y;

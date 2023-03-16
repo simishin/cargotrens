@@ -1,45 +1,49 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Boss List</title>
     <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap-theme.min.css}"/>
 </head>
 <body>
-    <header th:insert="layout/page-layouts.html :: header"></header>
-    <h1>Список администраторов</h1>
-
-    <!-- вывод goodMsg если он есть -->
-    <div th:if="${gooMsg != null}" class="alert alert-success">
-        [[${gooMsg}]]
+    <header th:insert="~{layout/page-layouts.html :: header}"></header>
+    <div class="container-fluid">
+        <h2 class="text-center">Список администраторов</h2>
+        <!-- вывод goodMsg если он есть -->
+        <div th:if="${gooMsg != null}" class="alert alert-success">
+            [[${gooMsg}]]
+        </div>
+        <div class="col-11 table-responsive">
+            <table class="table table-striped table-hover table-bordered">
+                <thead>
+                    <tr class="table-info text-center">
+                        <th class="col-1 text-center">№</th>
+                        <th>Имя</th>
+                        <th class="col-2">группа</th>
+                        <th class="col-3"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <th:block th:each="elm: ${elms}">
+                        <tr>
+                            <td>[[${elm.id}]]</td>
+                            <td>[[${elm.name}]]</td>
+                            <td>[[${elm.affordability}]]</td>
+                            <td>
+                                <a th:href="@{'/boss/delete/'+${elm.id}}"
+                                class="btn bg-danger btn-sm">Delete</a>
+                                <a th:href="@{'/boss/update/'+${elm.id}}"
+                                   class="btn bg-primary btn-sm">Edit</a>
+                                <a th:href="@{'/boss/detail/'+${elm.id}}"
+                                   class="btn bg-warning btn-sm">Detail</a>
+                            </td>
+                        </tr>
+                    </th:block>
+                </tbody>
+            </table>
+        </div>
     </div>
-
-    <table class="table-bordered">
-        <thead >
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            <th:block th:each="elm: ${elms}">
-                <tr>
-                    <td>[[${elm.id}]]</td>
-                    <td>[[${elm.name}]]</td>
-                    <td>
-                        <a th:href="@{'/boss/delete/'+${elm.id}}"
-                        class="btn bg-danger">Delete</a>
-                        <a th:href="@{'/boss/update/'+${elm.id}}"
-                           class="btn bg-primary">Edit</a>
-                        <a th:href="@{'/boss/detail/'+${elm.id}}"
-                           class="btn bg-warning">Detail</a>
-
-                    </td>
-                </tr>
-            </th:block>
-        </tbody>
-    </table>
     </div>
     <br>
     <div>
@@ -47,6 +51,6 @@
         <input type="button" onclick="history.back();" value="Назад"/>
         <a th:href="@{/}" class="btn btn-success">На главную страницу</a>
     </div>
-    <footer  th:insert="layout/page-layouts.html :: footer"></footer>
+    <footer  th:insert="~{layout/page-layouts.html :: footer}"></footer>
 </body>
 </html>

@@ -4,10 +4,18 @@
  * 1-администратор
  * 2-диспетчер
  * 3-водитель
+ * новое
+ * 1-гость
+ * 2-водитель
+ * 3-диспетчер
+ * 4-администратор
+ * отрицательные значения- заблокирован
  */
 package w.cargotrens.model.entity;
 
 import jakarta.persistence.*;
+
+import static w.cargotrens.utilits.Loger.prnv;
 
 @Entity
 @Table(name = "user_t")
@@ -41,6 +49,16 @@ public class User {
         else  if (x instanceof Driver) this.iRole = 3;
         else this.iRole = 0;
     }
+    public String   getSRole(){ return this.getSRole(iRole); }
+    public static String   getSRole(int i){
+        switch (i){
+            case 1:  return  "ROLE_ADMIN";
+            case 2:  return  "ROLE_DISPC";
+            case 3:  return  "ROLE_DRIVR";
+            default: return  "ROLE_GUEST";
+        }
+    }
+
 
     public Integer  getIRole() { return iRole; }
     public void     setIRole(Integer iRole) { this.iRole = iRole; }
@@ -52,5 +70,4 @@ public class User {
     public void     setPassword(String password) { this.password = password; }
     public Person   getPerson() { return person; }
     public void     setPerson(Person person) { this.person = person; }
-
 }//class User

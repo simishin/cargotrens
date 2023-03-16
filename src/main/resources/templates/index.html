@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Грузовые перевозки</title>
@@ -24,9 +24,20 @@
                title="Список администраторов, управление аккаунтами диспетчеров и водителей">Администраторы</a>
             <a href="login" class="btn btn-info" role="button" data-toggle="tooltip" data-placement="bottom"
                title="Регистрация для получения доступа к информации">Регистрация</a>
-            <a href="#" class="btn btn-info" role="button" data-toggle="tooltip" data-placement="bottom"
+
+<!--            <form th:action="@{/logout}" method="post">-->
+<!--                <input type="submit" class="btn btn-info" data-toggle="tooltip" data-placement="bottom"-->
+<!--                       itle="Закрытие текущего доступа к информации" value="Выход"/>-->
+<!--            </form>-->
+            <a href="@{/logout}" class="btn btn-info" role="button" data-toggle="tooltip" data-placement="bottom"
                title="Закрытие текущего доступа к информации">Выход</a>
+
+            <button class="btn btn-success">[[${login}]]</button>
+
         </div>
+<!--        <h3 th:inline="text">Hello <span th:remove="tag" sec:authentication="name">thymeleaf</span>!</h3>-->
+
+
         <br>
         <div class="fixed-bottom">
             <div class="col-md-4 text-center table-dark bg-secondary">
@@ -66,7 +77,7 @@
         }
         .wrapper {
             /*background: aquamarine;*/
-            background-image: url("bg-avto.jpg");
+            background-image: url("/img/bg-avto.jpg");
             /*background-image: url("./imgBg/bg-avto.jpg");*/
             background-repeat: no-repeat;
             background-size: cover;

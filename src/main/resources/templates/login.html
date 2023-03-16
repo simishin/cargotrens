@@ -3,25 +3,31 @@
 <head>
   <meta charset="UTF-8">
   <title>Login</title>
+  <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
+  <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap-theme.min.css}"/>
 </head>
 <body>
-  <h1>Sign in</h1>
-  <th:block th:if="${param.error}" class="alert">
-    Error
-  </th:block>
-  <br>
-  <p> username("test_user_01") password("qwerty") </p>
-<!--  <p> username("adm") password("1")</p>-->
-  <form th:action="@{/login}" method="post">
-    <label>
-      Login:
-      <input type="text" name="username"/>
-    </label>
-    <label>
-      Password:
-      <input type="password" name="password"/>
-    </label>
-    <button> Sign in </button>
-  </form>
+  <div class="container col-md-4" style="background-color: aquamarine">
+    <h2>Регистрация</h2>
+    <th:block th:if="${param.error}" class="alert">
+      Error
+    </th:block>
+    <form th:action="@{/login}" method="post" class="form-inline">
+      <label class="control-label col-sm">
+        Login:
+        <input type="text" name="username" class="form-control" placeholder="введите Имя"/>
+      </label>
+      <label class="control-label col-sm">
+        Password:
+        <input type="password" name="password" class="form-control" placeholder="введите пароль"/>
+      </label>
+      <p class="text-xl-center"></p>
+
+      <button type="submit" class="btn btn-success">Регистрация</button>
+      <input type="button" onclick="history.back(); " class="btn btn-info" value="Отмена"/>
+  <!--    <button> Sign in </button>-->
+      <p>`</p>
+    </form>
+  </div>
 </body>
 </html>
