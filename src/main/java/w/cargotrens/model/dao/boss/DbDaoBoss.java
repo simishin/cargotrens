@@ -65,6 +65,7 @@ public class DbDaoBoss implements IdaoBoss{
         //проверка на существование логина
         assert prnq("проверка на существование логина");
         item.setUser(dbDaoUser.presenceLogin(item));
+        item.getUser().setIRole(1);
         return repository.save(item);
     }//update
 

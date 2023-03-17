@@ -64,6 +64,7 @@ public class DbDaoDriver implements IdaoDriver{
         //проверка на существование логина
         assert prnq("проверка на существование логина");
         item.setUser(dbDaoUser.presenceLogin(item));
+        item.getUser().setIRole(3);
         return repository.save(item);
     }
     @Override

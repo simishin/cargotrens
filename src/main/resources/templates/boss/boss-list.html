@@ -9,7 +9,17 @@
 <body>
     <header th:insert="~{layout/page-layouts.html :: header}"></header>
     <div class="container-fluid">
-        <h2 class="text-center">Список администраторов</h2>
+        <h2 class="text-center">Список персонала</h2>
+<!--        функционал доступен только для администратора-->
+        <div class="text-center" th:if="${irole}=='1'">
+            <a th:href="@{/boss/add_drivr}" class="btn btn-success">Добавить водителя</a>
+            <a th:href="@{/boss/add_dispc}" class="btn btn-warning">Добавить диспетчера</a>
+            <a th:href="@{/boss/add_admin}" class="btn btn-danger">Добавить администратора</a>
+        </div>
+        <div class="text-center" th:unless="${irole}=='1'">
+            <!--/*@thymesVar id="userid" type=""*/-->
+            <a th:href="@{'/boss/add/'+${userid}}" class="btn btn-warning">Отредактировать личные данные</a>
+        </div>
         <!-- вывод goodMsg если он есть -->
         <div th:if="${gooMsg != null}" class="alert alert-success">
             [[${gooMsg}]]
@@ -20,7 +30,7 @@
                     <tr class="table-info text-center">
                         <th class="col-1 text-center">№</th>
                         <th>Имя</th>
-                        <th class="col-2">группа</th>
+                        <th class="col-2">Категория</th>
                         <th class="col-3"></th>
                     </tr>
                 </thead>
@@ -29,12 +39,26 @@
                         <tr>
                             <td>[[${elm.id}]]</td>
                             <td>[[${elm.name}]]</td>
-                            <td>[[${elm.affordability}]]</td>
-                            <td>
-                                <a th:href="@{'/boss/delete/'+${elm.id}}"
-                                class="btn bg-danger btn-sm">Delete</a>
+<!--                            <td>[[${elm.affordability}]]</td>-->
+                            <td th:switch="${elm.affordability}">
+                                <span th:case="1" class="text-danger" th:text="admin"></span>
+                                <span th:case="2" class="text-primary" th:text="Диспетчер"></span>
+                                <span th:case="3" class="text-success" th:text="Водитель"></span>
+                                <span th:case="-1" class="text-muted" th:text="admin"></span>
+                                <span th:case="-2" class="text-muted" th:text="Диспетчер"></span>
+                                <span th:case="-3" class="text-muted" th:text="Водитель"></span>
+                            </td>
+                            <td th:if="${irole}=='1'">
+                                <a th:href="@{'/boss/detail/'+${elm.id}}"
+                                   class="btn bg-warning btn-sm">Detail</a>
+
                                 <a th:href="@{'/boss/update/'+${elm.id}}"
                                    class="btn bg-primary btn-sm">Edit</a>
+
+                                <a th:href="@{'/boss/delete/'+${elm.id}}"
+                                   class="btn bg-danger btn-sm">Delete</a>
+                            </td>
+                            <td th:unless="${irole}=='1'">
                                 <a th:href="@{'/boss/detail/'+${elm.id}}"
                                    class="btn bg-warning btn-sm">Detail</a>
                             </td>
@@ -46,11 +70,6 @@
     </div>
     </div>
     <br>
-    <div>
-        <a th:href="@{/boss/add}" class="btn btn-success">На добавление </a>
-        <input type="button" onclick="history.back();" value="Назад"/>
-        <a th:href="@{/}" class="btn btn-success">На главную страницу</a>
-    </div>
     <footer  th:insert="~{layout/page-layouts.html :: footer}"></footer>
 </body>
 </html>

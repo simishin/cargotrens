@@ -49,6 +49,7 @@ public class User {
         else  if (x instanceof Driver) this.iRole = 3;
         else this.iRole = 0;
     }
+
     public String   getSRole(){ return this.getSRole(iRole); }
     public static String   getSRole(int i){
         switch (i){
@@ -58,7 +59,6 @@ public class User {
             default: return  "ROLE_GUEST";
         }
     }
-
 
     public Integer  getIRole() { return iRole; }
     public void     setIRole(Integer iRole) { this.iRole = iRole; }

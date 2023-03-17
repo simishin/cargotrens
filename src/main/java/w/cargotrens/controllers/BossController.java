@@ -11,9 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import w.cargotrens.model.dao.boss.IdaoBoss;
 import w.cargotrens.model.dao.dispatcher.IdaoDispatcher;
 import w.cargotrens.model.dao.driver.IdaoDriver;
-import w.cargotrens.model.entity.Boss;
-import w.cargotrens.model.entity.Person;
-import w.cargotrens.model.entity.User;
+import w.cargotrens.model.dao.user.IDaoUser;
+import w.cargotrens.model.entity.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +29,9 @@ public class BossController {
     private IdaoDispatcher idaoDispatcher;
     @Autowired
     private IdaoDriver idaoDriver;
+
+    @Autowired
+    private IDaoUser iDaoUser;
 
     private User u;
 
@@ -69,23 +71,57 @@ public class BossController {
 //        --true----test_user_01---[ROLE_ADMIN]
         model.addAttribute("login",str);
         model.addAttribute("irole",z);
+        model.addAttribute("userid",(int)iDaoUser.getUserId(auth));
         return "boss/boss-list";
     }
     //---------------------------------------------------
-    @GetMapping("/add")
-    public String getAddForm(Model model){
+    @GetMapping("/add_admin")
+    public String getAddFormAdmin(Model model, Authentication auth){
         Boss x =  new Boss();
         model.addAttribute("elm",x);
-//        List<Order> y = dao.findAll();
-//        model.addAttribute("elms",y);
+        model.addAttribute("userid",iDaoUser.getUserId(auth));
         return  "boss/boss-form";
     }
-    @PostMapping("/add")
-    public String addNewEtem(Boss x){
+    @PostMapping("/add_admin")
+    public String addNewEtemAdmin(Boss x){
         assert prnv("Order ADD");
+        x.setAffordability(1);
         idaoBoss.update(x);
         return "redirect:/boss";
     }
+    //---------------------------------------------------
+    @GetMapping("/add_dispc")
+    public String getAddFormDispc(Model model, Authentication auth){
+        Dispatcher x =  new Dispatcher();
+        model.addAttribute("elm",x);
+        model.addAttribute("userid",iDaoUser.getUserId(auth));
+        return  "boss/disp-form";
+    }
+    @PostMapping("/add_dispc")
+    public String addNewEtemDispc(Dispatcher x){
+        assert prnv("Dispatcher ADD");
+        x.setAffordability(2);
+        idaoDispatcher.update(x);
+        return "redirect:/boss";
+    }
+    //---------------------------------------------------
+    @GetMapping("/add_drivr")
+    public String getAddFormDrivr(Model model, Authentication auth){
+        Driver x =  new Driver();
+        model.addAttribute("elm",x);
+        model.addAttribute("userid",iDaoUser.getUserId(auth));
+        return  "boss/driv-form";
+    }
+    @PostMapping("/add_drivr")
+    public String addNewEtemDrivr(Driver x){
+        assert prnv("Driver ADD");
+        x.setAffordability(3);
+        idaoDriver.update(x);
+        return "redirect:/boss";
+    }
+
+
+
     //------------------------------------------------------
     @GetMapping("/update/{id:\\d+}")
     public String getUpdateForm(@PathVariable Integer id, Model model){

@@ -1,23 +1,23 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Add New Boss</title>
-    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
-    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap-theme.min.css}"/>
+  <meta charset="UTF-8">
+  <title>Add New Boss</title>
+  <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
+  <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap-theme.min.css}"/>
 </head>
 <body>
 <header th:insert="~{layout/page-layouts.html :: header}"></header>
 <div class="container-fluid text-center">
-    <h1>Добавление Администратора</h1>
-    <form method="post" th:action="@{/boss/add_admin}" th:object="${elm}">
+  <h1>Добавление Администратора</h1>
+  <form method="post" th:action="@{/boss/add_drivr}" th:object="${elm}">
     <label for="rx">Имя:</label>
     <input id="rx" th:type="text" th:field="*{name}" required minlength="1" maxlength="233"/>
     <label for="ry">Примечание:</label>
     <input id="ry" th:type="text" th:field="*{description}"  minlength="1" maxlength="233"/>
     <button class="btn btn-success">Добавить</button>
-</form>
-    <a th:href="@{/boss}" class="btn btn-danger">Cancel</a>
+  </form>
+  <a th:href="@{/boss}" class="btn btn-danger">Cancel</a>
 </div>
 <footer  th:insert="~{layout/page-layouts.html :: footer}"></footer>
 </body>
