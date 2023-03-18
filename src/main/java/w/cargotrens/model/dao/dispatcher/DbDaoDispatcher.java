@@ -1,6 +1,7 @@
 package w.cargotrens.model.dao.dispatcher;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import w.cargotrens.model.dao.user.DbDaoUser;
 import w.cargotrens.model.entity.Dispatcher;
@@ -36,7 +37,9 @@ public class DbDaoDispatcher implements IdaoDispatcher{
 
     @Override
     public Optional<Dispatcher> delete(Integer id) {
+        if (repository.findById(id).isEmpty()) return Optional.empty();
         Optional<Dispatcher> elm =  repository.findById(id);
+        elm.get().getUser().setIRole(0);
         elm.ifPresent(obj -> repository.deleteById(id));
         return elm;
     }
@@ -69,4 +72,11 @@ public class DbDaoDispatcher implements IdaoDispatcher{
     }
     @Override
     public Dispatcher save(Dispatcher item) { return update(item); }
+    @Override
+    public boolean isIms(Integer id, Authentication auth){ //это Я
+        if (id == null || auth == null) return false;
+        if (repository.findById(id).isEmpty()) return false;
+        return repository.findById(id).get().getUser().getLogin().equals(auth.getName());
+    }
+
 }

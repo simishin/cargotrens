@@ -14,6 +14,7 @@
 package w.cargotrens.model.entity;
 
 import jakarta.persistence.*;
+import org.springframework.security.core.Authentication;
 
 import static w.cargotrens.utilits.Loger.prnv;
 
@@ -58,6 +59,11 @@ public class User {
             case 3:  return  "ROLE_DRIVR";
             default: return  "ROLE_GUEST";
         }
+    }
+
+    public static boolean isAdmin(Authentication auth){
+        if (auth == null) return false;
+        return auth.getAuthorities().toString().contains("ADMIN");
     }
 
     public Integer  getIRole() { return iRole; }

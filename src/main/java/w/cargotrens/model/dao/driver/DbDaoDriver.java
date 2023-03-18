@@ -1,6 +1,7 @@
 package w.cargotrens.model.dao.driver;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import w.cargotrens.model.dao.user.DbDaoUser;
 import w.cargotrens.model.entity.Driver;
@@ -36,7 +37,9 @@ public class DbDaoDriver implements IdaoDriver{
 
     @Override
     public Optional<Driver> delete(Integer id) {
+        if (repository.findById(id).isEmpty()) return Optional.empty();
         Optional<Driver> elm =  repository.findById(id);
+        elm.get().getUser().setIRole(0);
         elm.ifPresent(obj -> repository.deleteById(id));
         return elm;
     }
@@ -73,4 +76,11 @@ public class DbDaoDriver implements IdaoDriver{
     }
 
     public Integer count(){ return ((List<Driver>) repository.findAll()).size(); }
+    @Override
+    public boolean isIms(Integer id, Authentication auth){ //это Я
+        if (id == null || auth == null) return false;
+        if (repository.findById(id).isEmpty()) return false;
+        return repository.findById(id).get().getUser().getLogin().equals(auth.getName());
+    }
+
 }

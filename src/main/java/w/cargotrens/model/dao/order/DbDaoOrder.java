@@ -1,4 +1,5 @@
 package w.cargotrens.model.dao.order;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import w.cargotrens.model.entity.Driver;
 import w.cargotrens.model.entity.Order;
@@ -60,6 +61,11 @@ public class DbDaoOrder implements IdaoOrder {
     }//update
     @Override
     public Order save(Order item) { return update(item); }
+
+    @Override
+    public boolean isIms(Integer id, Authentication auth) {
+        return false;
+    }
 
     @Override
     public Integer countReady() {

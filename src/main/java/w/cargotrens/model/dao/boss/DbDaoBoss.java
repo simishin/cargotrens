@@ -1,6 +1,7 @@
 package w.cargotrens.model.dao.boss;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import w.cargotrens.model.dao.user.DbDaoUser;
 import w.cargotrens.model.entity.Boss;
@@ -37,7 +38,9 @@ public class DbDaoBoss implements IdaoBoss{
 
     @Override
     public Optional<Boss> delete(Integer id) {
+        if (repository.findById(id).isEmpty()) return Optional.empty();
         Optional<Boss> elm =  repository.findById(id);
+        elm.get().getUser().setIRole(0);
         elm.ifPresent(obj -> repository.deleteById(id));
         return elm;
     }
@@ -71,4 +74,11 @@ public class DbDaoBoss implements IdaoBoss{
 
     @Override
     public Boss save(Boss item) { return update(item); }
+    @Override
+    public boolean isIms(Integer id, Authentication auth){ //это Я
+        if (id == null || auth == null) return false;
+        if (repository.findById(id).isEmpty()) return false;
+        return repository.findById(id).get().getUser().getLogin().equals(auth.getName());
+    }
+
 }

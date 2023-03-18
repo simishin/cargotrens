@@ -24,11 +24,7 @@ public class MainController {
         model.addAttribute("iy",idaoOrder.countReady());//подготовлено Заказов
         model.addAttribute("iz",idaoOrder.countDeliver());//доставляется Заказов
         String str = "Вы не авторизоовались";
-        if (auth != null) {
-            str = auth.getName();
-            System.out.println("-----------" + auth.isAuthenticated() +
-                    "----" + auth.getName() + "---" + auth.getAuthorities().toString());
-        }
+        if (auth != null) { str = auth.getName(); }
 //        --true----test_user_01---[ROLE_ADMIN]
         model.addAttribute("login",str);
         return "index";

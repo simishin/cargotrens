@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Detail Dispatcher</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap-theme.min.css}"/>
+</head>
+<body>
+<header th:insert="~{layout/page-layouts.html :: header}"></header>
+<div class="container-fluid text-center">
+    <h1>Дополнителная о диспетчере</h1>
+    <p>[[${elm}]]</p>
+
+    <a th:href="@{/boss}" class="btn btn-danger">Cancel</a>
+</div>
+<footer  th:insert="~{layout/page-layouts.html :: footer}"></footer>
+</body>
+</html>
+</html>

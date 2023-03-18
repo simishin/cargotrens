@@ -61,6 +61,9 @@
                             <td th:unless="${irole}=='1'">
                                 <a th:href="@{'/boss/detail/'+${elm.id}}"
                                    class="btn bg-warning btn-sm">Detail</a>
+<!--тест-->
+                                <a th:href="@{'/boss/delete/'+${elm.id}}"
+                                   class="btn bg-danger btn-sm">Delete</a>
                             </td>
                         </tr>
                     </th:block>
