@@ -139,8 +139,8 @@ public class BossController {
     public String delete(@PathVariable Integer id, Authentication auth){
         //защита от обхода ауидентификации
         if ( ! User.isAdmin(auth)) return "redirect:/boss";
-        if (idaoDriver.delete(id).isEmpty())
-            if (idaoDispatcher.delete(id).isEmpty())
+        if (! idaoDriver.delete(id))
+            if (! idaoDispatcher.delete(id))
                 // чтоб не удалить последнего
                 if (idaoBoss.findAll().size()>1 &&
                  ! idaoBoss.isIms(id,auth)) idaoBoss.delete(id);

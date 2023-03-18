@@ -31,10 +31,11 @@ public class DbDaoOrder implements IdaoOrder {
         return Optional.empty();
     }
     @Override
-    public Optional<Order>  delete(Integer id) {
+    public boolean  delete(Integer id) {
+        if (repository.findById(id).isEmpty()) return false;
         Optional<Order> elm = repository.findById(id);
         elm.ifPresent(obj -> repository.deleteById(id));
-        return elm;
+        return true;
     }
     @Override
     public boolean delete(String name) {

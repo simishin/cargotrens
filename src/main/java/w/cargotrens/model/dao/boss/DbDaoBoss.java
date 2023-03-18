@@ -37,12 +37,12 @@ public class DbDaoBoss implements IdaoBoss{
     }
 
     @Override
-    public Optional<Boss> delete(Integer id) {
-        if (repository.findById(id).isEmpty()) return Optional.empty();
+    public boolean delete(Integer id) {
+        if (repository.findById(id).isEmpty()) return false;
         Optional<Boss> elm =  repository.findById(id);
         elm.get().getUser().setIRole(0);
         elm.ifPresent(obj -> repository.deleteById(id));
-        return elm;
+        return true;
     }
     @Override
     public boolean delete(String name){

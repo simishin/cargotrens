@@ -36,12 +36,12 @@ public class DbDaoDriver implements IdaoDriver{
     }
 
     @Override
-    public Optional<Driver> delete(Integer id) {
-        if (repository.findById(id).isEmpty()) return Optional.empty();
+    public boolean delete(Integer id) {
+        if (repository.findById(id).isEmpty()) return false;
         Optional<Driver> elm =  repository.findById(id);
         elm.get().getUser().setIRole(0);
         elm.ifPresent(obj -> repository.deleteById(id));
-        return elm;
+        return true;
     }
 
     @Override

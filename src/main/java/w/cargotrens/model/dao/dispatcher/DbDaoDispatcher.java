@@ -36,12 +36,12 @@ public class DbDaoDispatcher implements IdaoDispatcher{
     }
 
     @Override
-    public Optional<Dispatcher> delete(Integer id) {
-        if (repository.findById(id).isEmpty()) return Optional.empty();
+    public boolean delete(Integer id) {
+        if (repository.findById(id).isEmpty()) return false;
         Optional<Dispatcher> elm =  repository.findById(id);
         elm.get().getUser().setIRole(0);
         elm.ifPresent(obj -> repository.deleteById(id));
-        return elm;
+        return true;
     }
 
     @Override

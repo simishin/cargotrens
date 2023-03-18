@@ -26,8 +26,8 @@ public class DbDaoPerson implements IdaoBase<Person> {
     }
 
     @Override
-    public Optional<Person> delete(Integer id) {
-        return null;
+    public boolean delete(Integer id) {
+        return false;
     }
 
     @Override
