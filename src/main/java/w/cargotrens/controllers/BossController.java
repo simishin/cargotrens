@@ -84,7 +84,7 @@ public class BossController {
     }
     @PostMapping("/add_admin")
     public String addNewEtemAdmin(Boss x){
-        assert prnv("Order ADD");
+        assert prnv("Admin ADD");
         x.setAffordability(1);
         idaoBoss.update(x);
         return "redirect:/boss";
@@ -109,7 +109,6 @@ public class BossController {
     public String getAddFormDrivr(Model model, Authentication auth){
         Driver x =  new Driver();
         model.addAttribute("elm",x);
-//        model.addAttribute("userid",iDaoUser.getUserId(auth));
         return  "boss/driv-form";
     }
     @PostMapping("/add_drivr")
@@ -123,17 +122,45 @@ public class BossController {
 
 
     //------------------------------------------------------
-    @GetMapping("/update/{id:\\d+}")
-    public String getUpdateForm(@PathVariable Integer id, Model model){
-//        Boss y = dao.findById(id).get();
+    @GetMapping("/update_admin/{id:\\d+}")
+    public String getUpdateFormAdmin(@PathVariable Integer id, Model model){
         model.addAttribute("elm", idaoBoss.findById(id).get());
-        return  "boss/boss-update";
+//        return  "boss/boss-update";
+        return  "boss/boss-form";
     }
-    @PostMapping("/update")
-    public String getUpdateForm(Boss x){
-        idaoBoss.update(x);
-        return "redirect:/boss";
+//    @PostMapping("/update_admin")
+//    public String getUpdateFormAdmin(Boss x){
+//        assert prnv("Admin update");
+//        idaoBoss.update(x);
+//        return "redirect:/boss";
+//    }
+    @GetMapping("/update_dispc/{id:\\d+}")
+    public String getUpdateFormDispc(@PathVariable Integer id, Model model){
+        model.addAttribute("elm", idaoDispatcher.findById(id).get());
+//        return  "boss/boss-update";
+        return  "boss/disp-form";
     }
+//    @PostMapping("/update_dispc")
+//    public String getUpdateFormDispc(Dispatcher x){
+//        assert prnv("Dispatcher update");
+//        idaoDispatcher.update(x);
+//        return "redirect:/boss";
+//    }
+    @GetMapping("/update_drivr/{id:\\d+}")
+    public String getUpdateFormDrivr(@PathVariable Integer id, Model model){
+        model.addAttribute("elm", idaoDriver.findById(id).get());
+//        return  "boss/boss-update";
+        return  "boss/driv-form";
+
+    }
+//    @PostMapping("/update_drivr")
+//    public String getUpdateFormDrivr(Driver x){
+//        assert prnv("Driver update");
+//        idaoDriver.update(x);
+//        return "redirect:/boss";
+//    }
+
+
     //----------------------------------------------------------
     @GetMapping("/delete/{id:\\d+}")
     public String delete(@PathVariable Integer id, Authentication auth){

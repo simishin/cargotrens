@@ -49,21 +49,28 @@
                                 <span th:case="-3" class="text-muted" th:text="Водитель"></span>
                             </td>
                             <td th:if="${irole}=='1'">
+                                <div class="btn-group">
+
                                 <a th:href="@{'/boss/detail/'+${elm.id}}"
                                    class="btn bg-warning btn-sm">Detail</a>
-
-                                <a th:href="@{'/boss/update/'+${elm.id}}"
-                                   class="btn bg-primary btn-sm">Edit</a>
-
+                                <div th:switch="${elm.affordability}">
+                                    <a th:case="1"  th:href="@{'/boss/update_admin/'+${elm.id}}"  class="btn bg-primary btn-sm">Edit</a>
+                                    <a th:case="2"  th:href="@{'/boss/update_dispc/'+${elm.id}}"  class="btn bg-success btn-sm">Edit</a>
+                                    <a th:case="3"  th:href="@{'/boss/update_drivr/'+${elm.id}}"  class="btn bg-info btn-sm">Edit</a>
+                                    <a th:case="-1" th:href="@{'/boss/update_admin/'+${elm.id}}"  class="btn bg-muted btn-sm">Edit</a>
+                                    <a th:case="-2" th:href="@{'/boss/update_dispc/'+${elm.id}}"  class="btn bg-muted btn-sm">Edit</a>
+                                    <a th:case="-3" th:href="@{'/boss/update_drivr/'+${elm.id}}"  class="btn bg-muted btn-sm">Edit</a>
+                                </div>
                                 <a th:href="@{'/boss/delete/'+${elm.id}}"
                                    class="btn bg-danger btn-sm">Delete</a>
+                                </div>
                             </td>
                             <td th:unless="${irole}=='1'">
                                 <a th:href="@{'/boss/detail/'+${elm.id}}"
                                    class="btn bg-warning btn-sm">Detail</a>
 <!--тест-->
-                                <a th:href="@{'/boss/delete/'+${elm.id}}"
-                                   class="btn bg-danger btn-sm">Delete</a>
+<!--                                <a th:href="@{'/boss/delete/'+${elm.id}}"-->
+<!--                                   class="btn bg-danger btn-sm">Delete</a>-->
                             </td>
                         </tr>
                     </th:block>

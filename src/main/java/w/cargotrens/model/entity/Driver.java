@@ -100,9 +100,12 @@ public class Driver  extends Person implements Party {
     public void merge(Driver x){
         assert prnv("+++");
         super.merge((Person)x);
-        if (x.playload > 0 && !x.playload.equals(this.playload)) this.playload = x.playload;
-        if (x.tonnage > 0 && !x.tonnage.equals(this.tonnage)) this.tonnage = x.tonnage;
-        if (x.orientation >= 0 && !x.orientation.equals(this.orientation)) this.orientation = x.orientation;
+        if (x.playload != null)
+            if (x.playload > 0 && !x.playload.equals(this.playload)) this.playload = x.playload;
+        if (x.tonnage != null)
+            if (x.tonnage > 0 && !x.tonnage.equals(this.tonnage)) this.tonnage = x.tonnage;
+        if (x.orientation != null)
+            if (x.orientation >= 0 && !x.orientation.equals(this.orientation)) this.orientation = x.orientation;
     }//merge
 
 }//Driver
