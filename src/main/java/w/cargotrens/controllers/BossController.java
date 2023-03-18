@@ -59,7 +59,6 @@ public class BossController {
         assert prnq("-+-+-\t"+q.size()+" \tz"+z);
 
         model.addAttribute("elms",q);
-//        model.addAttribute("elms",dao.findAll());
 
         String str = "Вы не авторизоовались";
         if (auth != null) {
@@ -79,7 +78,7 @@ public class BossController {
     public String getAddFormAdmin(Model model, Authentication auth){
         Boss x =  new Boss();
         model.addAttribute("elm",x);
-//        model.addAttribute("userid",iDaoUser.getUserId(auth));
+        model.addAttribute("act","A");
         return  "boss/boss-form";
     }
     @PostMapping("/add_admin")
@@ -94,7 +93,7 @@ public class BossController {
     public String getAddFormDispc(Model model, Authentication auth){
         Dispatcher x =  new Dispatcher();
         model.addAttribute("elm",x);
-//        model.addAttribute("userid",iDaoUser.getUserId(auth));
+        model.addAttribute("act","A");
         return  "boss/disp-form";
     }
     @PostMapping("/add_dispc")
@@ -109,6 +108,7 @@ public class BossController {
     public String getAddFormDrivr(Model model, Authentication auth){
         Driver x =  new Driver();
         model.addAttribute("elm",x);
+        model.addAttribute("act","A");
         return  "boss/driv-form";
     }
     @PostMapping("/add_drivr")
@@ -125,7 +125,7 @@ public class BossController {
     @GetMapping("/update_admin/{id:\\d+}")
     public String getUpdateFormAdmin(@PathVariable Integer id, Model model){
         model.addAttribute("elm", idaoBoss.findById(id).get());
-//        return  "boss/boss-update";
+        model.addAttribute("act","U");
         return  "boss/boss-form";
     }
 //    @PostMapping("/update_admin")
@@ -137,7 +137,7 @@ public class BossController {
     @GetMapping("/update_dispc/{id:\\d+}")
     public String getUpdateFormDispc(@PathVariable Integer id, Model model){
         model.addAttribute("elm", idaoDispatcher.findById(id).get());
-//        return  "boss/boss-update";
+        model.addAttribute("act","U");
         return  "boss/disp-form";
     }
 //    @PostMapping("/update_dispc")
@@ -149,7 +149,7 @@ public class BossController {
     @GetMapping("/update_drivr/{id:\\d+}")
     public String getUpdateFormDrivr(@PathVariable Integer id, Model model){
         model.addAttribute("elm", idaoDriver.findById(id).get());
-//        return  "boss/boss-update";
+        model.addAttribute("act","U");
         return  "boss/driv-form";
 
     }
