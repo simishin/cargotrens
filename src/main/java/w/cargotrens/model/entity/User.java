@@ -34,17 +34,23 @@ public class User {
     //--------------------------------------------------------------
     public User() {}
     public User(String login, String password) {
-        this(login, password,  null); }
-
-    public User(String login, String password, Party x) {
         this.login = login;
         this.password = password;
-        this.person = (Person) x;
-        if (x instanceof Boss) this.iRole = 1;
-        else  if (x instanceof Dispatcher) this.iRole = 2;
-        else  if (x instanceof Driver) this.iRole = 3;
-        else this.iRole = 0;
+        this.person = null;
+        this.iRole = 0;
+//                this(login, password,  null);
     }
+
+
+//    public User(String login, String password, Party x) {
+//        this.login = login;
+//        this.password = password;
+//        this.person = (Person) x;
+//        if (x instanceof Boss) this.iRole = 1;
+//        else  if (x instanceof Dispatcher) this.iRole = 2;
+//        else  if (x instanceof Driver) this.iRole = 3;
+//        else this.iRole = 0;
+//    }
 
     public String   getSRole(){ return this.getSRole(iRole); }
     public static String   getSRole(int i){

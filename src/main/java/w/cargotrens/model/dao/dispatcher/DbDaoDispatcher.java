@@ -66,8 +66,8 @@ public class DbDaoDispatcher implements IdaoDispatcher{
             }
         //проверка на существование логина
         assert prnq("проверка на существование логина");
-        item.setUser(dbDaoUser.presenceLogin(item));
-        item.getUser().setIRole(2);
+        item.setUser(dbDaoUser.presenceLogin(item.getName(),2));
+//        item.getUser().setIRole(2);
         return repository.save(item);
     }
     @Override

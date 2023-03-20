@@ -42,16 +42,23 @@ public class DbDaoUser implements IDaoUser{
         userRepository.findById(id).ifPresent(client -> userRepository.deleteById(id));
     }
 
-    public User presenceLogin(Person item) { //login присутствие
-        assert prnv("--->"+item.getId()+"\t"+item.getName());
+    public User presenceLogin(String name, int role) { //login присутствие
+        assert prnv("--->"+name+"\t"+role);
+        User z = null;
+        if(role !=3 )
         for (User y : userRepository.findAll())
-            if (y.getLogin().equals(item.getName()))
-//                y.setIRole( Math.abs(item.getAffordability()));
-                return y;
+            if (y.getLogin().equals(name)) {
+//                y.setIRole( Math.abs(role));
+                assert prnq("present");
+                z=y;
+                break;
+            }
         assert prnq("create");
-        User z = new User(item.getName(), item.getName());
-//        z.setIRole( Math.abs(item.getAffordability()));
-        addUser(z);
+        if (z == null) {
+            z = new User(name, name);
+            addUser(z);
+        }
+        z.setIRole( Math.abs(role));
         return z;
     }//presenceLogin
 

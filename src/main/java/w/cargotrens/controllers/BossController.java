@@ -2,6 +2,7 @@ package w.cargotrens.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -115,6 +116,8 @@ public class BossController {
         model.addAttribute("act","A");
         return  "boss/driv-form";
     }
+
+
     @PostMapping("/add_drivr")
     public String addNewEtemDrivr(Driver x, Authentication auth){
         assert prnv("DADD  "+x.getName());
@@ -128,6 +131,7 @@ public class BossController {
 //        if (j.getAffordability() < 0 || ! idaoDriver.isIms(x.getId(), auth)) return "redirect:/boss";
         x.setAffordability(3);
         idaoDriver.update(x);
+//        SecurityContextHolder.getContext().getAuthentication()
         return "redirect:/boss";
     }
     //------------------------------------------------------
