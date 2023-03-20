@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import w.cargotrens.model.entity.Person;
 import w.cargotrens.model.entity.User;
 import java.util.List;
 import java.util.Optional;
@@ -28,7 +27,6 @@ public class DbDaoUser implements IDaoUser{
             if ( y.getLogin().equals(user.getLogin())) return null;
         // перед добавлением пользователя захешируем его пароль
         String encodedPassword = encoder.encode(user.getPassword());
-//        String encodedPassword = user.getPassword(); //заглушка *************
         user.setPassword(encodedPassword); //устанавливаем пароль
         return userRepository.save(user);
     }
@@ -44,21 +42,15 @@ public class DbDaoUser implements IDaoUser{
 
     public User presenceLogin(String name, int role) { //login присутствие
         assert prnv("--->"+name+"\t"+role);
-        User z = null;
-        if(role !=3 )
         for (User y : userRepository.findAll())
             if (y.getLogin().equals(name)) {
-//                y.setIRole( Math.abs(role));
+                y.setIRole( Math.abs(role));
                 assert prnq("present");
-                z=y;
-                break;
+                return y;
             }
         assert prnq("create");
-        if (z == null) {
-            z = new User(name, name);
-            addUser(z);
-        }
-        z.setIRole( Math.abs(role));
+        User    z = new User(name, name,  Math.abs(role));
+        addUser(z);
         return z;
     }//presenceLogin
 

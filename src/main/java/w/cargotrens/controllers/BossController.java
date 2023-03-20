@@ -120,7 +120,7 @@ public class BossController {
 
     @PostMapping("/add_drivr")
     public String addNewEtemDrivr(Driver x, Authentication auth){
-        assert prnv("DADD  "+x.getName());
+        assert prnv("ADD "+x.getId()+"\t"+x.getName());
 //        assert prnq("--"+auth);
 //        assert prnq("---"+ User.isAdmin(auth));
 //        assert prnq("---"+idaoDriver.isIms(x.getId(), auth));

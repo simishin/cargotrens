@@ -62,19 +62,22 @@ public class DbDaoDriver implements IdaoDriver{
         //проверка на существование объекта
         for (Driver x: repository.findAll())
             if (x.equals(item)) {//есть такой элемент => edit
-                assert prnq("есть такой элемент по имени " + x.getId() + " = " + item.getId());
                 x.merge(item);
                 return repository.save(x);
             }
         //проверка на существование логина
         assert prnq("проверка на существование логина");
         item.setUser(dbDaoUser.presenceLogin(item.getName(),3));
-//        item.getUser().setIRole(3);
         return repository.save(item);
     }
     @Override
-    public Driver save(Driver item) {
-        return update(item);
+    public Driver add(Driver item) {
+        assert prnv("-->"+item.getId()+"\t"+item.getName());
+        for (Driver x: repository.findAll())
+            if (x.equals(item)) //есть такой элемент => edit
+                return null;
+        item.setUser(dbDaoUser.presenceLogin(item.getName(),3));
+        return repository.save(item);
     }
 
     public Integer count(){ return ((List<Driver>) repository.findAll()).size(); }

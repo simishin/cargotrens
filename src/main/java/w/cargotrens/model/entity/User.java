@@ -33,12 +33,11 @@ public class User {
     private Person person;
     //--------------------------------------------------------------
     public User() {}
-    public User(String login, String password) {
+    public User(String login, String password, int iRole) {
         this.login = login;
         this.password = password;
         this.person = null;
-        this.iRole = 0;
-//                this(login, password,  null);
+        this.iRole = iRole;
     }
 
 

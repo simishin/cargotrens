@@ -20,7 +20,7 @@ public class Dispatcher  extends Person implements Party {
     public Dispatcher() {}
 
     public Dispatcher(String name, String description, Boss boss) {
-        super(name, description);
+        super(name, description, 2);
         this.listOrder = new HashSet<Order>();
         this.boss = boss;
     }

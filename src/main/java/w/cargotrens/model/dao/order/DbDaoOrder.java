@@ -61,7 +61,7 @@ public class DbDaoOrder implements IdaoOrder {
         return repository.save(item);
     }//update
     @Override
-    public Order save(Order item) { return update(item); }
+    public Order add(Order item) { return update(item); }
 
     @Override
     public boolean isIms(Integer id, Authentication auth) {

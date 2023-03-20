@@ -45,7 +45,7 @@ public class Driver  extends Person implements Party {
     public Driver() {}
 
     public Driver(String name, String description, Float playload, Integer orientation, Float tonnage, Boss boss) {
-        super(name, description);
+        super(name, description, 3);
         this.playload = playload;
         this.orientation = orientation;
         this.tonnage = tonnage;

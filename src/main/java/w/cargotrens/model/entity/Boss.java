@@ -17,7 +17,7 @@ public class Boss extends Person implements Party {
     public Boss() {}
 
     public Boss(String name, String description) {
-        super(name, description);
+        super(name, description, 1);
         this.listDispatcher = new HashSet<Dispatcher>();
         this.listDriver = new HashSet<Driver>();
     }

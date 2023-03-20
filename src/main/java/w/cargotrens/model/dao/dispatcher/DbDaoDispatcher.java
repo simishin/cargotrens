@@ -5,6 +5,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import w.cargotrens.model.dao.user.DbDaoUser;
 import w.cargotrens.model.entity.Dispatcher;
+import w.cargotrens.model.entity.Driver;
+
 import java.util.List;
 import java.util.Optional;
 import static w.cargotrens.utilits.Loger.prnq;
@@ -56,22 +58,27 @@ public class DbDaoDispatcher implements IdaoDispatcher{
 
     @Override
     public Dispatcher update(Dispatcher item) {
-        assert prnv("");
+        assert prnv("-->"+item.getId()+"\t"+item.getName());
         //проверка на существование объекта
         for (Dispatcher x: repository.findAll())
             if (x.equals(item)) {//есть такой элемент => edit
-                assert prnq("есть такой элемент по имени " + x.getId() + " = " + item.getId());
                 x.merge(item);
                 return repository.save(x);
             }
         //проверка на существование логина
         assert prnq("проверка на существование логина");
         item.setUser(dbDaoUser.presenceLogin(item.getName(),2));
-//        item.getUser().setIRole(2);
         return repository.save(item);
     }
     @Override
-    public Dispatcher save(Dispatcher item) { return update(item); }
+    public Dispatcher add(Dispatcher item) {
+        assert prnv("-->"+item.getId()+"\t"+item.getName());
+        for (Dispatcher x: repository.findAll())
+            if (x.equals(item)) //есть такой элемент => edit
+                return null;
+        item.setUser(dbDaoUser.presenceLogin(item.getName(),2));
+        return repository.save(item);
+    }
     @Override
     public boolean isIms(Integer id, Authentication auth){ //это Я
         if (id == null || auth == null) return false;

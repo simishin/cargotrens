@@ -1,6 +1,5 @@
 package w.cargotrens.model.dao.person;
 
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import w.cargotrens.model.dao.IdaoBase;
 import w.cargotrens.model.entity.Person;
@@ -41,7 +40,7 @@ public class DbDaoPerson implements IdaoBase<Person> {
     }
 
     @Override
-    public Person save(Person item) {
-        return IdaoBase.super.save(item);
+    public Person add(Person item) {
+        return IdaoBase.super.add(item);
     }
 }

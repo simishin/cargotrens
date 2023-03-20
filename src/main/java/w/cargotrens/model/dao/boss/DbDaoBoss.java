@@ -5,6 +5,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import w.cargotrens.model.dao.user.DbDaoUser;
 import w.cargotrens.model.entity.Boss;
+import w.cargotrens.model.entity.Driver;
 import w.cargotrens.model.entity.User;
 
 import java.util.List;
@@ -58,23 +59,28 @@ public class DbDaoBoss implements IdaoBoss{
 
     @Override
     public Boss update(Boss item) {
-        assert prnv("");
+        assert prnv("-->"+item.getId()+"\t"+item.getName());
         //проверка на существование объекта
         for (Boss x: repository.findAll())
              if (x.equals(item)) {//есть такой элемент => edit
-                assert prnq("есть такой элемент по имени " + x.getId() + " = " + item.getId());
                 x.merge(item);
                 return repository.save(x);
             }
         //проверка на существование логина
         assert prnq("проверка на существование логина");
         item.setUser(dbDaoUser.presenceLogin(item.getName(),1));
-//        item.getUser().setIRole(1);
         return repository.save(item);
     }//update
 
     @Override
-    public Boss save(Boss item) { return update(item); }
+    public Boss add(Boss item) {
+        assert prnv("-->"+item.getId()+"\t"+item.getName());
+        for (Boss x: repository.findAll())
+            if (x.equals(item)) //есть такой элемент => edit
+                return null;
+        item.setUser(dbDaoUser.presenceLogin(item.getName(),1));
+        return repository.save(item);
+    }
     @Override
     public boolean isIms(Integer id, Authentication auth){ //это Я
         if (id == null || auth == null) return false;

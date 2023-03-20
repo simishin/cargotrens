@@ -2,9 +2,6 @@ package w.cargotrens.model.entity;
 
 import jakarta.persistence.*;
 
-import static w.cargotrens.utilits.Loger.getCurrentMethodNameq;
-import static w.cargotrens.utilits.Loger.prnq;
-
 @Entity
 @Table(name = "person_t")
 @Inheritance(
@@ -29,8 +26,8 @@ public class Person implements Party {
 
     public Person() { }
 
-    public Person(String name, String description) {
-        this.affordability = 1;
+    public Person(String name, String description, int role) {
+        this.affordability = role;
         this.name = name;
         this.description = description;
         this.user = null;
@@ -49,6 +46,7 @@ public class Person implements Party {
 
     @Override
     public boolean equals(Object obj){
+        if (obj == null ) return false;
         Person x = (Person)obj;
         if (this.getId().equals(x.getId())) return true;
         return this.getName().equals(x.getName());
@@ -61,7 +59,7 @@ public class Person implements Party {
     public void merge(Person x){
         if (! x.name.isBlank()) this.name=x.name;
         if (! x.description.isBlank()) this.description=x.description;
-        if ( x.affordability >= 0 && x.affordability != this.affordability ) this.affordability= x.affordability;
+        if ( x.affordability >= 0 && !x.affordability.equals(this.affordability)) this.affordability= x.affordability;
         if ( x.user != null) this.user=x.user;
     }
 }
