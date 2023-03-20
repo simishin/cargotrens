@@ -9,6 +9,9 @@ import w.cargotrens.model.entity.User;
 import java.util.List;
 import java.util.Optional;
 
+import static w.cargotrens.utilits.Loger.prnq;
+import static w.cargotrens.utilits.Loger.prnv;
+
 @Service
 public class DbDaoUser implements IDaoUser{
     @Autowired
@@ -40,10 +43,12 @@ public class DbDaoUser implements IDaoUser{
     }
 
     public User presenceLogin(Person item) { //login присутствие
+        assert prnv("--->"+item.getId()+"\t"+item.getName());
         for (User y : userRepository.findAll())
             if (y.getLogin().equals(item.getName()))
 //                y.setIRole( Math.abs(item.getAffordability()));
                 return y;
+        assert prnq("create");
         User z = new User(item.getName(), item.getName());
 //        z.setIRole( Math.abs(item.getAffordability()));
         addUser(z);

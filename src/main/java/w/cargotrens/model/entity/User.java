@@ -4,11 +4,6 @@
  * 1-администратор
  * 2-диспетчер
  * 3-водитель
- * новое
- * 1-гость
- * 2-водитель
- * 3-диспетчер
- * 4-администратор
  * отрицательные значения- заблокирован
  */
 package w.cargotrens.model.entity;
@@ -53,7 +48,7 @@ public class User {
 
     public String   getSRole(){ return this.getSRole(iRole); }
     public static String   getSRole(int i){
-        switch (i){
+        switch (Math.abs(i)){
             case 1:  return  "ROLE_ADMIN";
             case 2:  return  "ROLE_DISPC";
             case 3:  return  "ROLE_DRIVR";

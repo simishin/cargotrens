@@ -53,6 +53,11 @@ public class Driver  extends Person implements Party {
         this.boss = boss;
     }
 
+    public Driver(Boss boss) {
+        this.boss = boss;
+        setAffordability(3);
+    }
+
     public Float getPlayload() {
         return playload;
     }

@@ -5,6 +5,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import w.cargotrens.model.dao.user.DbDaoUser;
 import w.cargotrens.model.entity.Boss;
+import w.cargotrens.model.entity.User;
 
 import java.util.List;
 import java.util.Optional;
@@ -81,4 +82,29 @@ public class DbDaoBoss implements IdaoBoss{
         return repository.findById(id).get().getUser().getLogin().equals(auth.getName());
     }
 
+    @Override
+    public Boss getBoss(Authentication auth) {
+        if (auth == null) return null;
+        User y = null;
+        for (User x: dbDaoUser.findAll())
+            if (x.getLogin().equals(auth.getName())) {
+                y=x; break;
+            }
+        if (y == null) return null;
+        assert prnv("--id User-"+y.getId());
+        for (Boss z: repository.findAll())
+            if (z.getUser().equals(y)) return z;
+        return null;
+    }
+
+//    @Override
+//    public static boolean isAdmin(Authentication auth) {
+//        if (auth == null) return false;
+//        if ( ! auth.getAuthorities().toString().contains("ADMIN")) return false;
+//        for (Boss z: findAll())
+//            if (z.getUser().equals(y)) return z;
+//
+//        if ( getBoss(auth).getAffordability() <0 ) return false;
+//        return true;
+//    }
 }

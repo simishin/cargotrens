@@ -14,21 +14,14 @@
     <div class="container-fluid">
         <h1>Грузовые перевозки</h1>
         <div class="container-fluid" >
-            <a href="#" class="btn btn-info" role="button" data-toggle="tooltip" data-placement="bottom"
-               title="Создание заказа, Поручение заказа водителю, Текущее сосотояние отработки Заказа">Заказы</a>
-            <a href="#" class="btn btn-info" role="button" data-toggle="tooltip" data-placement="bottom"
-               title="Список водителей, личная карточка водителя">Водители</a>
-            <a href="#" class="btn btn-info" role="button" data-toggle="tooltip" data-placement="bottom"
-               title="Список диспетчеров, управление Заказами">Диспетчеры</a>
-            <a href="boss" class="btn btn-info" role="button" data-toggle="tooltip" data-placement="bottom"
-               title="Список администраторов, управление аккаунтами диспетчеров и водителей">Администраторы</a>
+            <a th:href="@{/}" class="btn btn-info" role="button" data-placement="bottom" >На главную страницу</a>
+            <a href="@{/logout}" class="btn btn-info" role="button" data-placement="bottom">Заказы</a>
+            <a href="@{/logout}" class="btn btn-info" role="button" data-placement="bottom">Доставка</a>
+            <a href="boss" class="btn btn-info" role="button" data-placement="bottom">Персонал</a>
             <a href="login" class="btn btn-info" role="button" data-toggle="tooltip" data-placement="bottom"
-               title="Регистрация для получения доступа к информации">Регистрация</a>
+               title="Закрытие текущего доступа к информации">Регистрация</a>
+            <input class="btn btn-info"  type="button" onclick="history.back();" value="Назад"/></li>
 
-<!--            <form th:action="@{/logout}" method="post">-->
-<!--                <input type="submit" class="btn btn-info" data-toggle="tooltip" data-placement="bottom"-->
-<!--                       itle="Закрытие текущего доступа к информации" value="Выход"/>-->
-<!--            </form>-->
             <a href="@{/logout}" class="btn btn-info" role="button" data-toggle="tooltip" data-placement="bottom"
                title="Закрытие текущего доступа к информации">Выход</a>
 

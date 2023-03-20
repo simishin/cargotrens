@@ -25,6 +25,11 @@ public class Dispatcher  extends Person implements Party {
         this.boss = boss;
     }
 
+    public Dispatcher(Boss boss) {
+        this.boss = boss;
+        setAffordability(2);
+    }
+
     public Set<Order> getListOrder() {
         return listOrder;
     }

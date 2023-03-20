@@ -44,9 +44,4 @@ public class DbDaoPerson implements IdaoBase<Person> {
     public Person save(Person item) {
         return IdaoBase.super.save(item);
     }
-
-    public boolean isIms(Integer id, Authentication auth){ //это Я
-        if (id == null || auth == null) return false;
-        return true;
-    }
 }

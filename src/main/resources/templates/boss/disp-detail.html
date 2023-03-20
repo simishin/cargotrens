@@ -10,11 +10,28 @@
 <header th:insert="~{layout/page-layouts.html :: header}"></header>
 <div class="container-fluid text-center">
     <h1>Дополнителная о диспетчере</h1>
-    <p>[[${elm}]]</p>
+    <div class="text-left">
+        <p class="text-primary text-left"><pre> <small>Имя администратора         </small></pre><mark>[[${elm.name}]]</mark></p>
+        <p class="text-success text-left"><pre> <small>Login администратора       </small></pre><mark>[[${elm.user.login}]]</mark></p>
 
+        <p class="text-success text-left"><pre> <small>Состояние акаунта          </small></pre>
+        <mark th:if="${elm.affordability} > 0" class="text-success">Активен</mark></p>
+        <mark th:unless="${elm.affordability} > 0" lass="text-warning"> НЕ Активен</mark></p>
+        <p class="text-info text-left"><pre>    <small>Дополнительная информация  </small></pre>
+        <p class="text-justify text-info text-left">[[${elm.description}]]</p>
+        <!--      информация объекта-->
+        <p class="text-success text-left"><pre> <small>Администратор       </small></pre><mark>[[${elm.boss}]]</mark></p>
+
+        <p class="text-info text-left"><pre>    <small>Список Заказов </small></pre>
+        <div th:unless="${ #lists.isEmpty(elms)}">
+            <span th:text="${ #lists.size(elms)}"></span>
+            <th:block th:each="itm: ${elms}">
+                <p class="text-success">[[${itm.name}]]</p>
+            </th:block>
+        </div>
+    </div>
     <a th:href="@{/boss}" class="btn btn-danger">Cancel</a>
 </div>
 <footer  th:insert="~{layout/page-layouts.html :: footer}"></footer>
 </body>
-</html>
 </html>

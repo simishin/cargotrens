@@ -5,6 +5,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import w.cargotrens.model.dao.user.DbDaoUser;
 import w.cargotrens.model.entity.Driver;
+import w.cargotrens.model.entity.Person;
+
 import java.util.List;
 import java.util.Optional;
 import static w.cargotrens.utilits.Loger.prnq;
@@ -56,7 +58,7 @@ public class DbDaoDriver implements IdaoDriver{
 
     @Override
     public Driver update(Driver item) {
-        assert prnv("");
+        assert prnv("-->"+item.getId()+"\t"+item.getName());
         //проверка на существование объекта
         for (Driver x: repository.findAll())
             if (x.equals(item)) {//есть такой элемент => edit
@@ -66,7 +68,7 @@ public class DbDaoDriver implements IdaoDriver{
             }
         //проверка на существование логина
         assert prnq("проверка на существование логина");
-        item.setUser(dbDaoUser.presenceLogin(item));
+        item.setUser(dbDaoUser.presenceLogin((Person) item));
         item.getUser().setIRole(3);
         return repository.save(item);
     }
