@@ -39,43 +39,44 @@ public class BossController {
     public String  listAll(Model model, Authentication auth){
         assert prnv("---\t"+ idaoBoss.findAll().size()+"\t"+auth.getAuthorities().toString());
         List<Person> q = new ArrayList<>();
-        int z=0;
+        int iRole=0;
         if (auth.getAuthorities().toString().contains(User.getSRole(1))) {
             q.addAll(idaoBoss.findAll());
             q.addAll(idaoDispatcher.findAll());
             q.addAll(idaoDriver.findAll());
-            z=1;
+            iRole=1;
         } else
         if (auth.getAuthorities().toString().contains(User.getSRole(2))) {
             q.addAll(idaoDispatcher.findAll());
             q.addAll(idaoDriver.findAll());
-            z=2;
+            iRole=2;
         } else
         if (auth.getAuthorities().toString().contains(User.getSRole(3))) {
             q.addAll(idaoDriver.findAll());
-            z=3;
+            iRole=3;
         }
-        assert prnq("-+-+-\t"+q.size()+" \tz"+z);
+        assert prnq("-+-+-\tsize "+q.size()+" \tiRole "+iRole);
 
         model.addAttribute("elms",q);
 
-        String str = "Вы не авторизоовались";
-        if (auth != null) {
-            str = auth.getAuthorities().toString();
-            assert prnv( "---" + auth.isAuthenticated() +
-                    "---" + auth.getName() + "---" + auth.getAuthorities().toString());
-        }
+//        String str = "Вы не авторизоовались";
+//        if (auth != null) {
+//            str = auth.getAuthorities().toString();
+//            assert prnv( "---" + auth.isAuthenticated() +
+//                    "---" + auth.getName() + "---" + auth.getAuthorities().toString());
+//        }
 //        --true----test_user_01---[ROLE_ADMIN]
-        model.addAttribute("login",str);
-        model.addAttribute("irole",z);
+//        model.addAttribute("login",str);
+        model.addAttribute("irole",iRole);
         model.addAttribute("userid",(int)iDaoUser.getUserId(auth));
         return "boss/boss-list";
     }
     //---------------------------------------------------
     @GetMapping("/add_admin")
     public String getAddFormAdmin(Model model){
-        Boss x =  new Boss();
-        model.addAttribute("elm",x);
+        if (! idaoBoss.isBoss()) return "redirect:/boss";
+//        Boss x =  new Boss();
+        model.addAttribute("elm",new Boss());
         model.addAttribute("act","A");
         return  "boss/boss-form";
     }
@@ -83,17 +84,16 @@ public class BossController {
     public String addNewEtemAdmin(Boss x){
         assert prnv("Admin ADD");
         x.setAffordability(1);
+        if (! idaoBoss.isBoss()) return "redirect:/boss";
         idaoBoss.update(x);
         return "redirect:/boss";
     }
     //---------------------------------------------------
     @GetMapping("/add_dispc")
-    public String getAddFormDispc(Model model, Authentication auth){
-//        Boss j = idaoBoss.getBoss();
-//        if (j == null ) return "redirect:/boss";
-//        if (j.getAffordability() < 0 ) return "redirect:/boss";
-        Dispatcher x =  new Dispatcher();
-        model.addAttribute("elm",x);
+    public String getAddFormDispc(Model model){
+        if (! idaoBoss.isBoss()) return "redirect:/boss";
+//        Dispatcher x =  new Dispatcher();
+        model.addAttribute("elm",new Dispatcher());
         model.addAttribute("act","A");
         return  "boss/disp-form";
     }
@@ -106,13 +106,10 @@ public class BossController {
     }
     //---------------------------------------------------
     @GetMapping("/add_drivr")
-    public String getAddFormDrivr(Model model, Authentication auth){
-//        Boss j = idaoBoss.getBoss(auth);
-//        if (j == null ) return "redirect:/boss";
-//        if (j.getAffordability() < 0 ) return "redirect:/boss";
-//        Driver x =  new Driver(idaoBoss.getBoss(auth));
-        Driver x =  new Driver();
-        model.addAttribute("elm",x);
+    public String getAddFormDrivr(Model model){
+        if (! idaoBoss.isBoss()) return "redirect:/boss";
+//        Driver x =  new Driver();
+        model.addAttribute("elm",new Driver());
         model.addAttribute("act","A");
         return  "boss/driv-form";
     }
@@ -162,7 +159,7 @@ public class BossController {
     @GetMapping("/delete/{id:\\d+}")
     public String delete(@PathVariable Integer id, Authentication auth){
         //защита от обхода ауидентификации
-        if ( ! User.isAdmin(auth )) return "redirect:/boss";
+        if (! idaoBoss.isBoss()) return "redirect:/boss";
         if (! idaoDriver.delete(id))
             if (! idaoDispatcher.delete(id))
                 // чтоб не удалить последнего

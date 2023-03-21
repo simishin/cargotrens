@@ -7,7 +7,9 @@ import w.cargotrens.model.entity.Boss;
 public interface IdaoBoss  extends IdaoBase<Boss> {
     Boss getBoss(Authentication auth);
 
-//    static boolean isAdmin(Authentication auth) {
-//        return false;
-//    }
+    /**
+     * проверяет разшерено ли зарегистировавшемуся выполнять действия
+     * @return разрешение
+     */
+    boolean isBoss();
 }

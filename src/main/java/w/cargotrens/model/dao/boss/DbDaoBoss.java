@@ -2,6 +2,7 @@ package w.cargotrens.model.dao.boss;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import w.cargotrens.model.dao.user.DbDaoUser;
 import w.cargotrens.model.entity.Boss;
@@ -103,14 +104,20 @@ public class DbDaoBoss implements IdaoBoss{
         return null;
     }
 
-//    @Override
-//    public static boolean isAdmin(Authentication auth) {
-//        if (auth == null) return false;
-//        if ( ! auth.getAuthorities().toString().contains("ADMIN")) return false;
-//        for (Boss z: findAll())
-//            if (z.getUser().equals(y)) return z;
-//
-//        if ( getBoss(auth).getAffordability() <0 ) return false;
-//        return true;
-//    }
+
+    @Override
+    public boolean isBoss() {
+        String login = SecurityContextHolder.getContext().getAuthentication().getName();
+        if (login.equals("anonymousUser")) return false;
+        User y = null;
+        for (User x: dbDaoUser.findAll())
+            if (x.getLogin().equals(login)) {
+                y=x; break;
+            }
+        for (Boss z: repository.findAll())
+            if (z.getUser().equals(y)) {
+                return z.getAffordability() == 1;
+            }
+        return false;
+    }
 }

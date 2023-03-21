@@ -61,10 +61,10 @@ public class User {
         }
     }
 
-    public static boolean isAdmin(Authentication auth){
-        if (auth == null) return false;
-        return auth.getAuthorities().toString().contains("ADMIN");
-    }
+//    public static boolean isAdmin(Authentication auth){
+//        if (auth == null) return false;
+//        return auth.getAuthorities().toString().contains("ADMIN");
+//    }
 
     public Integer  getIRole() { return iRole; }
     public void     setIRole(Integer iRole) { this.iRole = iRole; }

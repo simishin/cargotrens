@@ -2,7 +2,6 @@ package w.cargotrens.controllers;
 
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,20 +18,21 @@ public class MainController {
     @Autowired
     private IdaoOrder idaoOrder;
     @GetMapping("/")
-    public String index(Model model, Authentication auth){
+    public String index(Model model){
         model.addAttribute("ix",idaoDriver.count());//водителей
         model.addAttribute("iy",idaoOrder.countReady());//подготовлено Заказов
         model.addAttribute("iz",idaoOrder.countDeliver());//доставляется Заказов
-        String str = "Вы не авторизоовались";
-        if (auth != null) { str = auth.getName(); }
-//        --true----test_user_01---[ROLE_ADMIN]
-        model.addAttribute("login",str);
+
+        String login = SecurityContextHolder.getContext().getAuthentication().getName();
+        if (login.equals("anonymousUser"))
+            model.addAttribute("login","Вы не авторизоовались");
+        else model.addAttribute("login",login);
         return "index";
     }
 
     @GetMapping("/logout")
     public String logout(HttpServletRequest request){
-        assert prnv("---\t");
+        assert prnv("---logout");
         if (SecurityContextHolder.getContext().getAuthentication() != null)
             request.getSession().invalidate();
         return "redirect:/";
