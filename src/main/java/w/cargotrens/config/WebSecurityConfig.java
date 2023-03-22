@@ -34,7 +34,7 @@ public class WebSecurityConfig {
                 .loginPage("/login")
                 .permitAll()
                 .failureUrl("/login?error=true")
-                    .defaultSuccessUrl("/")
+                    .defaultSuccessUrl("/", true)
             )
             .logout().logoutSuccessUrl("/login"); //переход при разлогировании на логирование
             //.logout((logout) -> logout.permitAll());

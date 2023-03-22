@@ -176,10 +176,12 @@ public class BossController {
 //-----------------------------------------------------------------
     @GetMapping("/detail/{id:\\d+}")
     public String detail(@PathVariable Integer id, Model model){
+        assert prnv("id "+id);
         if (idaoDriver.findById(id).isPresent()){
             model.addAttribute("ims", idaoDriver.isIms(id) ? "Y" :"N");
             model.addAttribute("elm", idaoDriver.findById(id).get());
             model.addAttribute("elms", idaoDriver.findById(id).get().getListOrder());
+            assert prnv("driv-detail "+id);
             return  "boss/driv-detail";
         }
         if (idaoDispatcher.findById(id).isPresent()){

@@ -1,7 +1,5 @@
 package w.cargotrens.model.dao.order;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
-import w.cargotrens.model.entity.Driver;
 import w.cargotrens.model.entity.Order;
 import java.util.List;
 import java.util.Optional;
