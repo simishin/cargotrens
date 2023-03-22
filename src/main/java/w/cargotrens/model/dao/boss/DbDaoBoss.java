@@ -83,10 +83,12 @@ public class DbDaoBoss implements IdaoBoss{
         return repository.save(item);
     }
     @Override
-    public boolean isIms(Integer id, Authentication auth){ //это Я
-        if (id == null || auth == null) return false;
+    public boolean isIms(Integer id) { //это Я
+        if (id == null) return false;
+        String login = SecurityContextHolder.getContext().getAuthentication().getName();
+        if (login.equals("anonymousUser")) return false;
         if (repository.findById(id).isEmpty()) return false;
-        return repository.findById(id).get().getUser().getLogin().equals(auth.getName());
+        return repository.findById(id).get().getUser().getLogin().equals(login);
     }
 
     @Override

@@ -18,7 +18,8 @@
         </div>
         <div class="text-center" th:unless="${irole}=='1'">
             <!--/*@thymesVar id="userid" type=""*/-->
-            <a th:href="@{'/boss/add/'+${userid}}" class="btn btn-warning">Отредактировать личные данные</a>
+            <a th:href="@{/boss/update}" class="btn btn-warning">Отредактировать личные данные</a>
+            <p>Login : <mark>[[${login}]]</mark></p>
         </div>
         <!-- вывод goodMsg если он есть -->
         <div th:if="${gooMsg != null}" class="alert alert-success">

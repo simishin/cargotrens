@@ -2,6 +2,7 @@ package w.cargotrens.model.dao.dispatcher;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import w.cargotrens.model.dao.user.DbDaoUser;
 import w.cargotrens.model.entity.Dispatcher;
@@ -80,10 +81,12 @@ public class DbDaoDispatcher implements IdaoDispatcher{
         return repository.save(item);
     }
     @Override
-    public boolean isIms(Integer id, Authentication auth){ //это Я
-        if (id == null || auth == null) return false;
+    public boolean isIms(Integer id) { //это Я
+        if (id == null) return false;
+        String login = SecurityContextHolder.getContext().getAuthentication().getName();
+        if (login.equals("anonymousUser")) return false;
         if (repository.findById(id).isEmpty()) return false;
-        return repository.findById(id).get().getUser().getLogin().equals(auth.getName());
+        return repository.findById(id).get().getUser().getLogin().equals(login);
     }
 
 }

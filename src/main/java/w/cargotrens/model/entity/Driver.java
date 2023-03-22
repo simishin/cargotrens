@@ -103,7 +103,7 @@ public class Driver  extends Person implements Party {
         return super.equals(obj);
     }
     public void merge(Driver x){
-        assert prnv("+++");
+//        assert prnv("+++");
         super.merge((Person)x);
         if (x.playload != null)
             if (x.playload > 0 && !x.playload.equals(this.playload)) this.playload = x.playload;

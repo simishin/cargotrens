@@ -1,5 +1,4 @@
 package w.cargotrens.model.dao;
-import org.springframework.security.core.Authentication;
 
 import java.util.List;
 import java.util.Optional;
@@ -12,5 +11,6 @@ public interface IdaoBase<E> {
     boolean delete(String name);
     default E update(E item){ return null; }
     default E add(E item){ return null; }
-    default boolean isIms(Integer id, Authentication auth) { return false; }
+    default boolean isIms(Integer id) { return false; }
+
 }

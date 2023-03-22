@@ -17,7 +17,6 @@ import w.cargotrens.model.entity.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import static w.cargotrens.utilits.Loger.prnq;
 import static w.cargotrens.utilits.Loger.prnv;
@@ -58,24 +57,17 @@ public class BossController {
         assert prnq("-+-+-\tsize "+q.size()+" \tiRole "+iRole);
 
         model.addAttribute("elms",q);
-
-//        String str = "Вы не авторизоовались";
-//        if (auth != null) {
-//            str = auth.getAuthorities().toString();
-//            assert prnv( "---" + auth.isAuthenticated() +
-//                    "---" + auth.getName() + "---" + auth.getAuthorities().toString());
-//        }
-//        --true----test_user_01---[ROLE_ADMIN]
-//        model.addAttribute("login",str);
         model.addAttribute("irole",iRole);
-        model.addAttribute("userid",(int)iDaoUser.getUserId(auth));
+        String login = SecurityContextHolder.getContext().getAuthentication().getName();
+        if (login.equals("anonymousUser"))
+            model.addAttribute("login","Вы не авторизоовались");
+        else model.addAttribute("login",login);
         return "boss/boss-list";
     }
     //---------------------------------------------------
     @GetMapping("/add_admin")
     public String getAddFormAdmin(Model model){
         if (! idaoBoss.isBoss()) return "redirect:/boss";
-//        Boss x =  new Boss();
         model.addAttribute("elm",new Boss());
         model.addAttribute("act","A");
         return  "boss/boss-form";
@@ -92,7 +84,6 @@ public class BossController {
     @GetMapping("/add_dispc")
     public String getAddFormDispc(Model model){
         if (! idaoBoss.isBoss()) return "redirect:/boss";
-//        Dispatcher x =  new Dispatcher();
         model.addAttribute("elm",new Dispatcher());
         model.addAttribute("act","A");
         return  "boss/disp-form";
@@ -108,28 +99,42 @@ public class BossController {
     @GetMapping("/add_drivr")
     public String getAddFormDrivr(Model model){
         if (! idaoBoss.isBoss()) return "redirect:/boss";
-//        Driver x =  new Driver();
         model.addAttribute("elm",new Driver());
         model.addAttribute("act","A");
         return  "boss/driv-form";
     }
 
-
     @PostMapping("/add_drivr")
-    public String addNewEtemDrivr(Driver x, Authentication auth){
+    public String addNewEtemDrivr(Driver x){
         assert prnv("ADD "+x.getId()+"\t"+x.getName());
-//        assert prnq("--"+auth);
-//        assert prnq("---"+ User.isAdmin(auth));
-//        assert prnq("---"+idaoDriver.isIms(x.getId(), auth));
-////        if (! User.isAdmin(auth) && ! idaoDriver.isIms(x.getId(), auth)) return "redirect:/boss";
-//        assert prnv("Driver ADD id "+x.getId() + "\t");
-//        Boss j = idaoBoss.getBoss(auth);
-//        if (j == null ) return "redirect:/boss";
-//        if (j.getAffordability() < 0 || ! idaoDriver.isIms(x.getId(), auth)) return "redirect:/boss";
-        x.setAffordability(3);
-        idaoDriver.update(x);
-//        SecurityContextHolder.getContext().getAuthentication()
+        if (x.getId() == null){ //создается объект
+            if (! idaoBoss.isBoss()) return "redirect:/boss";
+            x.setAffordability(3);
+            idaoDriver.add(x);
+        } else { //редактирование полей объекта
+            if (! idaoBoss.isBoss() && ! idaoDriver.isIms(x.getId())) return "redirect:/boss";
+            idaoDriver.update(x);
+        }
         return "redirect:/boss";
+    }
+    //------------------------------------------------------
+    @GetMapping("/update")
+    public String updateForm(Model model){
+        assert prnv("update ");
+        String login = SecurityContextHolder.getContext().getAuthentication().getName();
+        model.addAttribute("act","U");
+        if (idaoDriver.findById(login).isPresent()){
+            model.addAttribute("elm", idaoDriver.findById(login).get());
+            return  "boss/driv-form";
+        } else if (idaoDispatcher.findById(login).isPresent()){
+            model.addAttribute("elm", idaoDispatcher.findById(login).get());
+            return  "boss/disp-form";
+        } else if (idaoBoss.findById(login).isPresent()){
+            model.addAttribute("elm", idaoBoss.findById(login).get());
+            return  "boss/boss-form";
+        }
+//        return  "boss/boss-form";
+        return "boss/boss-list";
     }
     //------------------------------------------------------
     @GetMapping("/update_admin/{id:\\d+}")
@@ -157,34 +162,34 @@ public class BossController {
 
     //----------------------------------------------------------
     @GetMapping("/delete/{id:\\d+}")
-    public String delete(@PathVariable Integer id, Authentication auth){
+    public String delete(@PathVariable Integer id){
         //защита от обхода ауидентификации
         if (! idaoBoss.isBoss()) return "redirect:/boss";
         if (! idaoDriver.delete(id))
             if (! idaoDispatcher.delete(id))
                 // чтоб не удалить последнего
                 if (idaoBoss.findAll().size()>1 &&
-                 ! idaoBoss.isIms(id,auth)) idaoBoss.delete(id);
+                 ! idaoBoss.isIms(id)) idaoBoss.delete(id);
         assert prnv("--- delete "+id+"\t boss "+ idaoBoss.findAll().size());
         return "redirect:/boss";
     }
 //-----------------------------------------------------------------
     @GetMapping("/detail/{id:\\d+}")
-    public String detail(@PathVariable Integer id, Model model, Authentication auth){
+    public String detail(@PathVariable Integer id, Model model){
         if (idaoDriver.findById(id).isPresent()){
-            model.addAttribute("ims", idaoDriver.isIms(id,auth) ? "Y" :"N");
+            model.addAttribute("ims", idaoDriver.isIms(id) ? "Y" :"N");
             model.addAttribute("elm", idaoDriver.findById(id).get());
             model.addAttribute("elms", idaoDriver.findById(id).get().getListOrder());
             return  "boss/driv-detail";
         }
         if (idaoDispatcher.findById(id).isPresent()){
-            model.addAttribute("ims", idaoDispatcher.isIms(id,auth) ? "Y" :"N");
+            model.addAttribute("ims", idaoDispatcher.isIms(id) ? "Y" :"N");
             model.addAttribute("elm", idaoDispatcher.findById(id).get());
             model.addAttribute("elms", idaoDispatcher.findById(id).get().getListOrder());
             return  "boss/disp-detail";
         }
         if (idaoBoss.findById(id).isPresent()){
-            model.addAttribute("ims", idaoBoss.isIms(id,auth) ? "Y" :"N");
+            model.addAttribute("ims", idaoBoss.isIms(id) ? "Y" :"N");
             model.addAttribute("elm", idaoBoss.findById(id).get());
             model.addAttribute("elms", idaoBoss.findById(id).get().getListDispatcher());
             model.addAttribute("elmq", idaoBoss.findById(id).get().getListDriver());

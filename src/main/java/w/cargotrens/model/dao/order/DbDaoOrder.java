@@ -64,11 +64,6 @@ public class DbDaoOrder implements IdaoOrder {
     public Order add(Order item) { return update(item); }
 
     @Override
-    public boolean isIms(Integer id, Authentication auth) {
-        return false;
-    }
-
-    @Override
     public Integer countReady() {
         return (int) ((List<Order>) repository.findAll()).stream().filter(s -> s.getDriver() == null).count();
     }

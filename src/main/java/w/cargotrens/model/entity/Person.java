@@ -2,6 +2,8 @@ package w.cargotrens.model.entity;
 
 import jakarta.persistence.*;
 
+import static w.cargotrens.utilits.Loger.prnv;
+
 @Entity
 @Table(name = "person_t")
 @Inheritance(
@@ -57,9 +59,11 @@ public class Person implements Party {
      * @param x накладываемый объект
      */
     public void merge(Person x){
+        assert prnv("+++");
         if (! x.name.isBlank()) this.name=x.name;
         if (! x.description.isBlank()) this.description=x.description;
-        if ( x.affordability >= 0 && !x.affordability.equals(this.affordability)) this.affordability= x.affordability;
+        if (x.affordability != null) this.affordability = x.affordability;
+//            if ( x.affordability >= 0 && !x.affordability.equals(this.affordability)) this.affordability= x.affordability;
         if ( x.user != null) this.user=x.user;
     }
 }
