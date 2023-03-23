@@ -60,7 +60,7 @@ public class BossController {
         model.addAttribute("irole",iRole);
         String login = SecurityContextHolder.getContext().getAuthentication().getName();
         if (login.equals("anonymousUser"))
-            model.addAttribute("login","Вы не авторизоовались");
+            model.addAttribute("login","Вы не представились");
         else model.addAttribute("login",login);
         return "boss/boss-list";
     }
@@ -69,7 +69,7 @@ public class BossController {
     public String getAddFormAdmin(Model model){
         if (! idaoBoss.isBoss()) return "redirect:/boss";
         model.addAttribute("elm",new Boss());
-        model.addAttribute("act","A");
+        model.addAttribute("act","A");//действие - добавление
         return  "boss/boss-form";
     }
     @PostMapping("/add_admin")
@@ -85,7 +85,7 @@ public class BossController {
     public String getAddFormDispc(Model model){
         if (! idaoBoss.isBoss()) return "redirect:/boss";
         model.addAttribute("elm",new Dispatcher());
-        model.addAttribute("act","A");
+        model.addAttribute("act","A"); //действие - добавление
         return  "boss/disp-form";
     }
     @PostMapping("/add_dispc")
@@ -100,7 +100,7 @@ public class BossController {
     public String getAddFormDrivr(Model model){
         if (! idaoBoss.isBoss()) return "redirect:/boss";
         model.addAttribute("elm",new Driver());
-        model.addAttribute("act","A");
+        model.addAttribute("act","A"); //действие - добавление
         return  "boss/driv-form";
     }
 
@@ -122,7 +122,7 @@ public class BossController {
     public String updateForm(Model model){
         assert prnv("update ");
         String login = SecurityContextHolder.getContext().getAuthentication().getName();
-        model.addAttribute("act","U");
+        model.addAttribute("act","U"); //действие - редактирование
         if (idaoDriver.findById(login).isPresent()){
             model.addAttribute("elm", idaoDriver.findById(login).get());
             return  "boss/driv-form";
@@ -141,21 +141,21 @@ public class BossController {
     public String getUpdateFormAdmin(@PathVariable Integer id, Model model){
         if (idaoBoss.findById(id).isPresent())
             model.addAttribute("elm", idaoBoss.findById(id).get());
-        model.addAttribute("act","U");
+        model.addAttribute("act","U");//действие - редактирование
         return  "boss/boss-form";
     }
     @GetMapping("/update_dispc/{id:\\d+}")
     public String getUpdateFormDispc(@PathVariable Integer id, Model model){
         if (idaoDispatcher.findById(id).isPresent())
             model.addAttribute("elm", idaoDispatcher.findById(id).get());
-        model.addAttribute("act","U");
+        model.addAttribute("act","U");//действие - редактирование
         return  "boss/disp-form";
     }
     @GetMapping("/update_drivr/{id:\\d+}")
     public String getUpdateFormDrivr(@PathVariable Integer id, Model model){
         if (idaoDriver.findById(id).isPresent())
             model.addAttribute("elm", idaoDriver.findById(id).get());
-        model.addAttribute("act","U");
+        model.addAttribute("act","U");//действие - редактирование
         return  "boss/driv-form";
 
     }

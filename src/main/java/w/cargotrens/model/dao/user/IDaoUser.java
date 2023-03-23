@@ -14,4 +14,5 @@ public interface IDaoUser {
     void delete(Integer id);
 
     Integer getUserId(Authentication auth);
+    Integer getIRole();
 }

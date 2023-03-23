@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import w.cargotrens.model.dao.order.IdaoOrder;
+import w.cargotrens.model.dao.user.IDaoUser;
 import w.cargotrens.model.entity.Order;
 
 import java.util.List;
@@ -19,13 +20,16 @@ import static w.cargotrens.utilits.Loger.prnv;
 public class OrderController {
     @Autowired
     private IdaoOrder dao;
+    @Autowired
+    private IDaoUser iDaoUser;
 
 
     @GetMapping("")
     public String  listAll(Model model){
 //        List<Order> x = dao.findAll();
-        assert prnv("---\t"+dao.findAll());
+        assert prnv("---\t"+iDaoUser.getIRole());
         model.addAttribute("elms",dao.findAll());
+        model.addAttribute("irole",iDaoUser.getIRole());
         return "order/order-list";
     }
     //---------------------------------------------------
@@ -48,7 +52,7 @@ public class OrderController {
     public String getUpdateForm(@PathVariable Integer id, Model model){
 //        Order y = dao.findById(id).get();
         model.addAttribute("elm",dao.findById(id).get());
-        return  "order/order-update";
+        return  "order/order-form";
     }
     @PostMapping("/update")
     public String getUpdateForm(Order x){
@@ -66,6 +70,7 @@ public class OrderController {
     public String detail(@PathVariable Integer id, Model model){
 //        Order y =  dao.findById(id).get();
         model.addAttribute("elm",dao.findById(id).get());
+
         return  "order/order-detail";
     }
 

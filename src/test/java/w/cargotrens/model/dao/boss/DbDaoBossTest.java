@@ -64,7 +64,7 @@ class DbDaoBossTest {
     void updateLogin() {
         String q = "vasa0";
         System.out.println("----- Start Test DbDaoBossTest update");
-        User user = new User(q, q);
+        User user = new User(q, q,1);
         daoUser.addUser(user);
 
         Boss y = new Boss(q,"is Login");

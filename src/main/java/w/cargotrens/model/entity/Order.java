@@ -1,7 +1,8 @@
+/**
+ * Описание Заказа
+ */
 package w.cargotrens.model.entity;
-
 import jakarta.persistence.*;
-
 import static w.cargotrens.utilits.Loger.prnv;
 
 @Entity
@@ -16,7 +17,12 @@ public class Order {
 
     @Column(columnDefinition = "varchar(192) default 'description'")
     private String description;
-
+    /**
+     * 0- подготовка Заказа
+     * 1- Заказ сформирован
+     * 2- Заказ передан в доставку (назначен водитель)
+     * 3- Заказ доставлен
+     */
     @Column
     private Integer fulfilled; //оценка  выполнеия
 
@@ -41,6 +47,12 @@ public class Order {
     private Dispatcher dispatcher;
 
     public Order() { }
+
+    public Order(String name, Integer fulfilled, Dispatcher dispatcher) {
+        this.name = name;
+        this.fulfilled = fulfilled;
+        this.dispatcher = dispatcher;
+    }
 
     public Integer  getId() { return id; }
     public void     setId(Integer id) { this.id = id; }

@@ -59,7 +59,12 @@ public class DbDaoOrder implements IdaoOrder {
         return repository.save(item);
     }//update
     @Override
-    public Order add(Order item) { return update(item); }
+    public Order add(Order item) {
+        assert prnv("");
+        for (Order x: repository.findAll())
+            if (x.equals(item)) return null;
+        return repository.save(item);
+    }
 
     @Override
     public Integer countReady() {

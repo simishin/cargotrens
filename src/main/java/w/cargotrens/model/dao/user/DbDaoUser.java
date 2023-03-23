@@ -2,8 +2,10 @@ package w.cargotrens.model.dao.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import w.cargotrens.model.entity.Boss;
 import w.cargotrens.model.entity.User;
 import java.util.List;
 import java.util.Optional;
@@ -60,5 +62,16 @@ public class DbDaoUser implements IDaoUser{
             if (y.getLogin().equals(auth.getName()))
                 return y.getId();
         return -2;
+    }
+
+    @Override
+    public Integer getIRole() {
+        String login = SecurityContextHolder.getContext().getAuthentication().getName();
+        if (login.equals("anonymousUser")) return 4;
+        prnv("~"+login);
+        for (User x: userRepository.findAll())
+            if (x.getLogin().equals(login)) //есть такой элемент => edit
+                return x.getIRole();
+        return 0;
     }
 }

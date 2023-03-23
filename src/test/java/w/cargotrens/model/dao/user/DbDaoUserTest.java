@@ -20,9 +20,9 @@ class DbDaoUserTest {
     @Test
     void addUser() {
         System.out.println("Start Test DbDaoUserTest *********************");
-        User user = new User("tst", "tst");
+        User user = new User("tst", "tst",0);
         daoUser.addUser(user);
-        user = new User("test_user_01", "qwerty");
+        user = new User("test_user_01", "qwerty",0);
         daoUser.addUser(user);
     }
 
