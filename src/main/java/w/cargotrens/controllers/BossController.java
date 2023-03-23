@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import w.cargotrens.model.dao.boss.IdaoBoss;
 import w.cargotrens.model.dao.dispatcher.IdaoDispatcher;
 import w.cargotrens.model.dao.driver.IdaoDriver;
@@ -73,11 +74,18 @@ public class BossController {
         return  "boss/boss-form";
     }
     @PostMapping("/add_admin")
-    public String addNewEtemAdmin(Boss x){
+    public String addNewEtemAdmin(Boss x, RedirectAttributes z){
         assert prnv("Admin ADD");
-        x.setAffordability(1);
-        if (! idaoBoss.isBoss()) return "redirect:/boss";
-        idaoBoss.update(x);
+        if (x.getId() == null) { //создается объект
+            if (! idaoBoss.isBoss()) return "redirect:/boss";
+            x.setAffordability(1);
+            idaoBoss.add(x);
+            //отправим сообщение, что клиент добавлен
+            z.addFlashAttribute("gooMsg","Новая запись администратора "+x.getName()+" создана");
+        } else {
+            if ( ! idaoBoss.isIms(x.getId())) return "redirect:/boss";
+            idaoBoss.update(x);
+        }
         return "redirect:/boss";
     }
     //---------------------------------------------------
@@ -89,10 +97,18 @@ public class BossController {
         return  "boss/disp-form";
     }
     @PostMapping("/add_dispc")
-    public String addNewEtemDispc(Dispatcher x){
+    public String addNewEtemDispc(Dispatcher x, RedirectAttributes z){
         assert prnv("Dispatcher ADD"+x.getName());
-        x.setAffordability(2);
-        idaoDispatcher.update(x);
+        if (x.getId() == null) { //создается объект
+            if (! idaoBoss.isBoss()) return "redirect:/boss";
+            x.setAffordability(2);
+            idaoDispatcher.add(x);
+            //отправим сообщение, что клиент добавлен
+            z.addFlashAttribute("gooMsg","Новая запись диспетчера "+x.getName()+" создана");
+        } else {
+            if (! idaoBoss.isBoss() && ! idaoDispatcher.isIms(x.getId())) return "redirect:/boss";
+            idaoDispatcher.update(x);
+        }
         return "redirect:/boss";
     }
     //---------------------------------------------------
@@ -104,13 +120,15 @@ public class BossController {
         return  "boss/driv-form";
     }
 
-    @PostMapping("/add_drivr")
-    public String addNewEtemDrivr(Driver x){
+    @PostMapping("/add_drivr") //водителя
+    public String addNewEtemDrivr(Driver x, RedirectAttributes z){
         assert prnv("ADD "+x.getId()+"\t"+x.getName());
         if (x.getId() == null){ //создается объект
             if (! idaoBoss.isBoss()) return "redirect:/boss";
             x.setAffordability(3);
             idaoDriver.add(x);
+            //отправим сообщение, что клиент добавлен
+            z.addFlashAttribute("gooMsg","Новая запись водителя "+x.getName()+" создана");
         } else { //редактирование полей объекта
             if (! idaoBoss.isBoss() && ! idaoDriver.isIms(x.getId())) return "redirect:/boss";
             idaoDriver.update(x);
