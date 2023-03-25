@@ -20,11 +20,12 @@
         <p class="text-info text-left"><pre>    <small>Дополнительная информация  </small></pre>
         <p class="text-justify text-info text-left">[[${elm.description}]]</p>
         <!--      информация объекта-->
-        <p class="text-success text-left"><pre> <small>Администратор       </small></pre><mark>[[${elm.boss}]]</mark></p>
+        <p class="text-success text-left"><pre> <small>Администратор       </small></pre><mark>[[${boss}]]</mark></p>
 
         <p class="text-info text-left"><pre>    <small>Список Заказов </small></pre>
         <div th:unless="${ #lists.isEmpty(elms)}">
-            <span th:text="${ #lists.size(elms)}"></span>
+            <p><small>Количество :<span th:text="${ #lists.size(elms)}"></span></small></p>
+
             <th:block th:each="itm: ${elms}">
                 <p class="text-success">[[${itm.name}]]</p>
             </th:block>

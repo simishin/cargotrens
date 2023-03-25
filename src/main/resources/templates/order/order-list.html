@@ -38,7 +38,7 @@
                             <td>[[${elm.id}]]</td>
                             <td>[[${elm.name}]]</td>
                             <td>[[${elm.description}]]</td>
-                            <td th:switch="${elm.fulfilled}">
+                            <td th:switch="${elm.status}">
                                 <span th:case="1" class="text-danger" th:text="сформирован"></span>
                                 <span th:case="2" class="text-primary" th:text="передан"></span>
                                 <span th:case="3" class="text-success" th:text="доставлен"></span>
@@ -49,7 +49,7 @@
 
                                 <a th:href="@{'/order/detail/'+${elm.id}}"
                                    class="btn bg-warning btn-sm">Detail</a>
-                                <div th:switch="${elm.fulfilled}">
+                                <div th:switch="${elm.status}">
                                     <a th:case="0"  th:href="@{'/order/form/'+${elm.id}}"  class="btn bg-primary btn-sm">Edit</a>
                                     <a th:case="1"  th:href="@{'/order/driv/'+${elm.id}}"  class="btn bg-success btn-sm">Link</a>
                                 </div>

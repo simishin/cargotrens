@@ -1,6 +1,7 @@
 package w.cargotrens.model.dao.user;
 
 import org.springframework.security.core.Authentication;
+import w.cargotrens.model.ERole;
 import w.cargotrens.model.entity.User;
 
 import java.util.List;
@@ -13,6 +14,8 @@ public interface IDaoUser {
     Optional<User> findById(Integer id);
     void delete(Integer id);
 
-    Integer getUserId(Authentication auth);
-    Integer getIRole();
+//    Integer getUserId(Authentication auth);
+    Integer getIRole(String login);
+//    boolean isIms(ERole i);
+    boolean isIms(String login, Integer id);
 }

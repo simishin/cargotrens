@@ -3,6 +3,8 @@
  */
 package w.cargotrens.model.entity;
 import jakarta.persistence.*;
+import w.cargotrens.model.EStatus;
+
 import static w.cargotrens.utilits.Loger.prnv;
 
 @Entity
@@ -24,10 +26,10 @@ public class Order {
      * 3- Заказ доставлен
      */
     @Column
-    private Integer fulfilled; //оценка  выполнеия
+    private Integer status; //оценка  выполнеия
 
     @Column
-    private Float hetto; //вес
+    private Float gross; // общий вес
     @Column
     private Float   dimension; //габариты
     @Column
@@ -46,11 +48,11 @@ public class Order {
     @JoinColumn(name = "dispatcher_id")
     private Dispatcher dispatcher;
 
-    public Order() { }
+    public Order() { this.status= EStatus.PREP.ordinal(); }
 
-    public Order(String name, Integer fulfilled, Dispatcher dispatcher) {
+    public Order(String name, Integer status, Dispatcher dispatcher) {
         this.name = name;
-        this.fulfilled = fulfilled;
+        this.status = status;
         this.dispatcher = dispatcher;
     }
 
@@ -60,10 +62,10 @@ public class Order {
     public void     setName(String name) { this.name = name; }
     public String   getDescription() { return description; }
     public void     setDescription(String description) { this.description = description; }
-    public Integer  getFulfilled() { return fulfilled; }
-    public void     setFulfilled(Integer fulfilled) { this.fulfilled = fulfilled; }
-    public Float    getHetto() { return hetto; }
-    public void     setHetto(Float hetto) { this.hetto = hetto; }
+    public Integer getStatus() { return status; }
+    public void setStatus(Integer status) { this.status = status; }
+    public Float getGross() { return gross; }
+    public void setGross(Float gross) { this.gross = gross; }
     public Float    getDimension() { return dimension; }
     public void     setDimension(Float dimension) { this.dimension = dimension; }
     public String   getLoadingPlace() { return loadingPlace; }
@@ -85,14 +87,23 @@ public class Order {
     }
     public void merge(Order x){
         assert prnv("+++");
+        if (this.status > EStatus.SHAPED.ordinal()) return; //защита доставляемого Заказа
         if (! x.name.isBlank()) this.name=x.name;
         if (! x.description.isBlank()) this.description=x.description;
         if (x.orientation >= 0 && !x.orientation.equals(this.orientation)) this.orientation = x.orientation;
-        if (x.fulfilled >= 0 ) this.fulfilled = x.fulfilled;
-        if (x.hetto >= 0 ) this.hetto = x.hetto;
+        if (x.status >= 0 ) this.status = x.status;
+        if (x.gross >= 0 ) this.gross = x.gross;
         if (x.dimension >= 0 ) this.dimension = x.dimension;
         if (! x.loadingPlace.isBlank()) this.loadingPlace=x.loadingPlace;
         if (! x.destination.isBlank()) this.destination=x.destination;
+        if (    ! x.name.isBlank()
+                && x.orientation >= 0
+                && x.gross >= 0
+                && x.dimension >= 0
+                && ! x.loadingPlace.isBlank()
+                && ! x.destination.isBlank()
+            ) this.status = EStatus.SHAPED.ordinal();
+        else this.status = EStatus.PREP.ordinal();
     }//merge
 
 }//class Order

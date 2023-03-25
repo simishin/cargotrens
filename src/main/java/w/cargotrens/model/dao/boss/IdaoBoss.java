@@ -5,11 +5,11 @@ import w.cargotrens.model.dao.IdaoBase;
 import w.cargotrens.model.entity.Boss;
 
 public interface IdaoBoss  extends IdaoBase<Boss> {
-    Boss getBoss(Authentication auth);
+    Boss getBoss(String login);
 
     /**
      * проверяет разшерено ли зарегистировавшемуся выполнять действия
      * @return разрешение
      */
-    boolean isBoss();
+    boolean isBoss(String login);
 }

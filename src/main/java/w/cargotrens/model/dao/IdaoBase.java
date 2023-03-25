@@ -11,6 +11,6 @@ public interface IdaoBase<E> {
     boolean delete(String name);
     default E update(E item){ return null; }
     default E add(E item){ return null; }
-    default boolean isIms(Integer id) { return false; }
+    default boolean isIms(String login, Integer id) { return false; }
 
 }

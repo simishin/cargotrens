@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import w.cargotrens.model.ERole;
 import w.cargotrens.model.dao.user.DbDaoUser;
 import w.cargotrens.model.entity.Dispatcher;
 import w.cargotrens.model.entity.Driver;
@@ -42,7 +43,7 @@ public class DbDaoDispatcher implements IdaoDispatcher{
     public boolean delete(Integer id) {
         if (repository.findById(id).isEmpty()) return false;
         Optional<Dispatcher> elm =  repository.findById(id);
-        elm.get().getUser().setIRole(0);
+        elm.get().getUser().setIRole(ERole.GUEST.ordinal());
         elm.ifPresent(obj -> repository.deleteById(id));
         return true;
     }
@@ -68,7 +69,7 @@ public class DbDaoDispatcher implements IdaoDispatcher{
             }
         //проверка на существование логина
         assert prnq("проверка на существование логина");
-        item.setUser(dbDaoUser.presenceLogin(item.getName(),2));
+        item.setUser(dbDaoUser.presenceLogin(item.getName(),ERole.DISPATCHER.ordinal()));
         return repository.save(item);
     }
     @Override
@@ -77,16 +78,25 @@ public class DbDaoDispatcher implements IdaoDispatcher{
         for (Dispatcher x: repository.findAll())
             if (x.equals(item)) //есть такой элемент => edit
                 return null;
-        item.setUser(dbDaoUser.presenceLogin(item.getName(),2));
+        item.setUser(dbDaoUser.presenceLogin(item.getName(),ERole.DISPATCHER.ordinal()));
+        item.setAffordability(ERole.DISPATCHER.ordinal());
         return repository.save(item);
     }
     @Override
-    public boolean isIms(Integer id) { //это Я
+    public boolean isIms(String login, Integer id) { //это Я
         if (id == null) return false;
-        String login = SecurityContextHolder.getContext().getAuthentication().getName();
-        if (login.equals("anonymousUser")) return false;
+//        String login = SecurityContextHolder.getContext().getAuthentication().getName();
+//        if (login.equals("anonymousUser")) return false;
+        if (login.isBlank())  return false;
+
         if (repository.findById(id).isEmpty()) return false;
         return repository.findById(id).get().getUser().getLogin().equals(login);
     }
 
+    @Override
+    public Dispatcher getDispatcher(String login) {
+        if (login.isBlank()) return null;
+
+        return null;
+    }
 }

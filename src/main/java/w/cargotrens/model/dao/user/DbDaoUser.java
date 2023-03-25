@@ -5,7 +5,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import w.cargotrens.model.entity.Boss;
+import w.cargotrens.model.ERole;
 import w.cargotrens.model.entity.User;
 import java.util.List;
 import java.util.Optional;
@@ -21,12 +21,16 @@ public class DbDaoUser implements IDaoUser{
     private UserRepository userRepository;
 
     @Override
-    public User getUserByLogin(String login) { return userRepository.findByLogin(login); }
+    public User getUserByLogin(String login) {
+        if (login.equals("anonymousUser")) return null;
+        return userRepository.findByLogin(login);
+    }
     @Override
     public User addUser(User user) {
         //проверяю на существование логина
-        for (User y: userRepository.findAll())
-            if ( y.getLogin().equals(user.getLogin())) return null;
+        if( userRepository.findByLogin(user.getLogin()) == null) return null;
+//        for (User y: userRepository.findAll())
+//            if ( y.getLogin().equals(user.getLogin())) return null;
         // перед добавлением пользователя захешируем его пароль
         String encodedPassword = encoder.encode(user.getPassword());
         user.setPassword(encodedPassword); //устанавливаем пароль
@@ -56,22 +60,42 @@ public class DbDaoUser implements IDaoUser{
         return z;
     }//presenceLogin
 
-    public Integer getUserId(Authentication auth){
-        if (auth == null) return -1;
-        for (User y : userRepository.findAll())
-            if (y.getLogin().equals(auth.getName()))
-                return y.getId();
-        return -2;
-    }
+//    public Integer getUserId(Authentication auth){
+//        if (auth == null) return -1;
+//        for (User y : userRepository.findAll())
+//            if (y.getLogin().equals(auth.getName()))
+//                return y.getId();
+//        return -2;
+//    }
 
     @Override
-    public Integer getIRole() {
-        String login = SecurityContextHolder.getContext().getAuthentication().getName();
-        if (login.equals("anonymousUser")) return 4;
+    public Integer getIRole(String login) {
+//        String login = SecurityContextHolder.getContext().getAuthentication().getName();
+        if (login.isBlank()) return ERole.GUEST.ordinal();
         prnv("~"+login);
-        for (User x: userRepository.findAll())
-            if (x.getLogin().equals(login)) //есть такой элемент => edit
-                return x.getIRole();
-        return 0;
+        User y = userRepository.findByLogin(login);
+        if (y == null) return ERole.GUEST.ordinal();
+        return y.getIRole();
+//        for (User x: userRepository.findAll())
+//            if (x.getLogin().equals(login)) //есть такой элемент => edit
+//                return x.getIRole();
+//        return ERole.GUEST.ordinal();
+    }
+//    @Override
+//    public boolean isIms(ERole i){
+//        String login = SecurityContextHolder.getContext().getAuthentication().getName();
+//        if (login.equals("anonymousUser") && i.equals(ERole.GUEST)) return true;
+//        if (userRepository.findByLogin(login) == null ) return false;
+//        return i.is(userRepository.findByLogin(login).getIRole());
+//    }
+    @Override
+    public boolean isIms(String login, Integer id) { //это Я
+        if (id == null) return false;
+//        String login = SecurityContextHolder.getContext().getAuthentication().getName();
+//        if (login.equals("anonymousUser")) return false;
+        if (login.isBlank()) return false;
+        if (userRepository.findByLogin(login).getPerson() == null) return false;
+        assert prnv("---"+userRepository.findByLogin(login).getPerson().getId());
+        return userRepository.findByLogin(login).getPerson().getId() == id;
     }
 }

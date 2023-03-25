@@ -25,7 +25,7 @@ class DbDaoOrderTest {
         System.out.println("----- Start Test DbDaoOrderTest");
         List<Order> y = x.findAll();
         for (Order z : y){
-            System.out.println( z.getId()+"\t Name:"+z.getName()+"\t fulf:"+z.getFulfilled()
+            System.out.println( z.getId()+"\t Name:"+z.getName()+"\t fulf:"+z.getStatus()
             +"\tdriv "+(z.getDriver() == null ? "---" : z.getDriver().getId())
             +"\tdisp "+(z.getDispatcher() ==null ? "---" : z.getDispatcher().getId())
             );

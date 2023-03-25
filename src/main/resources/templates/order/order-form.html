@@ -1,10 +1,39 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>form Orders</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap-theme.min.css}"/>
 </head>
 <body>
+<header th:insert="~{layout/page-layouts.html :: header}"></header>
+<div class="container-fluid text-center">
+    <h1 th:if="${act}=='A'">Добавление Заказа</h1>
+    <h1 th:unless="${act}=='A'">Редактирование Заказа</h1>
+    <form method="post" th:action="@{/order/add}" th:object="${elm}">
+        <input th:field="*{id}" hidden>
+        <label for="rx">Имя:</label>
+        <input id="rx" th:type="text" th:field="*{name}" required minlength="1" maxlength="233"/>
+        <label for="ry">Примечание:</label>
+        <input id="ry" th:type="text" th:field="*{description}"  minlength="1" maxlength="233"/>
+        <!--    d-->
+        <label for="x1">общий вес:</label>
+        <input id="x1" th:type="number" th:field="*{gross}"  minlength="1" maxlength="233"/>
+        <label for="x2">габариты:</label>
+        <input id="x2" th:type="number" th:field="*{dimension}"  minlength="1" maxlength="233"/>
+        <label for="x3">место погрузки:</label>
+        <input id="x3" th:type="text" th:field="*{loadingPlace}"  minlength="1" maxlength="233"/>
+        <label for="x4">место назначения:</label>
+        <input id="x4" th:type="text" th:field="*{destination}"  minlength="1" maxlength="233"/>
+        <label for="x5"> код направления:</label>
+        <input id="x5" th:type="number" th:field="*{orientation}"  minlength="1" maxlength="233"/>
 
+        <button th:if="${act}=='A'" class="btn btn-success">Добавить</button>
+        <button th:unless="${act}=='A'" class="btn btn-success">Сохранить</button>
+    </form>
+    <a th:href="@{/boss}" class="btn btn-danger">Cancel</a>
+</div>
+<footer  th:insert="~{layout/page-layouts.html :: footer}"></footer>
 </body>
 </html>
