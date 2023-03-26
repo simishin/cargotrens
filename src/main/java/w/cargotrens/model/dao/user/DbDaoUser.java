@@ -22,13 +22,16 @@ public class DbDaoUser implements IDaoUser{
 
     @Override
     public User getUserByLogin(String login) {
+        if (login.isBlank()) return null;
         if (login.equals("anonymousUser")) return null;
         return userRepository.findByLogin(login);
     }
     @Override
     public User addUser(User user) {
+        assert prnv("-"+user.getLogin());
+//        assert prnv("--"+user.getPerson().getId());
         //проверяю на существование логина
-        if( userRepository.findByLogin(user.getLogin()) == null) return null;
+//        if( userRepository.findByLogin(user.getLogin()) == null) return null;
 //        for (User y: userRepository.findAll())
 //            if ( y.getLogin().equals(user.getLogin())) return null;
         // перед добавлением пользователя захешируем его пароль
@@ -46,19 +49,31 @@ public class DbDaoUser implements IDaoUser{
         userRepository.findById(id).ifPresent(client -> userRepository.deleteById(id));
     }
 
-    public User presenceLogin(String name, int role) { //login присутствие
-        assert prnv("--->"+name+"\t"+role);
-        for (User y : userRepository.findAll())
-            if (y.getLogin().equals(name)) {
-                y.setIRole( Math.abs(role));
-                assert prnq("present");
-                return y;
-            }
-        assert prnq("create");
-        User    z = new User(name, name,  Math.abs(role));
-        addUser(z);
-        return z;
+    public User existLogin(String name, int role) { //login присутствие
+        assert prnv("--->"+name+"<\t"+role+"\t "+ERole.values().length);
+        if (name.isBlank() || (Math.abs(role) >= ERole.values().length)) return null;
+//        assert prnq("**");
+//        User x = userRepository.findByLogin(name);
+//        assert prnq("***"+x);
+        if (userRepository.findByLogin(name) != null ) return null; //проверка на существование логина
+
+//        for (User y : userRepository.findAll())
+//            if (y.getLogin().equals(name)) {
+//                y.setIRole( Math.abs(role));
+//                assert prnq("present");
+//                return y;
+//            }
+//        assert prnq("create");
+//        User    z = new User(name, name,  Math.abs(role));
+        return addUser(new User(name, name,  Math.abs(role)));
+//        return z;
     }//presenceLogin
+
+    @Override
+    public boolean isExistLogin(String login) {
+        if (login.isBlank()) return false;
+        return userRepository.findByLogin(login) != null;
+    }
 
 //    public Integer getUserId(Authentication auth){
 //        if (auth == null) return -1;
@@ -90,10 +105,10 @@ public class DbDaoUser implements IDaoUser{
 //    }
     @Override
     public boolean isIms(String login, Integer id) { //это Я
-        if (id == null) return false;
+        if (id == null || login.isBlank()) return false;
 //        String login = SecurityContextHolder.getContext().getAuthentication().getName();
 //        if (login.equals("anonymousUser")) return false;
-        if (login.isBlank()) return false;
+//        if (login.isBlank()) return false;
         if (userRepository.findByLogin(login).getPerson() == null) return false;
         assert prnv("---"+userRepository.findByLogin(login).getPerson().getId());
         return userRepository.findByLogin(login).getPerson().getId() == id;

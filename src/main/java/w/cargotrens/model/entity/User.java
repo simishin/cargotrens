@@ -39,6 +39,7 @@ public class User {
     }
 
     public String   getSRole(){ return this.getSRole(iRole); }
+
     public static String   getSRole(int i){
         switch (Math.abs(i)){
             case 1:  return  "ROLE_ADMIN";

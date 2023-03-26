@@ -4,6 +4,7 @@
 package w.cargotrens.model.entity;
 
 import jakarta.persistence.*;
+import w.cargotrens.model.ERole;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -42,10 +43,13 @@ public class Driver  extends Person implements Party {
     @JoinColumn(name = "boss_id")
     private Boss boss;
 
-    public Driver() {}
+    public Driver() {
+        super(null, "", ERole.DRIVER.ordinal());
+        this.listOrder = new HashSet<Order>();
+    }
 
     public Driver(String name, String description, Float playload, Integer orientation, Float tonnage, Boss boss) {
-        super(name, description, 3);
+        super(name, description, ERole.DRIVER.ordinal());
         this.playload = playload;
         this.orientation = orientation;
         this.tonnage = tonnage;
@@ -55,7 +59,7 @@ public class Driver  extends Person implements Party {
 
     public Driver(Boss boss) {
         this.boss = boss;
-        setAffordability(3);
+        setAffordability(ERole.DRIVER.ordinal());
     }
 
     public Float getPlayload() {

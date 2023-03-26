@@ -84,6 +84,7 @@ public class BossController {
             //отправим сообщение, что клиент добавлен
             z.addFlashAttribute("gooMsg","Новая запись администратора "+x.getName()+" создана");
         } else {
+            //администратор редактирует толь сам себя
             if ( ! idaoBoss.isIms(AuthenticationName(), x.getId())) return "redirect:/boss";
             idaoBoss.update(x);
         }
@@ -102,7 +103,7 @@ public class BossController {
         assert prnv("Dispatcher ADD"+x.getName());
         if (x.getId() == null) { //создается объект
             if (! idaoBoss.isBoss(AuthenticationName())) return "redirect:/boss";
-//            x.setAffordability(2);
+            x.setBoss(idaoBoss.getBoss(AuthenticationName()));
             idaoDispatcher.add(x);
             //отправим сообщение, что клиент добавлен
             z.addFlashAttribute("gooMsg","Новая запись диспетчера "+x.getName()+" создана");
@@ -126,7 +127,7 @@ public class BossController {
         assert prnv("ADD "+x.getId()+"\t"+x.getName());
         if (x.getId() == null){ //создается объект
             if (! idaoBoss.isBoss(AuthenticationName())) return "redirect:/boss";
-//            x.setAffordability(3);
+//            x.setBoss(idaoBoss.getBoss(AuthenticationName()));
             idaoDriver.add(x);
             //отправим сообщение, что клиент добавлен
             z.addFlashAttribute("gooMsg","Новая запись водителя "+x.getName()+" создана");

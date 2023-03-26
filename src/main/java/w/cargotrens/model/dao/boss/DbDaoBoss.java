@@ -1,13 +1,10 @@
 package w.cargotrens.model.dao.boss;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import w.cargotrens.model.ERole;
 import w.cargotrens.model.dao.user.DbDaoUser;
 import w.cargotrens.model.entity.Boss;
-import w.cargotrens.model.entity.Driver;
 import w.cargotrens.model.entity.User;
 
 import java.util.List;
@@ -70,7 +67,7 @@ public class DbDaoBoss implements IdaoBoss{
             }
         //проверка на существование логина
         assert prnq("проверка на существование логина");
-        item.setUser(dbDaoUser.presenceLogin(item.getName(),ERole.BOSS.ordinal()));
+        item.setUser(dbDaoUser.existLogin(item.getName(),ERole.BOSS.ordinal()));
         return repository.save(item);
     }//update
 
@@ -80,7 +77,7 @@ public class DbDaoBoss implements IdaoBoss{
         for (Boss x: repository.findAll())
             if (x.equals(item)) //есть такой элемент => edit
                 return null;
-        item.setUser(dbDaoUser.presenceLogin(item.getName(),ERole.BOSS.ordinal()));
+        item.setUser(dbDaoUser.existLogin(item.getName(),ERole.BOSS.ordinal()));
         item.setAffordability(ERole.BOSS.ordinal());
         return repository.save(item);
     }

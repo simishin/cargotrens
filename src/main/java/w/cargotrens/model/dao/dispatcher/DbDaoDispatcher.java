@@ -1,13 +1,10 @@
 package w.cargotrens.model.dao.dispatcher;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import w.cargotrens.model.ERole;
 import w.cargotrens.model.dao.user.DbDaoUser;
 import w.cargotrens.model.entity.Dispatcher;
-import w.cargotrens.model.entity.Driver;
 
 import java.util.List;
 import java.util.Optional;
@@ -69,7 +66,7 @@ public class DbDaoDispatcher implements IdaoDispatcher{
             }
         //проверка на существование логина
         assert prnq("проверка на существование логина");
-        item.setUser(dbDaoUser.presenceLogin(item.getName(),ERole.DISPATCHER.ordinal()));
+        item.setUser(dbDaoUser.existLogin(item.getName(),ERole.DISPATCHER.ordinal()));
         return repository.save(item);
     }
     @Override
@@ -78,7 +75,7 @@ public class DbDaoDispatcher implements IdaoDispatcher{
         for (Dispatcher x: repository.findAll())
             if (x.equals(item)) //есть такой элемент => edit
                 return null;
-        item.setUser(dbDaoUser.presenceLogin(item.getName(),ERole.DISPATCHER.ordinal()));
+        item.setUser(dbDaoUser.existLogin(item.getName(),ERole.DISPATCHER.ordinal()));
         item.setAffordability(ERole.DISPATCHER.ordinal());
         return repository.save(item);
     }
