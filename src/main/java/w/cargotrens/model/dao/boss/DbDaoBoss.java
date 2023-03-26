@@ -5,13 +5,10 @@ import org.springframework.stereotype.Service;
 import w.cargotrens.model.ERole;
 import w.cargotrens.model.dao.user.DbDaoUser;
 import w.cargotrens.model.entity.Boss;
-import w.cargotrens.model.entity.Driver;
 import w.cargotrens.model.entity.User;
 
 import java.util.List;
 import java.util.Optional;
-
-import static w.cargotrens.utilits.Loger.prnq;
 import static w.cargotrens.utilits.Loger.prnv;
 
 @Service
@@ -37,7 +34,6 @@ public class DbDaoBoss implements IdaoBoss{
                 return repository.findById(x.getId());
         return Optional.empty();
     }
-
     @Override
     public boolean delete(Integer id) {
         Optional<Boss> elm =  repository.findById(id);
@@ -48,54 +44,26 @@ public class DbDaoBoss implements IdaoBoss{
             return true;
         }
         return false;
-
-//        if (repository.findById(id).isEmpty()) return false;
-//        Optional<Boss> elm =  repository.findById(id);
-//        elm.get().getUser().setIRole(ERole.GUEST.ordinal());
-//        elm.ifPresent(obj -> repository.deleteById(id));
-//        return true;
     }
     @Override
     public boolean delete(String name){
-//        assert prnv("");
         for (Boss x: repository.findAll())
             if (x.getName().equals(name)) {
                 return  delete(x.getId());
             }
         return false;
     }//delete
-
     @Override
     public Boss update(Boss item) {
         if (item == null) return null;
-        assert prnv("-->"+item.getId()+"\t"+item.getName());
-
         Optional<Boss> x = findById(item.getName());
         if (x.isEmpty()) return null;
         x.get().merge(item);
         return repository.save(x.get());
-//
-//
-//
-//        assert prnv("-->"+item.getId()+"\t"+item.getName());
-//        //проверка на существование объекта
-//        for (Boss x: repository.findAll())
-//             if (x.equals(item)) {//есть такой элемент => edit
-//                x.merge(item);
-//                return repository.save(x);
-//            }
-//        //проверка на существование логина
-//        assert prnq("проверка на существование логина");
-//        item.setUser(dbDaoUser.existLogin(item.getName(),ERole.BOSS.ordinal()));
-//        return repository.save(item);
     }//update
 
     @Override
     public Boss add(Boss item) {
-        assert prnv("-->"+item.getId()+"\t"+item.getName());
-//        for (Boss x: repository.findAll())
-//            if (x.equals(item)) //есть такой элемент => edit
-//                return null;
         item.setUser(dbDaoUser.existLogin(item.getName(),ERole.BOSS.ordinal()));
         if (item.getUser() == null ) return null;
         item.setAffordability(ERole.BOSS.ordinal());
@@ -105,33 +73,14 @@ public class DbDaoBoss implements IdaoBoss{
     public boolean isIms(String login, Integer id) { //это Я
         if (id == null) return false;
         if (login.isBlank())  return false;
-//        String login = SecurityContextHolder.getContext().getAuthentication().getName();
-//        if (login.equals("anonymousUser")) return false;
         if (repository.findById(id).isEmpty()) return false;
         return repository.findById(id).get().getUser().getLogin().equals(login);
     }
-
     @Override
     public Boss getBoss(String login) {
-//        if (login==null)  return null;
-//        if (login.isBlank())  return null;
         User y = dbDaoUser.getUserByLogin(login);
         if (y==null)  return null;
-//        String login = SecurityContextHolder.getContext().getAuthentication().getName();
-//        if (login.equals("anonymousUser")) return null;
-//        User y = null;
-//        for (User x: dbDaoUser.findAll())
-//            if (x.getLogin().equals(login)) {
-//                y=x; break;
-//            }
-//        assert prnv("--id User-"+y.getId());
-//        assert y != null: "******************";
-//
-//               ;
         return  repository.findById(y.getPerson().getId()).orElse(null);
-//        for (Boss z: repository.findAll())
-//            if (z.getUser().equals(y)) return z;
-//        return null;
     }
     @Override
     public boolean isBoss(String login) {

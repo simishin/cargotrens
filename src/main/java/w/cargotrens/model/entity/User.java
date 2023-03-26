@@ -10,6 +10,9 @@ package w.cargotrens.model.entity;
 
 import jakarta.persistence.*;
 import org.springframework.security.core.context.SecurityContextHolder;
+import w.cargotrens.model.ERole;
+
+import static w.cargotrens.model.ERole.DRIVER;
 
 @Entity
 @Table(name = "user_t")
@@ -38,15 +41,17 @@ public class User {
         this.iRole = iRole;
     }
 
-    public String   getSRole(){ return this.getSRole(iRole); }
-
-    public static String   getSRole(int i){
-        switch (Math.abs(i)){
+    public String   getSRole(){
+//        return this.getSRole(iRole); }
+//
+//    public static String   getSRole(int i){
+        switch (Math.abs(iRole)){
             case 1:  return  "ROLE_ADMIN";
             case 2:  return  "ROLE_DISPC";
             case 3:  return  "ROLE_DRIVR";
             default: return  "ROLE_GUEST";
         }
+
     }
     public Integer  getIRole() { return iRole; }
     public void     setIRole(Integer iRole) { this.iRole = iRole; }

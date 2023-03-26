@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import w.cargotrens.model.ERole;
 import w.cargotrens.model.dao.boss.IdaoBoss;
 import w.cargotrens.model.dao.dispatcher.IdaoDispatcher;
 import w.cargotrens.model.dao.driver.IdaoDriver;
@@ -41,18 +42,18 @@ public class BossController {
         assert prnv("---\t"+ idaoBoss.findAll().size()+"\t"+auth.getAuthorities().toString());
         List<Person> q = new ArrayList<>();
         int iRole=0;
-        if (auth.getAuthorities().toString().contains(User.getSRole(1))) {
+        if (auth.getAuthorities().toString().contains(ERole.BOSS.getRole())) {
             q.addAll(idaoBoss.findAll());
             q.addAll(idaoDispatcher.findAll());
             q.addAll(idaoDriver.findAll());
             iRole=1;
         } else
-        if (auth.getAuthorities().toString().contains(User.getSRole(2))) {
+        if (auth.getAuthorities().toString().contains(ERole.DISPATCHER.getRole())) {
             q.addAll(idaoDispatcher.findAll());
             q.addAll(idaoDriver.findAll());
             iRole=2;
         } else
-        if (auth.getAuthorities().toString().contains(User.getSRole(3))) {
+        if (auth.getAuthorities().toString().contains(ERole.DRIVER.getRole())) {
             q.addAll(idaoDriver.findAll());
             iRole=3;
         }
@@ -139,12 +140,14 @@ public class BossController {
     }
     //------------------------------------------------------
     @GetMapping("/update")
-    public String updateForm(Model model){
-        assert prnv("update ");
+    public String updateForm(Model model, RedirectAttributes z){
+
         String login = AuthenticationName();
+        assert prnv("update "+login);
         model.addAttribute("act","U"); //действие - редактирование
         if (idaoDriver.findById(login).isPresent()){
             model.addAttribute("driver", idaoDriver.findById(login).get());
+            prnq("~"+idaoDriver.findById(login).get());
             return  "boss/driv-form";
         } else if (idaoDispatcher.findById(login).isPresent()){
             model.addAttribute("elm", idaoDispatcher.findById(login).get());
@@ -153,8 +156,9 @@ public class BossController {
             model.addAttribute("elm", idaoBoss.findById(login).get());
             return  "boss/boss-form";
         }
-//        return  "boss/boss-form";
-        return "boss/boss-list";
+        //отправим сообщение, что клиент добавлен
+        z.addFlashAttribute("gooMsg","запись "+login+" является ГОСТЕМ");
+        return "redirect:/boss";
     }
     //------------------------------------------------------
     @GetMapping("/update_admin/{id:\\d+}")
