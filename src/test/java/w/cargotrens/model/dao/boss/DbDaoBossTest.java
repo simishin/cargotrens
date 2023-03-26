@@ -10,8 +10,7 @@ import w.cargotrens.model.entity.User;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static w.cargotrens.utilits.Loger.prnv;
 
 @SpringBootTest
@@ -31,6 +30,17 @@ class DbDaoBossTest {
             System.out.println( z.getId()+"/t Name:"+z.getName()+"\t User:"+z.getUser());
         }
         System.out.println("----- End Test ("+y.size()+")");
+    }
+    @Test
+    void getBoss(){
+        String s = "admin5";
+        assertNull(x.getBoss(null));
+        assertNull(x.getBoss(" "));
+        assertNull(x.getBoss("null"));
+        assertNotNull(x.getBoss(s));
+        Boss z = x.getBoss(s);
+        System.out.println( z.getId()+"/t Name:"+z.getName()+"\t User:"+z.getUser());
+        assertEquals(s,z.getName());
     }
 
     @Test
