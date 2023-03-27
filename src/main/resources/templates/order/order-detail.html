@@ -1,10 +1,41 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Detail Order</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap-theme.min.css}"/>
 </head>
 <body>
+<header th:insert="~{layout/page-layouts.html :: header}"></header>
+<div class="container-fluid text-center">
+    <h1>Дополнительная информация о Заказе</h1>
+    <a th:href="@{/order}" class="btn btn-danger">Cancel</a>
+    <p class="text-primary text-left"><pre> <small>Код заказа</small></pre><mark>[[${elm.name}]]</mark></p>
+    <p class="text-success text-left"><pre> <small>Автор Заказа</small></pre><mark>[[${elm.dispatcher.name}]]</mark></p>
 
+    <p class="text-success text-left"><pre> <small>Состояние Заказа</small></pre>
+    <p th:switch="${elm.status}">
+    <span th:case="1" class="text-danger" th:text="сформирован"></span>
+    <span th:case="2" class="text-primary" th:text="передан водителю ${driver}"></span>
+    <span th:case="3" class="text-success" th:text="доставлен"></span>
+    <span th:case="0" class="text-muted" th:text="подготавливается"></span>
+    </p>
+    <mark th:if="${elm.status} > 0" class="text-success">Активен</mark></p>
+    <p class="text-info text-left"><pre>    <small>Дополнительная информация  </small></pre>
+    <p class="text-justify text-info text-left">[[${elm.description}]]</p>
+    <!--      информация объекта-->
+    <p class="text-success text-left"><pre> <small>общий вес</small></pre><mark>[[${elm.gross}]]</mark></p>
+    <p class="text-success text-left"><pre> <small>общее направление</small></pre><mark>[[${elm.orientation}]]</mark></p>
+    <p class="text-success text-left"><pre> <small>габариты</small></pre><mark>[[${elm.dimension}]]</mark></p>
+    <p class="text-success text-left"><pre> <small>место погрузки</small></pre><mark>[[${elm.loadingPlace}]]</mark></p>
+    <p class="text-success text-left"><pre> <small>место назначения</small></pre><mark>[[${elm.destination}]]</mark></p>
+    <!--      информация объекта-->
+
+
+
+    <a th:href="@{/order}" class="btn btn-danger">Cancel</a>
+</div>
+<footer  th:insert="~{layout/page-layouts.html :: footer}"></footer>
 </body>
 </html>

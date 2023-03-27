@@ -81,10 +81,6 @@ public class DbDaoBoss implements IdaoBoss{
         Integer i =dbDaoUser.getPersonId(login);
         if (i==null)  return null;
         return  repository.findById(i).orElse(null);
-
-//        User y = dbDaoUser.getUserByLogin(login);
-//        if (y==null)  return null;
-//        return  repository.findById(y.getPerson().getId()).orElse(null);
     }
     @Override
     public boolean isBoss(String login) {

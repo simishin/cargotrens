@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import w.cargotrens.model.ERole;
 import w.cargotrens.model.EStatus;
+import w.cargotrens.model.dao.dispatcher.IdaoDispatcher;
 import w.cargotrens.model.dao.order.IdaoOrder;
 import w.cargotrens.model.dao.user.IDaoUser;
 import w.cargotrens.model.entity.Order;
@@ -22,6 +23,8 @@ import static w.cargotrens.utilits.Loger.prnv;
 public class OrderController {
     @Autowired
     private IdaoOrder dao;
+    @Autowired
+    private IdaoDispatcher idaoDispatcher;
     @Autowired
     private IDaoUser iDaoUser;
 
@@ -46,7 +49,10 @@ public class OrderController {
     public String addNewEtem(Order x, RedirectAttributes z){
         if (! ERole.DISPATCHER.is()) return "redirect:/order";
         if (x.getId() == null) { //создается объект
-            dao.add(x);
+            x.setDispatcher(idaoDispatcher.getDispatcher(AuthenticationName()));
+            if (dao.add(x) == null)
+                z.addFlashAttribute("gooMsg","Новая запись НЕ создана");
+            else
             //отправим сообщение, что клиент добавлен
             z.addFlashAttribute("gooMsg","Новая запись Заказа "+x.getName()+" создана");
         } else {
@@ -67,24 +73,46 @@ public class OrderController {
         model.addAttribute("act","U");//действие - редактирование
         return  "order/order-form";
     }
-    @PostMapping("/update")
-    public String getUpdateForm(Order x){
-        assert prnv("Order UPDATE");
-        dao.update(x);
-        return "redirect:/order";
-    }
+//    @PostMapping("/update")
+//    public String getUpdateForm(Order x){
+//        assert prnv("Order UPDATE");
+//        dao.update(x);
+//        return "redirect:/order";
+//    }
     //----------------------------------------------------------
     @GetMapping("/delete/{id:\\d+}")
-    public String delete(@PathVariable Integer id){
-        dao.delete(id);
+    public String delete(@PathVariable Integer id, RedirectAttributes z){
+        Order x = dao.findById(id).orElse(null);
+        if (x == null) {
+            z.addFlashAttribute("gooMsg","Заказ c id "+id+" не существует");
+            return "redirect:/order";
+        }
+        if (x.getStatus() == EStatus.CONVEYED.ordinal()) {
+            z.addFlashAttribute("gooMsg","Заказ c id "+id+" В ПУТИ");
+            return "redirect:/order";
+        }
+
+        if(iDaoUser.isIms(AuthenticationName(), x.getDispatcher().getId())) {
+            if (dao.delete(id))
+                z.addFlashAttribute("gooMsg", "Заказ (" + id + ") удален ");
+        } else
+            z.addFlashAttribute("gooMsg","Это не Ваш Заказ ");
         return "redirect:/order";
     }
 
     @GetMapping("/detail/{id:\\d+}")
-    public String detail(@PathVariable Integer id, Model model){
-//        Order y =  dao.findById(id).get();
-        model.addAttribute("elm",dao.findById(id).get());
-
+    public String detail(@PathVariable Integer id, Model model, RedirectAttributes z){
+        Order x = dao.findById(id).orElse(null);
+        if (x == null) {
+            z.addFlashAttribute("gooMsg","Заказ c id "+id+" не существует");
+            return "redirect:/order";
+        }
+        model.addAttribute("ims", iDaoUser.isIms(AuthenticationName(), x.getDispatcher().getId()) ? "Y" :"N");
+        model.addAttribute("elm",x);
+        if (x.getDriver() == null)
+            model.addAttribute("driver","---");
+        else
+            model.addAttribute("driver",x.getDriver().getName());
         return  "order/order-detail";
     }
 
