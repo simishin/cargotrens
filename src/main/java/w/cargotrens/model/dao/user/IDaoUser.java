@@ -13,7 +13,7 @@ public interface IDaoUser {
     Optional<User> findById(Integer id);
     void delete(Integer id);
 
-    Integer getIRole(String login);
+    int getIRole(String login);
     boolean isIms(String login, Integer id);
     User existLogin(String name, int role);
     boolean isExistLogin(String login);

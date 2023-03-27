@@ -41,30 +41,18 @@ public class BossController {
     public String  listAll(Model model, Authentication auth){
         assert prnv("---\t"+ idaoBoss.findAll().size()+"\t"+auth.getAuthorities().toString());
         List<Person> q = new ArrayList<>();
-        int iRole=0;
-        if (auth.getAuthorities().toString().contains(ERole.BOSS.getRole())) {
-            q.addAll(idaoBoss.findAll());
-            q.addAll(idaoDispatcher.findAll());
-            q.addAll(idaoDriver.findAll());
-            iRole=1;
-        } else
-        if (auth.getAuthorities().toString().contains(ERole.DISPATCHER.getRole())) {
-            q.addAll(idaoDispatcher.findAll());
-            q.addAll(idaoDriver.findAll());
-            iRole=2;
-        } else
-        if (auth.getAuthorities().toString().contains(ERole.DRIVER.getRole())) {
-            q.addAll(idaoDriver.findAll());
-            iRole=3;
+        int iRole=iDaoUser.getIRole(AuthenticationName());
+        switch (iRole){
+            case 1: q.addAll(idaoBoss.findAll());
+            case 2: q.addAll(idaoDispatcher.findAll());
+            case 3: q.addAll(idaoDriver.findAll());
+                break;
         }
-        assert prnq("-+-+-\tsize "+q.size()+" \tiRole "+iRole);
-
         model.addAttribute("elms",q);
         model.addAttribute("irole",iRole);
-        String login = SecurityContextHolder.getContext().getAuthentication().getName();
-        if (login.equals("anonymousUser"))
+        if (AuthenticationName() == null)
             model.addAttribute("login","Вы не представились");
-        else model.addAttribute("login",login);
+        else model.addAttribute("login",AuthenticationName());
         return "boss/boss-list";
     }
     //---------------------------------------------------
@@ -80,7 +68,6 @@ public class BossController {
         assert prnv("Admin ADD");
         if (x.getId() == null) { //создается объект
             if (! idaoBoss.isBoss(AuthenticationName())) return "redirect:/boss";
-//            x.setAffordability(1);
             idaoBoss.add(x);
             //отправим сообщение, что клиент добавлен
             z.addFlashAttribute("gooMsg","Новая запись администратора "+x.getName()+" создана");
@@ -128,7 +115,7 @@ public class BossController {
         assert prnv("ADD "+x.getId()+"\t"+x.getName());
         if (x.getId() == null){ //создается объект
             if (! idaoBoss.isBoss(AuthenticationName())) return "redirect:/boss";
-//            x.setBoss(idaoBoss.getBoss(AuthenticationName()));
+            x.setBoss(idaoBoss.getBoss(AuthenticationName()));
             idaoDriver.add(x);
             //отправим сообщение, что клиент добавлен
             z.addFlashAttribute("gooMsg","Новая запись водителя "+x.getName()+" создана");

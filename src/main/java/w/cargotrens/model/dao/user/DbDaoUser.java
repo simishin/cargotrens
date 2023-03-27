@@ -64,7 +64,8 @@ public class DbDaoUser implements IDaoUser{
         return userRepository.findByLogin(login) != null;
     }
     @Override
-    public Integer getIRole(String login) {
+    public int getIRole(String login) {
+        if (login==null)  return ERole.GUEST.ordinal();
         if (login.isBlank()) return ERole.GUEST.ordinal();
         prnv("~"+login);
         User y = userRepository.findByLogin(login);
