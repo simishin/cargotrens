@@ -7,9 +7,18 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import w.cargotrens.model.dao.dispatcher.IdaoDispatcher;
 import w.cargotrens.model.dao.driver.IdaoDriver;
+import w.cargotrens.model.dao.order.IdaoOrder;
+import w.cargotrens.model.dao.order.OrderTemp;
+import w.cargotrens.model.dao.user.IDaoUser;
 import w.cargotrens.model.entity.Driver;
+import w.cargotrens.model.entity.Order;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import static w.cargotrens.model.entity.User.AuthenticationName;
 import static w.cargotrens.utilits.Loger.prnv;
 
 @Controller
@@ -17,13 +26,22 @@ import static w.cargotrens.utilits.Loger.prnv;
 public class DriverController {
     @Autowired
     private IdaoDriver dao;
-
+    @Autowired
+    private IdaoOrder idaoOrder;
+    @Autowired
+    private IdaoDispatcher idaoDispatcher;
+    @Autowired
+    private IDaoUser iDaoUser;
 
     @GetMapping("")
     public String  listAll(Model model){
+        List<OrderTemp> elms = new ArrayList<>();
+        for (Order x : idaoOrder.findAll()) elms.add(new OrderTemp(x));
+
 //        List<Order> x = dao.findAll();
         assert prnv("---\t"+dao.findAll());
-        model.addAttribute("elms",dao.findAll());
+        model.addAttribute("elms",elms);
+        model.addAttribute("irole",iDaoUser.getIRole(AuthenticationName()));
         return "driver/driver-list";
     }
     //---------------------------------------------------
