@@ -70,15 +70,6 @@ public class DbDaoOrder implements IdaoOrder {
         Order z = repository.save(x);
         repository.deleteById(q);
         return z;
-//        assert prnv("");
-//        //проверка на существование объекта
-//        for (Order x: repository.findAll())
-//            if (x.equals(item)) {//есть такой элемент => edit
-//                assert prnq("есть такой элемент по имени " + x.getId() + " = " + item.getId());
-//                x.merge(item);
-//                return repository.save(x);
-//            }
-//        return repository.save(item);
     }//update
 
     @Override
@@ -92,8 +83,17 @@ public class DbDaoOrder implements IdaoOrder {
     }
 
     @Override
-    public boolean setStatus(Integer id, EStatus eStatus) {
+    public boolean setStatus(int id, EStatus eStatus) {
         if (repository.findById(id).isEmpty()) return false;
+        Order x = findById(id).orElse(null);
+        if (x == null) return false;
+        x.setStatus(eStatus.ordinal());
+        int q = x.getId();
+        x.setId(null);
+        if (repository.save(x) == null) return false;
+        repository.deleteById(q);
+        return true;
+
 //        repository.findById(id).get().setStatus(delivered.ordinal());
 //        Order x = new Order();
 //        x = repository.findById(id).get();
@@ -101,18 +101,18 @@ public class DbDaoOrder implements IdaoOrder {
 //        repository.save(x);
 ////        repository.save(x);
 
-        for (Order x: repository.findAll())
-            if (x.getId() == id) {//есть такой элемент => edit
-                assert prnq("есть такой элемент по имени " + x.getId() + " = " + x.getId());
-                repository.save(x);
-                break;
-            }
-
-        return true;
+//        for (Order x: repository.findAll())
+//            if (x.getId() == id) {//есть такой элемент => edit
+//                assert prnq("есть такой элемент по имени " + x.getId() + " = " + x.getId());
+//                repository.save(x);
+//                break;
+//            }
+//
+//        return true;
     }
 
     @Override
-    public boolean isStatus(Integer id, EStatus eStatus) {
+    public boolean isStatus(int id, EStatus eStatus) {
         if (repository.findById(id).isEmpty()) return false;
         return repository.findById(id).get().getStatus() == eStatus.ordinal();
     }

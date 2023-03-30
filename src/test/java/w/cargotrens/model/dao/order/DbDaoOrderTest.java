@@ -70,9 +70,11 @@ class DbDaoOrderTest {
     @Test
     void setStatusAndIsStatus(){
         System.out.println("----- Start Test DbDaoOrderTest");
-        int id =3;
+        int id =13;
         assertTrue(daoOrder.findById(id).isPresent(),"не существует");
-        daoOrder.setStatus(id, EStatus.CONVEYED);
-
+        assertFalse(daoOrder.setStatus(1,EStatus.CONVEYED));
+        String s = daoOrder.findById(id).get().getName();
+        assertTrue(daoOrder.setStatus(id, EStatus.CONVEYED),"****");
+        assertEquals(EStatus.CONVEYED.ordinal(),  daoOrder.findById(s).get().getStatus());
     }
 }
