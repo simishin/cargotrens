@@ -48,12 +48,17 @@ public class Order {
     @JoinColumn(name = "dispatcher_id")
     private Dispatcher dispatcher;
 
-    public Order() { this.status= EStatus.PREP.ordinal(); }
+    public Order() {
+        this.status= EStatus.PREP.ordinal();
+    }
 
     public Order(String name, Integer status, Dispatcher dispatcher) {
         this.name = name;
         this.status = status;
         this.dispatcher = dispatcher;
+        this.description = "";
+        this.loadingPlace = "";
+        this.destination = "";
     }
 
     public Integer  getId() { return id; }
@@ -88,20 +93,23 @@ public class Order {
     public void merge(Order x){
         assert prnv("+++");
         if (this.status > EStatus.SHAPED.ordinal()) return; //защита доставляемого Заказа
-        if (! x.name.isBlank()) this.name=x.name;
-        if (! x.description.isBlank()) this.description=x.description;
-        if (x.orientation >= 0 && !x.orientation.equals(this.orientation)) this.orientation = x.orientation;
-        if (x.status >= 0 ) this.status = x.status;
-        if (x.gross >= 0 ) this.gross = x.gross;
-        if (x.dimension >= 0 ) this.dimension = x.dimension;
-        if (! x.loadingPlace.isBlank()) this.loadingPlace=x.loadingPlace;
-        if (! x.destination.isBlank()) this.destination=x.destination;
-        if (    ! x.name.isBlank()
-                && x.orientation >= 0
-                && x.gross >= 0
-                && x.dimension >= 0
-                && ! x.loadingPlace.isBlank()
-                && ! x.destination.isBlank()
+        if (x.getName() != null)
+            if (! x.name.isBlank()) this.name=x.name;
+        if (x.getDispatcher() != null )
+            if (! x.description.isBlank()) this.description=x.description;
+        if (x.orientation != null) this.orientation = x.orientation;
+        if (x.gross != null ) this.gross = x.gross;
+        if (x.dimension != null ) this.dimension = x.dimension;
+        if ((x.getLoadingPlace() != null))
+            if (! x.loadingPlace.isBlank()) this.loadingPlace=x.loadingPlace;
+        if ( x.getDestination() != null)
+            if (! x.destination.isBlank()) this.destination=x.destination;
+        if (    ! this.name.isBlank()
+                && this.orientation != null
+                && this.gross != null
+                && this.dimension != null
+                && ! this.loadingPlace.isBlank()
+                && ! this.destination.isBlank()
             ) this.status = EStatus.SHAPED.ordinal();
         else this.status = EStatus.PREP.ordinal();
     }//merge

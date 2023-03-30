@@ -1,5 +1,7 @@
 package w.cargotrens.model.dao.order;
 import org.springframework.stereotype.Service;
+import w.cargotrens.model.EStatus;
+import w.cargotrens.model.entity.Boss;
 import w.cargotrens.model.entity.Order;
 import java.util.List;
 import java.util.Optional;
@@ -45,19 +47,6 @@ public class DbDaoOrder implements IdaoOrder {
             }
         return false;
     }
-
-    @Override
-    public Order update(Order item) {
-        assert prnv("");
-        //проверка на существование объекта
-        for (Order x: repository.findAll())
-            if (x.equals(item)) {//есть такой элемент => edit
-                assert prnq("есть такой элемент по имени " + x.getId() + " = " + item.getId());
-                x.merge(item);
-                return repository.save(x);
-            }
-        return repository.save(item);
-    }//update
     @Override
     public Order add(Order item) {
         assert prnv("");
@@ -67,6 +56,32 @@ public class DbDaoOrder implements IdaoOrder {
     }
 
     @Override
+    public Order update(Order item) {
+        prnv("-----");
+        if (item == null) return null;
+        Order x = findById(item.getName()).orElse(null);
+        if (x == null) return null;
+        x.merge(item);
+        prnq("---"+x.getId()+"\t"+x.getName()+"\t"+x.getStatus()+"\t"
+//                +x.getDispatcher().getId()
+        );
+        int q = x.getId();
+        x.setId(null);
+        Order z = repository.save(x);
+        repository.deleteById(q);
+        return z;
+//        assert prnv("");
+//        //проверка на существование объекта
+//        for (Order x: repository.findAll())
+//            if (x.equals(item)) {//есть такой элемент => edit
+//                assert prnq("есть такой элемент по имени " + x.getId() + " = " + item.getId());
+//                x.merge(item);
+//                return repository.save(x);
+//            }
+//        return repository.save(item);
+    }//update
+
+    @Override
     public Integer countReady() {
         return (int) ((List<Order>) repository.findAll()).stream().filter(s -> s.getDriver() == null).count();
     }
@@ -74,5 +89,31 @@ public class DbDaoOrder implements IdaoOrder {
     @Override
     public Integer countDeliver() {
         return (int) ((List<Order>) repository.findAll()).stream().filter(s -> s.getDriver() != null).count();
+    }
+
+    @Override
+    public boolean setStatus(Integer id, EStatus eStatus) {
+        if (repository.findById(id).isEmpty()) return false;
+//        repository.findById(id).get().setStatus(delivered.ordinal());
+//        Order x = new Order();
+//        x = repository.findById(id).get();
+//        x.setStatus(eStatus.ordinal());
+//        repository.save(x);
+////        repository.save(x);
+
+        for (Order x: repository.findAll())
+            if (x.getId() == id) {//есть такой элемент => edit
+                assert prnq("есть такой элемент по имени " + x.getId() + " = " + x.getId());
+                repository.save(x);
+                break;
+            }
+
+        return true;
+    }
+
+    @Override
+    public boolean isStatus(Integer id, EStatus eStatus) {
+        if (repository.findById(id).isEmpty()) return false;
+        return repository.findById(id).get().getStatus() == eStatus.ordinal();
     }
 }//class DbDaoOrder
