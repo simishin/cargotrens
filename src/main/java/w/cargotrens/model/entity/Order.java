@@ -114,4 +114,20 @@ public class Order {
         else this.status = EStatus.PREP.ordinal();
     }//merge
 
+    @Override
+    public String toString() {
+        return "Order{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", status=" + status +
+                ", gross=" + gross +
+                ", dimension=" + dimension +
+                ", loadingPlace='" + loadingPlace + '\'' +
+                ", destination='" + destination + '\'' +
+                ", orientation=" + orientation +
+                ", driver=" + ( driver == null ? "~" : "+") +
+                ", dispatcher=" + (dispatcher == null ? "~" : "+") +
+                '}';
+    }
 }//class Order

@@ -69,4 +69,9 @@ public class User {
         if (login.equals("anonymousUser")) return null;
        return login;
     }
+    public static String AuthenticationLogin(){
+        if (AuthenticationName() == null) return "Вы не представились";
+        return AuthenticationName();
+    }
+
 }//class User

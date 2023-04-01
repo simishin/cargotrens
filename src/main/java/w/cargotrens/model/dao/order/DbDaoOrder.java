@@ -59,7 +59,8 @@ public class DbDaoOrder implements IdaoOrder {
     public Order update(Order item) {
         prnv("-----");
         if (item == null) return null;
-        Order x = findById(item.getName()).orElse(null);
+//        Order x = findById(item.getName()).orElse(null);
+        Order x = findById(item.getId()).orElse(null);
         if (x == null) return null;
         x.merge(item);
         prnq("---"+x.getId()+"\t"+x.getName()+"\t"+x.getStatus()+"\t"
@@ -67,9 +68,11 @@ public class DbDaoOrder implements IdaoOrder {
         );
         int q = x.getId();
         x.setId(null);
-        Order z = repository.save(x);
+        prnq("+++"+x.toString());
+        repository.save(x);
+        prnq("+++++");
         repository.deleteById(q);
-        return z;
+        return null;
     }//update
 
     @Override

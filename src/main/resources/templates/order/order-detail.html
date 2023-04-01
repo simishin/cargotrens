@@ -12,7 +12,7 @@
     <h1>Дополнительная информация о Заказе</h1>
     <a th:href="@{/order}" class="btn btn-danger">Cancel</a>
     <p class="text-primary text-left"><pre> <small>Код заказа</small></pre><mark>[[${elm.name}]]</mark></p>
-    <p class="text-success text-left"><pre> <small>Автор Заказа</small></pre><mark>[[${elm.dispatcher.name}]]</mark></p>
+    <p class="text-success text-left"><pre> <small>Автор Заказа</small></pre><mark>***************</mark></p>
 
     <p class="text-success text-left"><pre> <small>Состояние Заказа</small></pre>
     <p th:switch="${elm.status}">

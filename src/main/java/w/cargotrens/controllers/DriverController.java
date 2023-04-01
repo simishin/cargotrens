@@ -21,6 +21,7 @@ import w.cargotrens.model.entity.Order;
 import java.util.ArrayList;
 import java.util.List;
 
+import static w.cargotrens.model.entity.User.AuthenticationLogin;
 import static w.cargotrens.model.entity.User.AuthenticationName;
 import static w.cargotrens.utilits.Loger.prnv;
 
@@ -45,6 +46,7 @@ public class DriverController {
         assert prnv("---\t"+dao.findAll());
         model.addAttribute("elms",elms);
         model.addAttribute("irole",iDaoUser.getIRole(AuthenticationName()));
+        model.addAttribute("login",AuthenticationLogin());
         return "driver/driver-list";
     }
     //---------------------------------------------------

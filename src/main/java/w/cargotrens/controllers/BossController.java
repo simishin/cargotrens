@@ -20,6 +20,7 @@ import w.cargotrens.model.entity.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static w.cargotrens.model.entity.User.AuthenticationLogin;
 import static w.cargotrens.model.entity.User.AuthenticationName;
 import static w.cargotrens.utilits.Loger.prnq;
 import static w.cargotrens.utilits.Loger.prnv;
@@ -50,9 +51,7 @@ public class BossController {
         }
         model.addAttribute("elms",q);
         model.addAttribute("irole",iRole);
-        if (AuthenticationName() == null)
-            model.addAttribute("login","Вы не представились");
-        else model.addAttribute("login",AuthenticationName());
+        model.addAttribute("login",AuthenticationLogin());
         return "boss/boss-list";
     }
     //---------------------------------------------------

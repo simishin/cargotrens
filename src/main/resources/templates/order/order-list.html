@@ -10,7 +10,7 @@
     <header th:insert="~{layout/page-layouts.html :: header}"></header>
     <div class="container-fluid">
         <h2 class="text-center">Список Заказов</h2>
-        <p class="bg-info"><span class="badge">===[[${irole}]]===</span></p>
+        <p class="bg-info"><span class="badge">===[[${irole}]]=== (Представился как : [[${login}]] )</span></p>
 
 
         <!--        функционал доступен только для администратора-->
@@ -39,14 +39,15 @@
                             <td>[[${elm.id}]]</td>
                             <td>[[${elm.name}]]</td>
                             <td>[[${elm.description}]]</td>
+<!--                            normall-->
                             <td th:switch="${elm.status}">
                                 <span th:case="1" class="text-danger" th:text="сформирован"></span>
-                                <span th:case="2" class="text-primary" th:text="передан ${elm.driver.name}"></span>
+                                <span th:case="2" class="text-primary" th:text="передан "></span>
                                 <span th:case="3" class="text-success" th:text="доставлен"></span>
                                 <span th:case="0" class="text-muted" th:text="подготавливается"></span>
                             </td>
                             <td>
-                                <small>[[${elm.dispatcher.name}]]</small>
+
 
                             </td>
                             <td th:if="${irole}=='2'">

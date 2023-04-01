@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static w.cargotrens.utilits.Loger.prnq;
 
 @SpringBootTest
@@ -19,7 +20,7 @@ class DbDaoOrderTest {
     @Autowired
     private DbDaoOrder daoOrder;
     @Autowired
-    private DbDaoDispatcher u;
+    private DbDaoDispatcher daoDispatcher;
 
     @Test
     void findAll() {
@@ -46,19 +47,23 @@ class DbDaoOrderTest {
 
     @Test
     void update() {
+        String name = "ord010423";
+        Order tst = daoOrder.findById(name).orElse(null);
+        assertNotNull(tst,"Элемен НЕ существут");
+        tst.setDescription("ere");
         System.out.println("----- Start Test DbDaoOrderTest UPDATE");
-        Order x = new Order();
-        x.setName("ord1");
-        x.setStatus(2);
-        prnq("---"+x.getId()+"\t"+x.getName()+"\t"+x.getStatus()+"\t");
-        daoOrder.update(x);
+        prnq("---"+tst.toString());
+        daoOrder.update(tst);
+//        ---Order{id=16, name='ord010423', description='222', status=0,
+//        gross=null, dimension=null, loadingPlace='null', destination='null',
+//        orientation=null, driver=~, dispatcher=~}
     }
 
     @Test
     void add() {
         System.out.println("----- Start Test DbDaoOrderTest");
-        System.out.println(""+u.findAll().size());
-        Optional<Dispatcher> i = u.findById(18);
+        System.out.println(""+ daoDispatcher.findAll().size());
+        Optional<Dispatcher> i = daoDispatcher.findById(18);
         System.out.println(""+i.get().getName());
 //        assertNull(i.get(),"@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
         assertNotNull(i.get(),"@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
