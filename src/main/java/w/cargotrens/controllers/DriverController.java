@@ -40,10 +40,7 @@ public class DriverController {
     @GetMapping("")
     public String  listAll(Model model){
         List<OrderTemp> elms = new ArrayList<>();
-        for (Order x : idaoOrder.findAll()) elms.add(new OrderTemp(x));
-
-//        List<Order> x = dao.findAll();
-        assert prnv("---\t"+dao.findAll());
+        for (Order x : idaoOrder.findAll()) elms.add(new OrderTemp(x,"",""));
         model.addAttribute("elms",elms);
         model.addAttribute("irole",iDaoUser.getIRole(AuthenticationName()));
         model.addAttribute("login",AuthenticationLogin());

@@ -54,7 +54,8 @@ public class Order {
 
 
     public Order() {
-        this.status= EStatus.PREP.ordinal();
+        this(null,null, EStatus.PREP.ordinal(),0);
+
     }
 
     public Order(Integer id, String name, Integer status, Integer dispatcher) {
@@ -103,30 +104,21 @@ public class Order {
     public Order merge(Order x){
         Order y = new Order(null, this.name, EStatus.PREP.ordinal(), this.iDispatcher);
         assert prnv("+++");
-//        if (this.status > EStatus.SHAPED.ordinal()) return; //защита доставляемого Заказа
-//        if (x.getName() != null)
-//            if (! x.name.isBlank()) this.name=x.name;
-        y.description = this.description;
-        if (x.getDescription() != null)
-            if (! x.description.isBlank())
-                y.description=x.description;
-//        if (x.getiDispatcher() != null )
-//            if (! x.description.isBlank()) this.description=x.description;
-//        if (x.orientation != null) this.orientation = x.orientation;
-//        if (x.gross != null ) this.gross = x.gross;
-//        if (x.dimension != null ) this.dimension = x.dimension;
-//        if ((x.getLoadingPlace() != null))
-//            if (! x.loadingPlace.isBlank()) this.loadingPlace=x.loadingPlace;
-//        if ( x.getDestination() != null)
-//            if (! x.destination.isBlank()) this.destination=x.destination;
-//        if (    ! this.name.isBlank()
-//                && this.orientation != null
-//                && this.gross != null
-//                && this.dimension != null
-//                && ! this.loadingPlace.isBlank()
-//                && ! this.destination.isBlank()
-//            ) this.status = EStatus.SHAPED.ordinal();
-//        else this.status = EStatus.PREP.ordinal();
+        y.description = x.description.isBlank() ? this.description : x.description;
+        y.loadingPlace = x.loadingPlace.isBlank() ? this.loadingPlace : x.loadingPlace;
+        y.destination = x.destination.isBlank() ? this.destination : x.destination;
+        y.orientation = x.orientation == null   ? this.orientation : x.orientation;
+        y.gross =       x.gross == null         ? this.gross : x.gross;
+        y.dimension =   x.dimension == null     ? this.dimension : x.dimension;
+
+        if (    ! this.name.isBlank()
+                && this.orientation != null
+                && this.gross != null
+                && this.dimension != null
+                && ! this.loadingPlace.isBlank()
+                && ! this.destination.isBlank()
+            ) this.status = EStatus.SHAPED.ordinal();
+        else this.status = EStatus.PREP.ordinal();
         return y;
     }//merge
 
@@ -142,8 +134,8 @@ public class Order {
                 "\t load:" + loadingPlace + '\'' +
                 "\t dest:" + destination + '\'' +
                 "\t or:" + orientation +
-                "\t drv" + ( iDriver == null ? "~" : iDriver) +
-                "\t disp:" + (iDispatcher == null ? "~" : iDispatcher) +
+                "\t drv" + ( iDriver == null ? "null" : iDriver) +
+                "\t disp:" + (iDispatcher == null ? "null" : iDispatcher) +
                 '}';
     }
 }//class Order

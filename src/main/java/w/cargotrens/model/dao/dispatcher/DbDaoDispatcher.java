@@ -81,9 +81,13 @@ public class DbDaoDispatcher implements IdaoDispatcher{
     @Override
     public int getDispatcher(String login) {
         Integer i =dbDaoUser.getPersonId(login);
-        if (i==null)  return -1;
-        if (repository.findById(i).orElse(null)==null) return -2;
-        if (repository.findById(i).orElse(null).getBoss()==null) return -3;
-        return  repository.findById(i).orElse(null).getBoss().getId();
+        return  i == null ? 0: i;
+    }
+    @Override
+    public String getDispatcher(Integer id){
+        if (id == null) return "~~~";
+        prnv("~"+id);
+        if (! repository.existsById(id)) return "---";
+        return repository.findById(id).get().getName();
     }
 }

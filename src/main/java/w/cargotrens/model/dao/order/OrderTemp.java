@@ -1,23 +1,31 @@
 package w.cargotrens.model.dao.order;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import w.cargotrens.model.dao.driver.IdaoDriver;
 import w.cargotrens.model.entity.Order;
 
-public record OrderTemp(int id, String name, int status, Float gross,
-                        Float dimension, Integer orientation, String dispatcher, String driver) {
-    public OrderTemp(Order obj) {
-        this(obj.getId(),obj.getName(),obj.getStatus(),obj.getGross(),obj.getDimension(),
-                obj.getOrientation(),
-//                ,obj.getDispatcher().getName()
-//                ,(obj.getDriver() == null ? "---" : obj.getDriver().getName())
-                "--", "---"
+public record OrderTemp(int id, String name, int status,
+                        Float gross, // общий вес
+                        Float dimension,  //габариты
+                        Integer orientation, //общее направление
+                        String dispatcher,
+                        String driver,
+                        String loadingPlace, //место погрузки
+                        String destination, //место назначения
+                        String description
+) {
+
+    public OrderTemp(Order obj, String dispatcher, String driver) {
+        this(obj.getId(),obj.getName(),obj.getStatus() == null ? 0: obj.getStatus() ,
+                obj.getGross(), // общий вес
+                obj.getDimension(),//габариты
+                obj.getOrientation(),//общее направление
+                dispatcher,
+                driver,
+                obj.getLoadingPlace(), //место погрузки
+                obj.getDestination(), //место назначения
+                obj.getDescription()
         );
     }
-//    public int      getId() {return id;}
-//    public String   getName() {return name;}
-//    public int      getStatus() {return status;}
-//    public Float    getGross() {return gross;}
-//    public Float    getDimension() {return dimension;}
-//    public Integer  getOrientation() {return orientation;}
-//    public String   getDispatcher() {return dispatcher;}
-//    public String   getDriver() {return driver;}
-}
+
+ }

@@ -5,4 +5,5 @@ import w.cargotrens.model.entity.Dispatcher;
 
 public interface IdaoDispatcher  extends IdaoBase<Dispatcher> {
     int getDispatcher(String login);
+    String getDispatcher(Integer id);
 }

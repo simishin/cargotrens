@@ -11,9 +11,14 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import w.cargotrens.model.ERole;
 import w.cargotrens.model.EStatus;
 import w.cargotrens.model.dao.dispatcher.IdaoDispatcher;
+import w.cargotrens.model.dao.driver.IdaoDriver;
 import w.cargotrens.model.dao.order.IdaoOrder;
+import w.cargotrens.model.dao.order.OrderTemp;
 import w.cargotrens.model.dao.user.IDaoUser;
 import w.cargotrens.model.entity.Order;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static w.cargotrens.model.entity.User.AuthenticationLogin;
 import static w.cargotrens.model.entity.User.AuthenticationName;
@@ -28,13 +33,31 @@ public class OrderController {
     @Autowired
     private IdaoDispatcher idaoDispatcher;
     @Autowired
+    private IdaoDriver idaoDriver;
+    @Autowired
     private IDaoUser iDaoUser;
 
     @GetMapping("")
     public String  listAll(Model model){
-//        List<Order> x = dao.findAll();
         assert prnv("---\t"+iDaoUser.getIRole(AuthenticationName()));
-        model.addAttribute("elms",dao.findAll());
+        List<OrderTemp> elms = new ArrayList<>();
+        for (Order x : dao.findAll()) {
+            String dispatcher = "***";
+            if ( x.getiDispatcher() != null)
+                prnv("@ "+dispatcher+"\t"+idaoDispatcher.getDispatcher(x.getiDispatcher()) );
+                dispatcher = idaoDispatcher.findById(x.getiDispatcher()).isPresent() ?
+                    (idaoDispatcher.findById(x.getiDispatcher()).get().getName()==null ? "---" :"+++"
+                    ) : "~~~";
+            String driver = "";
+//            dispatcher = "***";
+
+
+            elms.add(new OrderTemp(x,dispatcher == null ? "---" : dispatcher,driver == null ? "---": driver ));
+        }
+        model.addAttribute("elms",elms);
+
+
+//        model.addAttribute("elms",dao.findAll());
         model.addAttribute("irole",iDaoUser.getIRole(AuthenticationName()));
         model.addAttribute("login",AuthenticationLogin());
         return "order/order-list";
@@ -51,8 +74,10 @@ public class OrderController {
     @PostMapping("/add")
     public String addNewEtem(Order x, RedirectAttributes z){
         if (! ERole.DISPATCHER.is()) return "redirect:/order";
+//        if (idaoDispatcher.)
         x.setiDispatcher(idaoDispatcher.getDispatcher(AuthenticationName()));
         if (x.getId() == null) { //создается объект
+            prnv("? "+x.toString());
             if (dao.add(x) == null)
                 z.addFlashAttribute("gooMsg","Новая запись НЕ создана");
             else
@@ -63,32 +88,20 @@ public class OrderController {
             assert prnq("~"+x.getId()+"\t"+x.getName()+"\t"+x.getStatus()+"\t"
                     +x.getiDispatcher()+"\t"+x.getiDriver()
             );
-
-            String name = "ord010423";
-            Order tst = dao.findById(name).orElse(null);
-            tst.setDescription("ereqqqq");
-            dao.update(x);
-//            if (dao.update(x) != null )
-//                z.addFlashAttribute("gooMsg","запись Отредактированна "+x.getName()+" создана");
-//            else
-//                z.addFlashAttribute("gooMsg","Это не Ваш Заказ "+x.getName()+". Изменение отклонено ");
+            if (dao.update(x) )
+                z.addFlashAttribute("gooMsg","запись  "+x.getName()+" Отредактированна");
+            else
+                z.addFlashAttribute("gooMsg","Это не Ваш Заказ "+x.getName()+". Изменение отклонено ");
         }
         return "redirect:/order";
     }
     //------------------------------------------------------
     @GetMapping("/update/{id:\\d+}")
     public String getUpdateForm(@PathVariable Integer id, Model model){
-//        Order y = dao.findById(id).get();
         model.addAttribute("elm",dao.findById(id).get());
         model.addAttribute("act","U");//действие - редактирование
         return  "order/order-form";
     }
-//    @PostMapping("/update")
-//    public String getUpdateForm(Order x){
-//        assert prnv("Order UPDATE");
-//        dao.update(x);
-//        return "redirect:/order";
-//    }
     //----------------------------------------------------------
     @GetMapping("/delete/{id:\\d+}")
     public String delete(@PathVariable Integer id, RedirectAttributes z){

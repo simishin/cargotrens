@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static w.cargotrens.utilits.Loger.prnq;
 
 @SpringBootTest

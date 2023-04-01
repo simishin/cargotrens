@@ -30,6 +30,7 @@ public class DbDaoUser implements IDaoUser{
         if (login==null)  return null;
         if (login.isBlank()) return null;
         if (login.equals("anonymousUser")) return null;
+        if (userRepository.findByLogin(login)==null)  return null;
         if (userRepository.findByLogin(login).getPerson()==null)  return null;
         return userRepository.findByLogin(login).getPerson().getId();
     }

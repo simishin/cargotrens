@@ -49,38 +49,23 @@ public class DbDaoOrder implements IdaoOrder {
     }
     @Override
     public Order add(Order item) {
-        assert prnv("");
-        for (Order x: repository.findAll())
-            if (x.equals(item)) return null;
+
+        if (item == null) return null;
+        assert prnv("Add "+item.toString());
+        if (item.getId() != null)
+            if (findById(item.getId()).isPresent()) return null;
+
+//        for (Order x: repository.findAll())
+//            if (x.equals(item)) return null;
         return repository.save(item);
     }
 
     @Override
     public boolean update(Order item) {
-//        Order y = null;
-//        for (Order x: repository.findAll())
-//            if (x.equals(item)) {
-//                prnv("~"+x.toString());
-//                y = x.merge(item);
-//                prnv("="+x.toString());
-//                repository.save(y);
-//            }
-
-
-//        return false;
-
-
         if (item == null) return false;
-////        Order x = findById(item.getName()).orElse(null);
         Order x = findById(item.getId()).orElse(null);
         if (x == null) return false;
-        Order y = x.merge(item);
-//        prnq("="+x.toString());
-//        int q = x.getId();
-//        x.setId(null);
-        prnq("+++"+y.toString());
-        repository.save(y);
-////        prnq("+++++");
+        if (repository.save(x.merge(item)) !=null)
         repository.deleteById(x.getId());
         return true;
     }//update

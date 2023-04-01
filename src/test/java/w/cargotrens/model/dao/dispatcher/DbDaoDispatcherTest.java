@@ -4,7 +4,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import w.cargotrens.model.entity.Dispatcher;
-import w.cargotrens.model.entity.Order;
 
 import java.util.List;
 
@@ -56,7 +55,19 @@ class DbDaoDispatcherTest {
     void getDispatcher() {
         String login = "dispt";
         assertTrue(daoDispatcher.findById(login).isPresent(),"Элемен НЕ существут");
+        assertEquals(0, daoDispatcher.getDispatcher(""));
+        assertEquals(0, daoDispatcher.getDispatcher((String) null));
+        assertEquals(0, daoDispatcher.getDispatcher("login"));
         System.out.println("----- Start Test DbDaoDispatcherTest");
-        assertEquals(22, daoDispatcher.getDispatcher(login));
+        assertEquals(62, daoDispatcher.getDispatcher(login));
     }
+    @Test
+    void getDispatcherTest(){
+//        assertEquals("---", daoDispatcher.getDispatcherId(null);
+        assertEquals("---", daoDispatcher.getDispatcher(22));
+        Integer i =62;
+        assertEquals("dispt", daoDispatcher.getDispatcher(i));
+
+    }
+
 }
