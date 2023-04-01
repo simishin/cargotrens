@@ -78,18 +78,22 @@ public class DbDaoDriver implements IdaoDriver{
     public Integer count(){ return ((List<Driver>) repository.findAll()).size(); }
 
     @Override
-    public Driver getDriver(String login) {
-        Integer i =dbDaoUser.getPersonId(login);
-        if (i==null)  return null;
-        return  repository.findById(i).orElse(null);
-    }
-
-    @Override
     public boolean isIms(String login, Integer id) { //это Я
         if (id == null) return false;
         if (login.isBlank())  return false;
         if (repository.findById(id).isEmpty()) return false;
         return repository.findById(id).get().getUser().getLogin().equals(login);
+    }
+
+    @Override
+    public int getDriver(String login){
+        return dbDaoUser.getPersonId(login);
+    }
+    @Override
+    public String getDriver(Integer id) {
+        if (id == null) return "---";
+        if (! repository.existsById(id)) return "<???>";
+        return repository.findById(id).get().getName();
     }
 
 }

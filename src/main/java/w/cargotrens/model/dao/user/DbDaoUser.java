@@ -26,12 +26,12 @@ public class DbDaoUser implements IDaoUser{
     }
 
     @Override
-    public Integer getPersonId(String login) {
-        if (login==null)  return null;
-        if (login.isBlank()) return null;
-        if (login.equals("anonymousUser")) return null;
-        if (userRepository.findByLogin(login)==null)  return null;
-        if (userRepository.findByLogin(login).getPerson()==null)  return null;
+    public int getPersonId(String login) {
+        if (login==null)  return 0;
+        if (login.isBlank()) return 0;
+        if (login.equals("anonymousUser")) return 0;
+        if (userRepository.findByLogin(login)==null)  return 0;
+        if (userRepository.findByLogin(login).getPerson()==null)  return 0;
         return userRepository.findByLogin(login).getPerson().getId();
     }
 

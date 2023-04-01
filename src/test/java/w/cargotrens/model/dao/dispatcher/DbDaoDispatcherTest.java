@@ -51,16 +51,16 @@ class DbDaoDispatcherTest {
     void isIms() {
     }
 
-    @Test
-    void getDispatcher() {
-        String login = "dispt";
-        assertTrue(daoDispatcher.findById(login).isPresent(),"Элемен НЕ существут");
-        assertEquals(0, daoDispatcher.getDispatcher(""));
-        assertEquals(0, daoDispatcher.getDispatcher((String) null));
-        assertEquals(0, daoDispatcher.getDispatcher("login"));
-        System.out.println("----- Start Test DbDaoDispatcherTest");
-        assertEquals(62, daoDispatcher.getDispatcher(login));
-    }
+//    @Test
+//    void getDispatcher() {
+//        String login = "dispt";
+//        assertTrue(daoDispatcher.findById(login).isPresent(),"Элемен НЕ существут");
+//        assertEquals(0, daoDispatcher.getDispatcher(""));
+//        assertEquals(0, daoDispatcher.getDispatcher((String) null));
+//        assertEquals(0, daoDispatcher.getDispatcher("login"));
+//        System.out.println("----- Start Test DbDaoDispatcherTest");
+//        assertEquals(62, daoDispatcher.getDispatcher(login));
+//    }
     @Test
     void getDispatcherTest(){
 //        assertEquals("---", daoDispatcher.getDispatcherId(null);

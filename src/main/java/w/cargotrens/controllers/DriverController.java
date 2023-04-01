@@ -13,13 +13,8 @@ import w.cargotrens.model.EStatus;
 import w.cargotrens.model.dao.dispatcher.IdaoDispatcher;
 import w.cargotrens.model.dao.driver.IdaoDriver;
 import w.cargotrens.model.dao.order.IdaoOrder;
-import w.cargotrens.model.dao.order.OrderTemp;
 import w.cargotrens.model.dao.user.IDaoUser;
 import w.cargotrens.model.entity.Driver;
-import w.cargotrens.model.entity.Order;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static w.cargotrens.model.entity.User.AuthenticationLogin;
 import static w.cargotrens.model.entity.User.AuthenticationName;
@@ -39,9 +34,7 @@ public class DriverController {
 
     @GetMapping("")
     public String  listAll(Model model){
-        List<OrderTemp> elms = new ArrayList<>();
-        for (Order x : idaoOrder.findAll()) elms.add(new OrderTemp(x,"",""));
-        model.addAttribute("elms",elms);
+        model.addAttribute("elms",idaoOrder.listOrders());
         model.addAttribute("irole",iDaoUser.getIRole(AuthenticationName()));
         model.addAttribute("login",AuthenticationLogin());
         return "driver/driver-list";
@@ -52,8 +45,6 @@ public class DriverController {
         assert prnv(" ");
         Driver x =  new Driver();
         model.addAttribute("elm",x);
-//        List<Order> y = dao.findAll();
-//        model.addAttribute("elms",y);
         return  "driver/driver-form";
     }
     @PostMapping("/add")
@@ -66,7 +57,6 @@ public class DriverController {
     @GetMapping("/update/{id:\\d+}")
     public String getUpdateForm(@PathVariable Integer id, Model model){
         assert prnv(" ");
-//        Order y = dao.findById(id).get();
         model.addAttribute("elm",dao.findById(id).get());
         return  "driver/driver-update";
     }
@@ -87,17 +77,9 @@ public class DriverController {
     @GetMapping("/delete/{id:\\d+}")
     public String delete(@PathVariable Integer id, RedirectAttributes z){
         assert prnv(" ");
-//        Order x = idaoOrder.findById(id).orElse(null);
-//        if (x == null) {
-//            z.addFlashAttribute("gooMsg","Заказ c id "+id+" не существует");
-//            return "redirect:/order";
-//        }
         if (ERole.BOSS.is() &&  idaoOrder.isStatus(id,EStatus.DELIVERED)
                 ||  ERole.DISPATCHER.is() &&  idaoOrder.isStatus(id,EStatus.PREP)) {
 
-//            if (ERole.BOSS.is() && EStatus.DELIVERED.is(x.getStatus())
-//                || ERole.DISPATCHER.is() && EStatus.PREP.is(x.getStatus()))
-//        {
             if (idaoOrder.delete(id))
                 z.addFlashAttribute("gooMsg", "Заказ (" + id + ") удален ");
             else z.addFlashAttribute("gooMsg", "Операция не прошла ! ");
@@ -116,34 +98,11 @@ public class DriverController {
     @GetMapping("/deliver/{id:\\d+}")
     public String deliver(@PathVariable Integer id, RedirectAttributes z){
         assert prnv(" ");
-//        Order x = idaoOrder.findById(id).orElse(null);
-//        if (x == null) {
-//            z.addFlashAttribute("gooMsg","Заказ c id "+id+" не существует");
-//            return "redirect:/order";
-//        }
         if (ERole.DRIVER.is() &&  idaoOrder.isStatus(id,EStatus.CONVEYED)  ) {
-//            if (ERole.DRIVER.is() && EStatus.CONVEYED.is(x.getStatus()) ) {
-
                 idaoOrder.setStatus(id,EStatus.DELIVERED);
         } else
             z.addFlashAttribute("gooMsg","Только водитель может " +
                     "отчетаться о доставке Заказа");
         return "redirect:/driver";
     }
-
-
-    /**
-     * не используется, а переадресуется на <a th:href="@{'/order/detail/'+${elm.id}}"
-     * @param id
-     * @param model
-     * @return
-     */
-//    @GetMapping("/detail/{id:\\d+}")
-//    public String detail(@PathVariable Integer id, Model model){
-//        assert prnv(" ");
-////        Order y =  dao.findById(id).get();
-//        model.addAttribute("elm",dao.findById(id).get());
-//        return  "driver/driver-detail";
-//    }
-
 }

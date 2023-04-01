@@ -5,5 +5,7 @@ import w.cargotrens.model.entity.Driver;
 
 public interface IdaoDriver  extends IdaoBase<Driver> {
     Integer count();
-    Driver getDriver(String login);
+
+    int getDriver(String login);
+    String getDriver(Integer id);
 }

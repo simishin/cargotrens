@@ -79,8 +79,8 @@ public class DbDaoBoss implements IdaoBoss{
     }
     @Override
     public Boss getBoss(String login) {
-        Integer i =dbDaoUser.getPersonId(login);
-        if (i==null)  return null;
+        int i =dbDaoUser.getPersonId(login);
+        if (i==0)  return null;
         return  repository.findById(i).orElse(null);
     }
     @Override

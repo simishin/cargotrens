@@ -13,12 +13,8 @@ import w.cargotrens.model.EStatus;
 import w.cargotrens.model.dao.dispatcher.IdaoDispatcher;
 import w.cargotrens.model.dao.driver.IdaoDriver;
 import w.cargotrens.model.dao.order.IdaoOrder;
-import w.cargotrens.model.dao.order.OrderTemp;
 import w.cargotrens.model.dao.user.IDaoUser;
 import w.cargotrens.model.entity.Order;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static w.cargotrens.model.entity.User.AuthenticationLogin;
 import static w.cargotrens.model.entity.User.AuthenticationName;
@@ -40,24 +36,7 @@ public class OrderController {
     @GetMapping("")
     public String  listAll(Model model){
         assert prnv("---\t"+iDaoUser.getIRole(AuthenticationName()));
-        List<OrderTemp> elms = new ArrayList<>();
-        for (Order x : dao.findAll()) {
-            String dispatcher = "***";
-            if ( x.getiDispatcher() != null)
-                prnv("@ "+dispatcher+"\t"+idaoDispatcher.getDispatcher(x.getiDispatcher()) );
-                dispatcher = idaoDispatcher.findById(x.getiDispatcher()).isPresent() ?
-                    (idaoDispatcher.findById(x.getiDispatcher()).get().getName()==null ? "---" :"+++"
-                    ) : "~~~";
-            String driver = "";
-//            dispatcher = "***";
-
-
-            elms.add(new OrderTemp(x,dispatcher == null ? "---" : dispatcher,driver == null ? "---": driver ));
-        }
-        model.addAttribute("elms",elms);
-
-
-//        model.addAttribute("elms",dao.findAll());
+        model.addAttribute("elms",dao.listOrders());
         model.addAttribute("irole",iDaoUser.getIRole(AuthenticationName()));
         model.addAttribute("login",AuthenticationLogin());
         return "order/order-list";
@@ -74,10 +53,9 @@ public class OrderController {
     @PostMapping("/add")
     public String addNewEtem(Order x, RedirectAttributes z){
         if (! ERole.DISPATCHER.is()) return "redirect:/order";
-//        if (idaoDispatcher.)
-        x.setiDispatcher(idaoDispatcher.getDispatcher(AuthenticationName()));
+        x.setiDispatcher(iDaoUser.getPersonId(AuthenticationName()));
         if (x.getId() == null) { //создается объект
-            prnv("? "+x.toString());
+            assert prnv("? "+x.toString());
             if (dao.add(x) == null)
                 z.addFlashAttribute("gooMsg","Новая запись НЕ создана");
             else
