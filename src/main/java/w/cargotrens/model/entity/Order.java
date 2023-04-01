@@ -57,10 +57,11 @@ public class Order {
         this.status= EStatus.PREP.ordinal();
     }
 
-    public Order(String name, Integer status, Dispatcher dispatcher) {
+    public Order(Integer id, String name, Integer status, Integer dispatcher) {
+        this.id = id;
         this.name = name;
         this.status = status;
-//        this.dispatcher = dispatcher;
+        this.iDispatcher = dispatcher;
         this.description = "";
         this.loadingPlace = "";
         this.destination = "";
@@ -99,44 +100,50 @@ public class Order {
         if (this.getId().equals(x.getId())) return true;
         return this.getName().equals(x.getName());
     }
-    public void merge(Order x){
+    public Order merge(Order x){
+        Order y = new Order(null, this.name, EStatus.PREP.ordinal(), this.iDispatcher);
         assert prnv("+++");
-        if (this.status > EStatus.SHAPED.ordinal()) return; //защита доставляемого Заказа
-        if (x.getName() != null)
-            if (! x.name.isBlank()) this.name=x.name;
-//        if (x.getDispatcher() != null )
+//        if (this.status > EStatus.SHAPED.ordinal()) return; //защита доставляемого Заказа
+//        if (x.getName() != null)
+//            if (! x.name.isBlank()) this.name=x.name;
+        y.description = this.description;
+        if (x.getDescription() != null)
+            if (! x.description.isBlank())
+                y.description=x.description;
+//        if (x.getiDispatcher() != null )
 //            if (! x.description.isBlank()) this.description=x.description;
-        if (x.orientation != null) this.orientation = x.orientation;
-        if (x.gross != null ) this.gross = x.gross;
-        if (x.dimension != null ) this.dimension = x.dimension;
-        if ((x.getLoadingPlace() != null))
-            if (! x.loadingPlace.isBlank()) this.loadingPlace=x.loadingPlace;
-        if ( x.getDestination() != null)
-            if (! x.destination.isBlank()) this.destination=x.destination;
-        if (    ! this.name.isBlank()
-                && this.orientation != null
-                && this.gross != null
-                && this.dimension != null
-                && ! this.loadingPlace.isBlank()
-                && ! this.destination.isBlank()
-            ) this.status = EStatus.SHAPED.ordinal();
-        else this.status = EStatus.PREP.ordinal();
+//        if (x.orientation != null) this.orientation = x.orientation;
+//        if (x.gross != null ) this.gross = x.gross;
+//        if (x.dimension != null ) this.dimension = x.dimension;
+//        if ((x.getLoadingPlace() != null))
+//            if (! x.loadingPlace.isBlank()) this.loadingPlace=x.loadingPlace;
+//        if ( x.getDestination() != null)
+//            if (! x.destination.isBlank()) this.destination=x.destination;
+//        if (    ! this.name.isBlank()
+//                && this.orientation != null
+//                && this.gross != null
+//                && this.dimension != null
+//                && ! this.loadingPlace.isBlank()
+//                && ! this.destination.isBlank()
+//            ) this.status = EStatus.SHAPED.ordinal();
+//        else this.status = EStatus.PREP.ordinal();
+        return y;
     }//merge
 
     @Override
     public String toString() {
         return "Order{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", status=" + status +
-                ", gross=" + gross +
-                ", dimension=" + dimension +
-                ", loadingPlace='" + loadingPlace + '\'' +
-                ", destination='" + destination + '\'' +
-                ", orientation=" + orientation +
-                ", driver=" + ( iDriver == null ? "~" : "+") +
-                ", dispatcher=" + (iDispatcher == null ? "~" : "+") +
+                "\ti:" + id +
+                "\t n:" + name + '\'' +
+                "\t dscr:" + description + '\'' +
+                "\t s:" + status +
+                "\t g:" + gross +
+                "\t dim:" + dimension +
+                "\t load:" + loadingPlace + '\'' +
+                "\t dest:" + destination + '\'' +
+                "\t or:" + orientation +
+                "\t drv" + ( iDriver == null ? "~" : iDriver) +
+                "\t disp:" + (iDispatcher == null ? "~" : iDispatcher) +
                 '}';
     }
 }//class Order

@@ -48,12 +48,14 @@ class DbDaoOrderTest {
     @Test
     void update() {
         String name = "ord010423";
+        String str = "ert";
         Order tst = daoOrder.findById(name).orElse(null);
         assertNotNull(tst,"Элемен НЕ существут");
-        tst.setDescription("ere");
+        tst.setDescription(str);
         System.out.println("----- Start Test DbDaoOrderTest UPDATE");
         prnq("---"+tst.toString());
-        daoOrder.update(tst);
+        assertTrue(daoOrder.update(tst));
+        assertEquals(str, daoOrder.findById(name).get().getDescription());
 //        ---Order{id=16, name='ord010423', description='222', status=0,
 //        gross=null, dimension=null, loadingPlace='null', destination='null',
 //        orientation=null, driver=~, dispatcher=~}
@@ -67,7 +69,7 @@ class DbDaoOrderTest {
         System.out.println(""+i.get().getName());
 //        assertNull(i.get(),"@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
         assertNotNull(i.get(),"@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-        Order y = new Order("aser",0,i.get());
+        Order y = new Order(null,"aser",0,i.get().getId());
         assertNotNull(daoOrder.add(y));
         System.out.println("Add");
     }

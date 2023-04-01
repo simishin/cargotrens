@@ -57,34 +57,44 @@ public class DbDaoOrder implements IdaoOrder {
 
     @Override
     public boolean update(Order item) {
-        prnv("-----");
+//        Order y = null;
+//        for (Order x: repository.findAll())
+//            if (x.equals(item)) {
+//                prnv("~"+x.toString());
+//                y = x.merge(item);
+//                prnv("="+x.toString());
+//                repository.save(y);
+//            }
+
+
+//        return false;
+
+
         if (item == null) return false;
-//        Order x = findById(item.getName()).orElse(null);
+////        Order x = findById(item.getName()).orElse(null);
         Order x = findById(item.getId()).orElse(null);
         if (x == null) return false;
-        x.merge(item);
-        prnq("---"+x.getId()+"\t"+x.getName()+"\t"+x.getStatus()+"\t"
-//                +x.getDispatcher().getId()
-        );
-        int q = x.getId();
-        x.setId(null);
-        prnq("+++"+x.toString());
-        repository.save(x);
-        prnq("+++++");
-        repository.deleteById(q);
+        Order y = x.merge(item);
+//        prnq("="+x.toString());
+//        int q = x.getId();
+//        x.setId(null);
+        prnq("+++"+y.toString());
+        repository.save(y);
+////        prnq("+++++");
+        repository.deleteById(x.getId());
         return true;
     }//update
 
     @Override
     public Integer countReady() {
-        return 99;
-//        return (int) ((List<Order>) repository.findAll()).stream().filter(s -> s.getDriver() == null).count();
+        return (int) ((List<Order>) repository.findAll()).stream().filter(s ->
+                s.getiDriver() == null && s.getStatus() == EStatus.SHAPED.ordinal()).count();
     }
 
     @Override
     public Integer countDeliver() {
-        return 99;
-//        return (int) ((List<Order>) repository.findAll()).stream().filter(s -> s.getDriver() != null).count();
+        return (int) ((List<Order>) repository.findAll()).stream().filter(s ->
+                s.getiDriver() != null && s.getStatus() == EStatus.CONVEYED.ordinal()).count();
     }
 
     @Override

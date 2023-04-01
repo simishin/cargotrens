@@ -51,7 +51,7 @@ public class OrderController {
     @PostMapping("/add")
     public String addNewEtem(Order x, RedirectAttributes z){
         if (! ERole.DISPATCHER.is()) return "redirect:/order";
-//        x.setDispatcher(idaoDispatcher.getDispatcher(AuthenticationName()));
+        x.setiDispatcher(idaoDispatcher.getDispatcher(AuthenticationName()));
         if (x.getId() == null) { //создается объект
             if (dao.add(x) == null)
                 z.addFlashAttribute("gooMsg","Новая запись НЕ создана");
@@ -61,7 +61,7 @@ public class OrderController {
         } else {
             assert prnv("Order UPDATE");
             assert prnq("~"+x.getId()+"\t"+x.getName()+"\t"+x.getStatus()+"\t"
-//                    +x.getDispatcher()+"\t"+x.getDriver()
+                    +x.getiDispatcher()+"\t"+x.getiDriver()
             );
 
             String name = "ord010423";

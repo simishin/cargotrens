@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 import w.cargotrens.model.ERole;
 import w.cargotrens.model.dao.user.DbDaoUser;
 import w.cargotrens.model.entity.Dispatcher;
-import w.cargotrens.model.entity.User;
 
 import java.util.List;
 import java.util.Optional;
@@ -80,9 +79,11 @@ public class DbDaoDispatcher implements IdaoDispatcher{
         return repository.findById(id).get().getUser().getLogin().equals(login);
     }
     @Override
-    public Dispatcher getDispatcher(String login) {
+    public int getDispatcher(String login) {
         Integer i =dbDaoUser.getPersonId(login);
-        if (i==null)  return null;
-        return  repository.findById(i).orElse(null);
+        if (i==null)  return -1;
+        if (repository.findById(i).orElse(null)==null) return -2;
+        if (repository.findById(i).orElse(null).getBoss()==null) return -3;
+        return  repository.findById(i).orElse(null).getBoss().getId();
     }
 }
