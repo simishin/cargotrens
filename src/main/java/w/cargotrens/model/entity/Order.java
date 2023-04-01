@@ -40,13 +40,18 @@ public class Order {
     @Column
     private Integer orientation; //общее направление
 
-    @ManyToOne
-    @JoinColumn(name = "driver_id")
-    private Driver driver;
+//    @ManyToOne
+//    @JoinColumn(name = "driver_id")
+//    private Driver driver;
+//
+//    @ManyToOne
+//    @JoinColumn(name = "dispatcher_id")
+//    private Dispatcher dispatcher;
+    @Column
+    private Integer iDriver; //общее направление
+    @Column
+    private Integer iDispatcher; //общее направление
 
-    @ManyToOne
-    @JoinColumn(name = "dispatcher_id")
-    private Dispatcher dispatcher;
 
     public Order() {
         this.status= EStatus.PREP.ordinal();
@@ -55,11 +60,15 @@ public class Order {
     public Order(String name, Integer status, Dispatcher dispatcher) {
         this.name = name;
         this.status = status;
-        this.dispatcher = dispatcher;
+//        this.dispatcher = dispatcher;
         this.description = "";
         this.loadingPlace = "";
         this.destination = "";
     }
+    public Integer getiDriver() { return iDriver; }
+    public void setiDriver(Integer iDriver) { this.iDriver = iDriver; }
+    public Integer getiDispatcher() { return iDispatcher; }
+    public void setiDispatcher(Integer iDispatcher) { this.iDispatcher = iDispatcher; }
 
     public Integer  getId() { return id; }
     public void     setId(Integer id) { this.id = id; }
@@ -79,10 +88,10 @@ public class Order {
     public void     setDestination(String destination) { this.destination = destination; }
     public Integer  getOrientation() { return orientation; }
     public void     setOrientation(Integer orientation) { this.orientation = orientation; }
-    public Driver   getDriver() { return driver; }
-    public void     setDriver(Driver driver) { this.driver = driver; }
-    public Dispatcher getDispatcher() { return dispatcher; }
-    public void     setDispatcher(Dispatcher dispatcher) { this.dispatcher = dispatcher; }
+//    public Driver   getDriver() { return driver; }
+//    public void     setDriver(Driver driver) { this.driver = driver; }
+//    public Dispatcher getDispatcher() { return dispatcher; }
+//    public void     setDispatcher(Dispatcher dispatcher) { this.dispatcher = dispatcher; }
     @Override
     public boolean equals(Object obj){
         if (!(obj instanceof Order)) return false;
@@ -95,8 +104,8 @@ public class Order {
         if (this.status > EStatus.SHAPED.ordinal()) return; //защита доставляемого Заказа
         if (x.getName() != null)
             if (! x.name.isBlank()) this.name=x.name;
-        if (x.getDispatcher() != null )
-            if (! x.description.isBlank()) this.description=x.description;
+//        if (x.getDispatcher() != null )
+//            if (! x.description.isBlank()) this.description=x.description;
         if (x.orientation != null) this.orientation = x.orientation;
         if (x.gross != null ) this.gross = x.gross;
         if (x.dimension != null ) this.dimension = x.dimension;
@@ -126,8 +135,8 @@ public class Order {
                 ", loadingPlace='" + loadingPlace + '\'' +
                 ", destination='" + destination + '\'' +
                 ", orientation=" + orientation +
-                ", driver=" + ( driver == null ? "~" : "+") +
-                ", dispatcher=" + (dispatcher == null ? "~" : "+") +
+                ", driver=" + ( iDriver == null ? "~" : "+") +
+                ", dispatcher=" + (iDispatcher == null ? "~" : "+") +
                 '}';
     }
 }//class Order

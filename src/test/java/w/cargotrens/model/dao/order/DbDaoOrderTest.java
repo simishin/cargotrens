@@ -28,8 +28,8 @@ class DbDaoOrderTest {
         List<Order> y = daoOrder.findAll();
         for (Order z : y){
             System.out.println( z.getId()+"\t Name:"+z.getName()+"\t fulf:"+z.getStatus()
-            +"\tdriv "+(z.getDriver() == null ? "---" : z.getDriver().getId())
-            +"\tdisp "+(z.getDispatcher() ==null ? "---" : z.getDispatcher().getId())
+//            +"\tdriv "+(z.getDriver() == null ? "---" : z.getDriver().getId())
+//            +"\tdisp "+(z.getDispatcher() ==null ? "---" : z.getDispatcher().getId())
             );
         }
         System.out.println("----- End Test ("+y.size()+")");

@@ -56,12 +56,12 @@ public class DbDaoOrder implements IdaoOrder {
     }
 
     @Override
-    public Order update(Order item) {
+    public boolean update(Order item) {
         prnv("-----");
-        if (item == null) return null;
+        if (item == null) return false;
 //        Order x = findById(item.getName()).orElse(null);
         Order x = findById(item.getId()).orElse(null);
-        if (x == null) return null;
+        if (x == null) return false;
         x.merge(item);
         prnq("---"+x.getId()+"\t"+x.getName()+"\t"+x.getStatus()+"\t"
 //                +x.getDispatcher().getId()
@@ -72,17 +72,19 @@ public class DbDaoOrder implements IdaoOrder {
         repository.save(x);
         prnq("+++++");
         repository.deleteById(q);
-        return null;
+        return true;
     }//update
 
     @Override
     public Integer countReady() {
-        return (int) ((List<Order>) repository.findAll()).stream().filter(s -> s.getDriver() == null).count();
+        return 99;
+//        return (int) ((List<Order>) repository.findAll()).stream().filter(s -> s.getDriver() == null).count();
     }
 
     @Override
     public Integer countDeliver() {
-        return (int) ((List<Order>) repository.findAll()).stream().filter(s -> s.getDriver() != null).count();
+        return 99;
+//        return (int) ((List<Order>) repository.findAll()).stream().filter(s -> s.getDriver() != null).count();
     }
 
     @Override

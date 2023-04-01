@@ -41,7 +41,7 @@ public class DbDaoPerson implements IdaoBase<Person> {
     }
 
     @Override
-    public Person update(Person item) {
+    public boolean update(Person item) {
         return IdaoBase.super.update(item);
     }
 

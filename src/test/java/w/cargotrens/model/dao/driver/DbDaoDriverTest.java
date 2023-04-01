@@ -82,9 +82,9 @@ class DbDaoDriverTest {
         assertNull(daoDriver.update(new Driver()));
         assertNull(daoDriver.update(new Driver(" ","xxx",12.1F,17,34.2F,null)));
         Driver x = new Driver(s,"xxx",0F,0,0F,null);
-        Driver y = daoDriver.update(x);
-        assertNotNull(y);
-        assertEquals("xxx",y.getDescription());
+        assertTrue(daoDriver.update(x));
+
+        assertEquals("xxx",daoDriver.findById(s).get().getDescription());
     }
 
     @Test

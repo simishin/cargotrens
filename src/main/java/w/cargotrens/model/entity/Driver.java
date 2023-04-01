@@ -36,8 +36,8 @@ public class Driver  extends Person implements Party {
     @Column
     private Float   tonnage; //вместимость
 
-    @OneToMany(mappedBy = "driver", cascade = CascadeType.ALL)
-    private Set<Order> listOrder;
+//    @OneToMany(mappedBy = "driver", cascade = CascadeType.ALL)
+//    private Set<Order> listOrder;
 
     @ManyToOne
     @JoinColumn(name = "boss_id")
@@ -45,7 +45,7 @@ public class Driver  extends Person implements Party {
 
     public Driver() {
         super(null, "", ERole.DRIVER.ordinal());
-        this.listOrder = new HashSet<Order>();
+//        this.listOrder = new HashSet<Order>();
     }
 
     public Driver(String name, String description, Float playload, Integer orientation, Float tonnage, Boss boss) {
@@ -53,7 +53,7 @@ public class Driver  extends Person implements Party {
         this.playload = playload;
         this.orientation = orientation;
         this.tonnage = tonnage;
-        this.listOrder = new HashSet<Order>();
+//        this.listOrder = new HashSet<Order>();
         this.boss = boss;
     }
 
@@ -86,13 +86,13 @@ public class Driver  extends Person implements Party {
         this.tonnage = tonnage;
     }
 
-    public Set<Order> getListOrder() {
-        return listOrder;
-    }
-
-    public void setListOrder(Set<Order> listOrder) {
-        this.listOrder = listOrder;
-    }
+//    public Set<Order> getListOrder() {
+//        return listOrder;
+//    }
+//
+//    public void setListOrder(Set<Order> listOrder) {
+//        this.listOrder = listOrder;
+//    }
 
     public Boss getBoss() {
         return boss;

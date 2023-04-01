@@ -55,13 +55,14 @@ public class DbDaoDispatcher implements IdaoDispatcher{
         return false;
     }
     @Override
-    public Dispatcher update(Dispatcher item) {
-        if (item == null) return null;
+    public boolean update(Dispatcher item) {
+        if (item == null) return false;
         assert prnv("-->"+item.getId()+"\t"+item.getName());
         Optional<Dispatcher> x = findById(item.getName());
-        if (x.isEmpty()) return null;
+        if (x.isEmpty()) return false;
         x.get().merge(item);
-        return repository.save(x.get());
+        if (repository.save(x.get()) == null) return false;
+        return true;
     }
     @Override
     public Dispatcher add(Dispatcher item) {

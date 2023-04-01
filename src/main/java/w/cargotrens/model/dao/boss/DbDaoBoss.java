@@ -54,12 +54,13 @@ public class DbDaoBoss implements IdaoBoss{
         return false;
     }//delete
     @Override
-    public Boss update(Boss item) {
-        if (item == null) return null;
+    public boolean update(Boss item) {
+        if (item == null) return false;
         Optional<Boss> x = findById(item.getName());
-        if (x.isEmpty()) return null;
+        if (x.isEmpty()) return false;
         x.get().merge(item);
-        return repository.save(x.get());
+        if (repository.save(x.get())==null) return false;
+        return true;
     }//update
 
     @Override

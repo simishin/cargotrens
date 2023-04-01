@@ -60,7 +60,9 @@ public class OrderController {
             z.addFlashAttribute("gooMsg","Новая запись Заказа "+x.getName()+" создана");
         } else {
             assert prnv("Order UPDATE");
-            assert prnq("~"+x.getId()+"\t"+x.getName()+"\t"+x.getStatus()+"\t"+x.getDispatcher()+"\t"+x.getDriver());
+            assert prnq("~"+x.getId()+"\t"+x.getName()+"\t"+x.getStatus()+"\t"
+//                    +x.getDispatcher()+"\t"+x.getDriver()
+            );
 
             String name = "ord010423";
             Order tst = dao.findById(name).orElse(null);
@@ -100,7 +102,7 @@ public class OrderController {
             return "redirect:/order";
         }
 
-        if(iDaoUser.isIms(AuthenticationName(), x.getDispatcher().getId())) {
+        if(iDaoUser.isIms(AuthenticationName(), x.getiDispatcher())) {
             if (dao.delete(id))
                 z.addFlashAttribute("gooMsg", "Заказ (" + id + ") удален ");
         } else
@@ -115,12 +117,12 @@ public class OrderController {
             z.addFlashAttribute("gooMsg","Заказ c id "+id+" не существует");
             return "redirect:/order";
         }
-        model.addAttribute("ims", iDaoUser.isIms(AuthenticationName(), x.getDispatcher().getId()) ? "Y" :"N");
+        model.addAttribute("ims", iDaoUser.isIms(AuthenticationName(), x.getiDispatcher()) ? "Y" :"N");
         model.addAttribute("elm",x);
-        if (x.getDriver() == null)
+        if (x.getiDriver() == null)
             model.addAttribute("driver","---");
         else
-            model.addAttribute("driver",x.getDriver().getName());
+            model.addAttribute("driver",x.getiDriver());
         return  "order/order-detail";
     }
 

@@ -9,7 +9,7 @@ public interface IdaoBase<E> {
     Optional<E> findById(String name);
     boolean  delete(Integer id);
     boolean delete(String name);
-    default E update(E item){ return null; }
+    default boolean update(E item){ return false; }
     default E add(E item){ return null; }
     default boolean isIms(String login, Integer id) { return false; }
 

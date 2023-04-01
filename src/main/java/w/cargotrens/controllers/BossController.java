@@ -72,8 +72,12 @@ public class BossController {
             z.addFlashAttribute("gooMsg","Новая запись администратора "+x.getName()+" создана");
         } else {
             //администратор редактирует толь сам себя
-            if ( ! idaoBoss.isIms(AuthenticationName(), x.getId())) return "redirect:/boss";
-            idaoBoss.update(x);
+            if ( ! idaoBoss.isIms(AuthenticationName(), x.getId())) {
+                z.addFlashAttribute("gooMsg","администратор может корректировать только свою запись");
+                return "redirect:/boss";
+            }
+            if (idaoBoss.update(x))
+                z.addFlashAttribute("gooMsg","Запись администратора "+x.getName()+" отредактирована");
         }
         return "redirect:/boss";
     }
@@ -95,8 +99,12 @@ public class BossController {
             //отправим сообщение, что клиент добавлен
             z.addFlashAttribute("gooMsg","Новая запись диспетчера "+x.getName()+" создана");
         } else {
-            if (! idaoBoss.isBoss(AuthenticationName()) && ! idaoDispatcher.isIms(AuthenticationName(), x.getId())) return "redirect:/boss";
-            idaoDispatcher.update(x);
+            if (! idaoBoss.isBoss(AuthenticationName()) && ! idaoDispatcher.isIms(AuthenticationName(), x.getId())) {
+                z.addFlashAttribute("gooMsg","диспетчер может корректировать только свою запись");
+                return "redirect:/boss";
+            }
+            if (idaoDispatcher.update(x))
+                z.addFlashAttribute("gooMsg","Запись диспетчера "+x.getName()+" отредактирована");
         }
         return "redirect:/boss";
     }
@@ -119,8 +127,12 @@ public class BossController {
             //отправим сообщение, что клиент добавлен
             z.addFlashAttribute("gooMsg","Новая запись водителя "+x.getName()+" создана");
         } else { //редактирование полей объекта
-            if (! idaoBoss.isBoss(AuthenticationName()) && ! idaoDriver.isIms(AuthenticationName(), x.getId())) return "redirect:/boss";
-            idaoDriver.update(x);
+            if (! idaoBoss.isBoss(AuthenticationName()) && ! idaoDriver.isIms(AuthenticationName(), x.getId())) {
+                z.addFlashAttribute("gooMsg","Водитель может корректировать только свою запись");
+                return "redirect:/boss";
+            }
+            if (idaoDriver.update(x))
+                z.addFlashAttribute("gooMsg","Запись водителя "+x.getName()+" отредактирована");
         }
         return "redirect:/boss";
     }
@@ -190,7 +202,7 @@ public class BossController {
         if (idaoDriver.findById(id).isPresent()){
             model.addAttribute("ims", idaoDriver.isIms(AuthenticationName(), id) ? "Y" :"N");
             model.addAttribute("elm", idaoDriver.findById(id).get());
-            model.addAttribute("elms", idaoDriver.findById(id).get().getListOrder());
+//            model.addAttribute("elms", idaoDriver.findById(id).get().getListOrder());
             if (idaoDriver.findById(id).get().getBoss() == null)
                 model.addAttribute("boss", "---");
                 else
@@ -201,7 +213,7 @@ public class BossController {
         if (idaoDispatcher.findById(id).isPresent()){
             model.addAttribute("ims", idaoDispatcher.isIms(AuthenticationName(), id) ? "Y" :"N");
             model.addAttribute("elm", idaoDispatcher.findById(id).get());
-            model.addAttribute("elms", idaoDispatcher.findById(id).get().getListOrder());
+//            model.addAttribute("elms", idaoDispatcher.findById(id).get().getListOrder());
             if (idaoDispatcher.findById(id).get().getBoss() == null)
                 model.addAttribute("boss", "---");
             else

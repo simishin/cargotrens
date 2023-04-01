@@ -10,8 +10,8 @@ import static w.cargotrens.utilits.Loger.prnv;
 @Entity
 @Table(name = "dispatcher_t")
 public class Dispatcher  extends Person implements Party {
-    @OneToMany(mappedBy = "dispatcher", cascade = CascadeType.ALL)
-    private Set<Order> listOrder;
+//    @OneToMany(mappedBy = "dispatcher", cascade = CascadeType.ALL)
+//    private Set<Order> listOrder;
 
     @ManyToOne
     @JoinColumn(name = "boss_id")
@@ -21,7 +21,7 @@ public class Dispatcher  extends Person implements Party {
 
     public Dispatcher(String name, String description, Boss boss) {
         super(name, description, 2);
-        this.listOrder = new HashSet<Order>();
+//        this.listOrder = new HashSet<Order>();
         this.boss = boss;
     }
 
@@ -30,13 +30,13 @@ public class Dispatcher  extends Person implements Party {
         setAffordability(2);
     }
 
-    public Set<Order> getListOrder() {
-        return listOrder;
-    }
-
-    public void setListOrder(Set<Order> listOrder) {
-        this.listOrder = listOrder;
-    }
+//    public Set<Order> getListOrder() {
+//        return listOrder;
+//    }
+//
+//    public void setListOrder(Set<Order> listOrder) {
+//        this.listOrder = listOrder;
+//    }
 
     public Boss getBoss() {
         return boss;

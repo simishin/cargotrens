@@ -56,14 +56,15 @@ public class DbDaoDriver implements IdaoDriver{
         return false;
     }
     @Override
-    public Driver update(Driver item) {
-        if (item == null) return null;
+    public boolean update(Driver item) {
+        if (item == null) return false;
         assert prnv("-->"+item.getId()+"\t"+item.getName());
 
         Optional<Driver> x = findById(item.getName());
-        if (x.isEmpty()) return null;
+        if (x.isEmpty()) return false;
         x.get().merge(item);
-        return repository.save(x.get());
+        if ( repository.save(x.get())==null) return false;
+        return true;
     }
     @Override
     public Driver add(Driver item) {

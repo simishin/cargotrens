@@ -6,8 +6,11 @@ public record OrderTemp(int id, String name, int status, Float gross,
                         Float dimension, Integer orientation, String dispatcher, String driver) {
     public OrderTemp(Order obj) {
         this(obj.getId(),obj.getName(),obj.getStatus(),obj.getGross(),obj.getDimension(),
-                obj.getOrientation(),obj.getDispatcher().getName(),
-                (obj.getDriver() == null ? "---" : obj.getDriver().getName()));
+                obj.getOrientation(),
+//                ,obj.getDispatcher().getName()
+//                ,(obj.getDriver() == null ? "---" : obj.getDriver().getName())
+                "--", "---"
+        );
     }
 //    public int      getId() {return id;}
 //    public String   getName() {return name;}
