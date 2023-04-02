@@ -3,9 +3,11 @@ package w.cargotrens.model.dao.driver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import w.cargotrens.model.ERole;
+import w.cargotrens.model.dao.order.DbDaoOrder;
 import w.cargotrens.model.dao.user.DbDaoUser;
 import w.cargotrens.model.entity.Driver;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import static w.cargotrens.utilits.Loger.prnv;
@@ -16,6 +18,8 @@ public class DbDaoDriver implements IdaoDriver{
     private DriverRepository repository;
     @Autowired
     private DbDaoUser dbDaoUser;
+//    @Autowired
+//    private DbDaoOrder daoOrder;
 
     @Override
     public List<Driver> findAll() {
@@ -95,5 +99,12 @@ public class DbDaoDriver implements IdaoDriver{
         if (! repository.existsById(id)) return "<???>";
         return repository.findById(id).get().getName();
     }
+//    @Override
+//    public List<DriverTemp> listDriver(){
+//        List<DriverTemp> elms = new ArrayList<>();
+////        for (Driver x : repository.findAll())
+////            elms.add(new DriverTemp(x, daoOrder.SumShipW(x.getId()) ));
+//        return elms;
+//    }
 
 }

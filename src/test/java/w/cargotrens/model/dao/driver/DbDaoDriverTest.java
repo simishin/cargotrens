@@ -108,5 +108,18 @@ class DbDaoDriverTest {
     void isIms() {
     }
 
+    @Test
+    void listDriver() {
+//        System.out.println("----- Start Test DbDaoDriverTest");
+//        List<DriverTemp> y = daoDriver.listDriver();
+//        System.out.println("#\tName\trole\tBoss\tListOrder");
+//        for (DriverTemp z : y){
+//            System.out.println( z.id()+"\t "+z.name()+"\ta"+z.affordability()
+//                +"\tpl "+z.playload()+"\ttn "+ z.tonnage()+"\tor "+ z.orientation()
+//                +"\tc "+ z.count() +"\tg "+ z.gross() +"\td "+z.dimension()
+//            );
+//        }
+//        System.out.println("----- End Test ("+y.size()+")");
 
+    }
 }

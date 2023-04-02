@@ -3,13 +3,11 @@ package w.cargotrens.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import w.cargotrens.model.ERole;
 import w.cargotrens.model.EStatus;
+import w.cargotrens.model.dao.IPublic;
 import w.cargotrens.model.dao.dispatcher.IdaoDispatcher;
 import w.cargotrens.model.dao.driver.IdaoDriver;
 import w.cargotrens.model.dao.order.IdaoOrder;
@@ -18,11 +16,14 @@ import w.cargotrens.model.entity.Driver;
 
 import static w.cargotrens.model.entity.User.AuthenticationLogin;
 import static w.cargotrens.model.entity.User.AuthenticationName;
+import static w.cargotrens.utilits.Loger.prnq;
 import static w.cargotrens.utilits.Loger.prnv;
 
 @Controller
 @RequestMapping("/driver")
 public class DriverController {
+    @Autowired
+    private IPublic iPublic;
     @Autowired
     private IdaoDriver dao;
     @Autowired
@@ -34,7 +35,7 @@ public class DriverController {
 
     @GetMapping("")
     public String  listAll(Model model){
-        model.addAttribute("elms",idaoOrder.listOrders());
+        model.addAttribute("elms",iPublic.listOrders());
         model.addAttribute("irole",iDaoUser.getIRole(AuthenticationName()));
         model.addAttribute("login",AuthenticationLogin());
         return "driver/driver-list";
@@ -118,5 +119,20 @@ public class DriverController {
         return "redirect:/driver";
     }
 
-
+    @GetMapping("/ship/{id:\\d+}")
+    public String ship(@PathVariable Integer id, Model model, RedirectAttributes z){
+        assert prnv(" ");
+        model.addAttribute("elms",iPublic.listDriver());
+        assert prnq("*");
+        model.addAttribute("irole",iDaoUser.getIRole(AuthenticationName()));
+        model.addAttribute("login",AuthenticationLogin());
+        model.addAttribute("id",id==null ? 0 : id);
+        assert prnq("***");
+        return "driver/dispetcher-list";
+    }
+    @GetMapping("/shipans/{id:\\d+}")
+    public String shipAnswer(@PathVariable Integer id, @RequestParam(defaultValue = "0") Integer idOrder, Model model, RedirectAttributes z){
+        assert prnv(""+id+"\t"+idOrder);
+        return "redirect:/driver";
+    }
 }

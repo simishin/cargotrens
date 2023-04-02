@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import w.cargotrens.model.ERole;
 import w.cargotrens.model.EStatus;
+import w.cargotrens.model.dao.IPublic;
 import w.cargotrens.model.dao.dispatcher.IdaoDispatcher;
 import w.cargotrens.model.dao.driver.IdaoDriver;
 import w.cargotrens.model.dao.order.IdaoOrder;
@@ -25,6 +26,8 @@ import static w.cargotrens.utilits.Loger.prnv;
 @RequestMapping("/order")
 public class OrderController {
     @Autowired
+    private IPublic iPublic;
+    @Autowired
     private IdaoOrder dao;
     @Autowired
     private IdaoDispatcher idaoDispatcher;
@@ -36,7 +39,7 @@ public class OrderController {
     @GetMapping("")
     public String  listAll(Model model){
         assert prnv("---\t"+iDaoUser.getIRole(AuthenticationName()));
-        model.addAttribute("elms",dao.listOrders());
+        model.addAttribute("elms",iPublic.listOrders());
         model.addAttribute("irole",iDaoUser.getIRole(AuthenticationName()));
         model.addAttribute("login",AuthenticationLogin());
         return "order/order-list";
@@ -104,6 +107,7 @@ public class OrderController {
     @GetMapping("/detail/{id:\\d+}")
     public String detail(@PathVariable Integer id, Model model, RedirectAttributes z){
         Order x = dao.findById(id).orElse(null);
+        assert prnv("~"+x.toString());
         if (x == null) {
             z.addFlashAttribute("gooMsg","Заказ c id "+id+" не существует");
             return "redirect:/order";
@@ -112,8 +116,10 @@ public class OrderController {
         model.addAttribute("elm",x);
         if (x.getiDriver() == null)
             model.addAttribute("driver","---");
-        else
-            model.addAttribute("driver",x.getiDriver());
+        else {
+            prnq("!"+ idaoDriver.getDriver(x.getiDriver())); //перестало сбоить при двойном вызове
+            model.addAttribute("driver", idaoDriver.getDriver(x.getiDriver()));
+        }
         return  "order/order-detail";
     }
 

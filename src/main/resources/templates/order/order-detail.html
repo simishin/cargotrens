@@ -17,10 +17,13 @@
     <p class="text-success text-left"><pre> <small>Состояние Заказа</small></pre>
     <p th:switch="${elm.status}">
     <span th:case="1" class="text-danger" th:text="сформирован"></span>
-    <span th:case="2" class="text-primary" th:text="передан водителю ${driver}"></span>
+    <span th:case="2" class="text-primary" th:text="передан"></span>
     <span th:case="3" class="text-success" th:text="доставлен"></span>
     <span th:case="0" class="text-muted" th:text="подготавливается"></span>
     </p>
+    <p th:if="${elm.status}==2"><mark>[[ ${driver}]]</mark></p>
+
+
     <mark th:if="${elm.status} > 0" class="text-success">Активен</mark></p>
     <p class="text-info text-left"><pre>    <small>Дополнительная информация  </small></pre>
     <p class="text-justify text-info text-left">[[${elm.description}]]</p>

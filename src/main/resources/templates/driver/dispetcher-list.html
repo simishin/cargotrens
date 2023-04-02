@@ -44,31 +44,16 @@
           <td>[[${elm.dimension}]]</td>
           <td>[[${elm.gross}]]</td>
           <td>[[${elm.orientation}]]</td>
-          <td><small>[[${elm.dispatcher}]]</small></td>
-          <td>[[${elm.driver}]] </td>
+
           <td>
             <div class="btn-group">
               <a th:href="@{'/order/detail/'+${elm.id}}"
                  class="btn bg-warning btn-sm">Detail</a>
-              <div th:switch="${irole}">
-                <span th:case="1"><a   th:href="@{'/driver/delete/'+${elm.id}}"  class="btn bg-primary btn-sm">Удалить</a></span>
-                <span th:case="2" >
-                  <a th:if="${elm.status}==0" th:href="@{'/order/update/'+${elm.id}}"  class="btn bg-primary btn-sm">Edit</a>
-                  <a th:if="${elm.status}==1" th:href="@{'/driver/ship/'+${elm.id}}"  class="btn bg-success btn-sm">отправить</a></span>
-                <span th:case="3">
-                  <a th:if="${elm.status}==1" th:href="@{'/driver/take/'+${elm.id}}"  class="btn bg-danger btn-sm">Взять</a>
-                  <a th:if="${elm.status}==2" th:href="@{'/driver/deliver/'+${elm.id}}"  class="btn bg-success btn-sm">Доставлен</a>
-                </span>
-              </div>
+              <a  th:href="@{'/driver/shipans/'+${elm.id}+'&id='+${id}}"  class="btn bg-success btn-sm">Передать</a>
+
             </div>
           </td>
 
-          <td th:switch="${elm.status}">
-            <span th:case="1" class="text-danger" th:text="сформирован"></span>
-            <span th:case="2" class="text-primary" th:text="передан "></span>
-            <span th:case="3" class="text-success" th:text="доставлен"></span>
-            <span th:case="0" class="text-muted" th:text="подготавливается"></span>
-          </td>
        </tr>
       </th:block>
       </tbody>

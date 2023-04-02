@@ -49,9 +49,9 @@ public class Order {
 //    @JoinColumn(name = "dispatcher_id")
 //    private Dispatcher dispatcher;
     @Column
-    private Integer iDriver; //общее направление
+    private Integer iDriver; //водитель
     @Column
-    private Integer iDispatcher; //общее направление
+    private Integer iDispatcher; //диспетчер
 
 
     public Order() {

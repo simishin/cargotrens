@@ -11,6 +11,8 @@ public interface IdaoOrder extends IdaoBase<Order> {
     public Integer countDeliver();
     boolean setStatus(int id, EStatus eStatus, int iDriver);
     boolean isStatus(int id, EStatus eStatus);
-    List<OrderTemp> listOrders();
+//    List<OrderTemp> listOrders();
+
+//    SumShip SumShipW(int iDriver);
 }
 

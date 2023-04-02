@@ -109,15 +109,28 @@ public class DbDaoOrder implements IdaoOrder {
         if (repository.findById(id).isEmpty()) return false;
         return repository.findById(id).get().getStatus() == eStatus.ordinal();
     }
-    @Override
-    public  List<OrderTemp> listOrders(){
-        List<OrderTemp> elms = new ArrayList<>();
-        for (Order x : repository.findAll()) {
-            elms.add(new OrderTemp(x,
-                    idaoDispatcher.getDispatcher(x.getiDispatcher()),
-                    idaoDriver.getDriver(x.getiDriver()) ));
-        }
-        return elms;
-    }
-
+//    @Override
+//    public  List<OrderTemp> listOrders(){
+//        List<OrderTemp> elms = new ArrayList<>();
+//        for (Order x : repository.findAll()) {
+//            elms.add(new OrderTemp(x,
+//                    idaoDispatcher.getDispatcher(x.getiDispatcher()),
+//                    idaoDriver.getDriver(x.getiDriver()) ));
+//        }
+//        return elms;
+//    }
+//    @Override
+//    public SumShip SumShipW(int iDriver){
+//        int count=0;
+//        Float   gross=0F;      //суммарный вес
+//        Float   dimension=0F;  //суммарные габариты
+////        for (Order x : repository.findAll())
+////            if (x.getiDriver()==iDriver && x.getStatus() == EStatus.CONVEYED.ordinal()){
+//////                gross += x.getGross();
+//////                dimension += x.getDimension();
+////                count++;
+////        }
+////        return new SumShip(count,gross,dimension);
+//        return null;
+//    }
 }//class DbDaoOrder

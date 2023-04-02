@@ -83,4 +83,12 @@ class DbDaoOrderTest {
         assertTrue(daoOrder.setStatus(id, EStatus.CONVEYED, 66),"****");
         assertEquals(EStatus.CONVEYED.ordinal(),  daoOrder.findById(s).get().getStatus());
     }
+
+    @Test
+    void SumShipTest(){
+        int x = 66;
+//        SumShip y = daoOrder.SumShipW(x);
+//        daoOrder.SumShipW(x);
+//        System.out.println("~"+y.count()+"\t"+y.dimension()+"\t"+y.gross());
+    }
 }
