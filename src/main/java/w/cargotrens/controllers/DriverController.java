@@ -99,7 +99,8 @@ public class DriverController {
     public String deliver(@PathVariable Integer id, RedirectAttributes z){
         assert prnv(" ");
         if (ERole.DRIVER.is() &&  idaoOrder.isStatus(id,EStatus.CONVEYED)  ) {
-                idaoOrder.setStatus(id,EStatus.DELIVERED);
+                if (idaoOrder.setStatus(id,EStatus.DELIVERED))
+                    z.addFlashAttribute("gooMsg", "Статус Заказа (" + id + ") Изменен");
         } else
             z.addFlashAttribute("gooMsg","Только водитель может " +
                     "отчетаться о доставке Заказа");

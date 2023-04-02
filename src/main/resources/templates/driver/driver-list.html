@@ -60,7 +60,7 @@
 
           <td th:switch="${elm.status}">
             <span th:case="1" class="text-danger" th:text="сформирован"></span>
-            <span th:case="2" class="text-primary" th:text="передан ${elm.driver}"></span>
+            <span th:case="2" class="text-primary" th:text="передан "></span>
             <span th:case="3" class="text-success" th:text="доставлен"></span>
             <span th:case="0" class="text-muted" th:text="подготавливается"></span>
           </td>
@@ -74,8 +74,5 @@
 </div>
 <br>
 <footer  th:insert="~{layout/page-layouts.html :: footer}"></footer>
-</body>
-</html>
-
 </body>
 </html>

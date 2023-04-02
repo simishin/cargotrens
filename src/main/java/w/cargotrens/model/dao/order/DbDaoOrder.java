@@ -68,7 +68,8 @@ public class DbDaoOrder implements IdaoOrder {
         if (item == null) return false;
         Order x = findById(item.getId()).orElse(null);
         if (x == null) return false;
-        if (repository.save(x.merge(item)) !=null)
+        if (repository.save(x.merge(item)) ==null)
+            return false;
         repository.deleteById(x.getId());
         return true;
     }//update
@@ -90,12 +91,16 @@ public class DbDaoOrder implements IdaoOrder {
         if (repository.findById(id).isEmpty()) return false;
         Order x = findById(id).orElse(null);
         if (x == null) return false;
-        x.setStatus(eStatus.ordinal());
-        int q = x.getId();
-        x.setId(null);
-        if (repository.save(x) == null) return false;
-        repository.deleteById(q);
+        if (repository.save(new Order(x,eStatus)) == null)
+            return false;
+        repository.deleteById(x.getId());
         return true;
+//        x.setStatus(eStatus.ordinal());
+//        int q = x.getId();
+//        x.setId(null);
+//        if (repository.save(x) == null) return false;
+//        repository.deleteById(q);
+//        return true;
     }
 
     @Override
@@ -107,7 +112,9 @@ public class DbDaoOrder implements IdaoOrder {
     public  List<OrderTemp> listOrders(){
         List<OrderTemp> elms = new ArrayList<>();
         for (Order x : repository.findAll()) {
-            elms.add(new OrderTemp(x,idaoDispatcher.getDispatcher(x.getiDispatcher()),idaoDriver.getDriver(x.getiDriver()) ));
+            elms.add(new OrderTemp(x,
+                    idaoDispatcher.getDispatcher(x.getiDispatcher()),
+                    idaoDriver.getDriver(x.getiDriver()) ));
         }
         return elms;
     }

@@ -5,6 +5,7 @@ package w.cargotrens.model.entity;
 import jakarta.persistence.*;
 import w.cargotrens.model.EStatus;
 
+import static w.cargotrens.utilits.Loger.prnq;
 import static w.cargotrens.utilits.Loger.prnv;
 
 @Entity
@@ -55,7 +56,6 @@ public class Order {
 
     public Order() {
         this(null,null, EStatus.PREP.ordinal(),0);
-
     }
 
     public Order(Integer id, String name, Integer status, Integer dispatcher) {
@@ -67,6 +67,21 @@ public class Order {
         this.loadingPlace = "";
         this.destination = "";
     }
+
+    public Order(Order x, EStatus status) {
+        this.id = null;
+        this.name = x.name;
+        this.description = x.description;
+        this.status = status.ordinal();
+        this.gross = x.gross;
+        this.dimension = x.dimension;
+        this.loadingPlace = x.loadingPlace;
+        this.destination = x.destination;
+        this.orientation = x.orientation;
+        this.iDriver = x.iDriver;
+        this.iDispatcher = x.iDispatcher;
+    }
+
     public Integer getiDriver() { return iDriver; }
     public void setiDriver(Integer iDriver) { this.iDriver = iDriver; }
     public Integer getiDispatcher() { return iDispatcher; }
@@ -111,14 +126,15 @@ public class Order {
         y.gross =       x.gross == null         ? this.gross : x.gross;
         y.dimension =   x.dimension == null     ? this.dimension : x.dimension;
 
-        if (    ! this.name.isBlank()
-                && this.orientation != null
-                && this.gross != null
-                && this.dimension != null
-                && ! this.loadingPlace.isBlank()
-                && ! this.destination.isBlank()
-            ) this.status = EStatus.SHAPED.ordinal();
-        else this.status = EStatus.PREP.ordinal();
+        if (    ! y.name.isBlank()
+                && y.orientation != null
+                && y.gross != null
+                && y.dimension != null
+                && ! y.loadingPlace.isBlank()
+                && ! y.destination.isBlank()
+            ) y.status = EStatus.SHAPED.ordinal();
+        else y.status = EStatus.PREP.ordinal();
+        prnq("="+status);
         return y;
     }//merge
 
