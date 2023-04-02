@@ -68,7 +68,7 @@ public class Order {
         this.destination = "";
     }
 
-    public Order(Order x, EStatus status) {
+    public Order(Order x, EStatus status, Integer iDriver) {
         this.id = null;
         this.name = x.name;
         this.description = x.description;
@@ -78,7 +78,7 @@ public class Order {
         this.loadingPlace = x.loadingPlace;
         this.destination = x.destination;
         this.orientation = x.orientation;
-        this.iDriver = x.iDriver;
+        this.iDriver = iDriver;
         this.iDispatcher = x.iDispatcher;
     }
 

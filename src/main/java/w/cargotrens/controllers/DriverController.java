@@ -99,11 +99,24 @@ public class DriverController {
     public String deliver(@PathVariable Integer id, RedirectAttributes z){
         assert prnv(" ");
         if (ERole.DRIVER.is() &&  idaoOrder.isStatus(id,EStatus.CONVEYED)  ) {
-                if (idaoOrder.setStatus(id,EStatus.DELIVERED))
+                if (idaoOrder.setStatus(id,EStatus.DELIVERED,0))
                     z.addFlashAttribute("gooMsg", "Статус Заказа (" + id + ") Изменен");
         } else
-            z.addFlashAttribute("gooMsg","Только водитель может " +
-                    "отчетаться о доставке Заказа");
+            z.addFlashAttribute("gooMsg","Водитель! " +
+                    " Вы этот Заказ не принимали.");
         return "redirect:/driver";
     }
+    @GetMapping("/take/{id:\\d+}")
+    public String take(@PathVariable Integer id, RedirectAttributes z){
+        assert prnv(" ");
+        if (ERole.DRIVER.is() &&  idaoOrder.isStatus(id,EStatus.SHAPED)  ) {
+            if (idaoOrder.setStatus(id,EStatus.CONVEYED, dao.getDriver(AuthenticationLogin())))
+                z.addFlashAttribute("gooMsg", "Статус Заказа (" + id + ") Изменен");
+        } else
+            z.addFlashAttribute("gooMsg","Водитель!" +
+                    " Заказ НЕ сформирован.");
+        return "redirect:/driver";
+    }
+
+
 }

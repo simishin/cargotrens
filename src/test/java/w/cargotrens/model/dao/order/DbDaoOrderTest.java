@@ -78,9 +78,9 @@ class DbDaoOrderTest {
         System.out.println("----- Start Test DbDaoOrderTest");
         int id =13;
         assertTrue(daoOrder.findById(id).isPresent(),"не существует");
-        assertFalse(daoOrder.setStatus(1,EStatus.CONVEYED));
+        assertFalse(daoOrder.setStatus(1,EStatus.CONVEYED, 0));
         String s = daoOrder.findById(id).get().getName();
-        assertTrue(daoOrder.setStatus(id, EStatus.CONVEYED),"****");
+        assertTrue(daoOrder.setStatus(id, EStatus.CONVEYED, 66),"****");
         assertEquals(EStatus.CONVEYED.ordinal(),  daoOrder.findById(s).get().getStatus());
     }
 }

@@ -87,11 +87,12 @@ public class DbDaoOrder implements IdaoOrder {
     }
 
     @Override
-    public boolean setStatus(int id, EStatus eStatus) {
+    public boolean setStatus(int id, EStatus eStatus, int iDriver) {
         if (repository.findById(id).isEmpty()) return false;
         Order x = findById(id).orElse(null);
         if (x == null) return false;
-        if (repository.save(new Order(x,eStatus)) == null)
+        Integer iiDriver = (eStatus == EStatus.CONVEYED && iDriver !=0 ) ? iDriver : x.getiDriver();
+        if (repository.save(new Order(x, eStatus, iiDriver)) == null)
             return false;
         repository.deleteById(x.getId());
         return true;
