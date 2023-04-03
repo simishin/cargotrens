@@ -117,8 +117,8 @@ public class OrderController {
         if (x.getiDriver() == null)
             model.addAttribute("driver","---");
         else {
-            prnq("!"+ idaoDriver.getDriver(x.getiDriver())); //перестало сбоить при двойном вызове
-            model.addAttribute("driver", idaoDriver.getDriver(x.getiDriver()));
+            prnq("!"+ idaoDriver.nameById(x.getiDriver())); //перестало сбоить при двойном вызове
+            model.addAttribute("driver", idaoDriver.nameById(x.getiDriver()));
         }
         return  "order/order-detail";
     }

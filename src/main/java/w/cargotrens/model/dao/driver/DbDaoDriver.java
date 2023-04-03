@@ -90,21 +90,15 @@ public class DbDaoDriver implements IdaoDriver{
     }
 
     @Override
-    public int getDriver(String login){
+    public int idByLogin(String login){
         return dbDaoUser.getPersonId(login);
     }
     @Override
-    public String getDriver(Integer id) {
+    public String nameById(Integer id) {
         if (id == null) return "---";
         if (! repository.existsById(id)) return "<???>";
         return repository.findById(id).get().getName();
     }
-//    @Override
-//    public List<DriverTemp> listDriver(){
-//        List<DriverTemp> elms = new ArrayList<>();
-////        for (Driver x : repository.findAll())
-////            elms.add(new DriverTemp(x, daoOrder.SumShipW(x.getId()) ));
-//        return elms;
-//    }
+
 
 }

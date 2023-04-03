@@ -1,12 +1,8 @@
 package w.cargotrens.model.dao.order;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import w.cargotrens.model.EStatus;
-import w.cargotrens.model.dao.dispatcher.IdaoDispatcher;
-import w.cargotrens.model.dao.driver.IdaoDriver;
 import w.cargotrens.model.entity.Order;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,16 +14,19 @@ public class DbDaoOrder implements IdaoOrder {
     public DbDaoOrder(OrderRepository repository) {
         this.repository = repository;
     }
-    @Autowired
-    private IdaoDispatcher idaoDispatcher;
-    @Autowired
-    private IdaoDriver idaoDriver;
 
     @Override
     public List<Order> findAll() { return (List<Order>) repository.findAll(); }
 
     @Override
     public Optional<Order> findById(Integer id) { return repository.findById(id); }
+    @Override
+    public String nameById(Integer id){
+        if ( id == null ) return "***";
+        Order x = findById(id).orElse(null);
+        if (x == null) return "---";
+        return x.getName();
+    }
 
     @Override
     public Optional<Order> findById(String name) {
@@ -96,12 +95,6 @@ public class DbDaoOrder implements IdaoOrder {
             return false;
         repository.deleteById(x.getId());
         return true;
-//        x.setStatus(eStatus.ordinal());
-//        int q = x.getId();
-//        x.setId(null);
-//        if (repository.save(x) == null) return false;
-//        repository.deleteById(q);
-//        return true;
     }
 
     @Override
@@ -109,28 +102,4 @@ public class DbDaoOrder implements IdaoOrder {
         if (repository.findById(id).isEmpty()) return false;
         return repository.findById(id).get().getStatus() == eStatus.ordinal();
     }
-//    @Override
-//    public  List<OrderTemp> listOrders(){
-//        List<OrderTemp> elms = new ArrayList<>();
-//        for (Order x : repository.findAll()) {
-//            elms.add(new OrderTemp(x,
-//                    idaoDispatcher.getDispatcher(x.getiDispatcher()),
-//                    idaoDriver.getDriver(x.getiDriver()) ));
-//        }
-//        return elms;
-//    }
-//    @Override
-//    public SumShip SumShipW(int iDriver){
-//        int count=0;
-//        Float   gross=0F;      //суммарный вес
-//        Float   dimension=0F;  //суммарные габариты
-////        for (Order x : repository.findAll())
-////            if (x.getiDriver()==iDriver && x.getStatus() == EStatus.CONVEYED.ordinal()){
-//////                gross += x.getGross();
-//////                dimension += x.getDimension();
-////                count++;
-////        }
-////        return new SumShip(count,gross,dimension);
-//        return null;
-//    }
 }//class DbDaoOrder

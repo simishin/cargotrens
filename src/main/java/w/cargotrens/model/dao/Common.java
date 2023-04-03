@@ -30,7 +30,7 @@ public class Common implements IdaoCommon {
         for (Order x : idaoOrder.findAll()) {
             elms.add(new OrderTemp(x,
                     idaoDispatcher.getDispatcher(x.getiDispatcher()),
-                    idaoDriver.getDriver(x.getiDriver()) ));
+                    idaoDriver.nameById(x.getiDriver()) ));
         }
         return elms;
     }

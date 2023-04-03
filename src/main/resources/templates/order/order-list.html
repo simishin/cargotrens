@@ -54,7 +54,7 @@
                                         class="btn bg-warning btn-sm">Detail</a>
                                 <div th:switch="${elm.status}">
                                     <a th:case="0"  th:href="@{'/order/update/'+${elm.id}}"  class="btn bg-primary btn-sm">Edit</a>
-                                    <a th:case="1"  th:href="@{'/order/driv/'+${elm.id}}"  class="btn bg-success btn-sm">Link</a>
+                                    <a th:case="1"  th:href="@{'/driver/ship/'+${elm.id}}"  class="btn bg-success btn-sm">Link</a>
                                 </div>
                                 <a th:href="@{'/order/delete/'+${elm.id}}"
                                    class="btn bg-danger btn-sm">Delete</a>

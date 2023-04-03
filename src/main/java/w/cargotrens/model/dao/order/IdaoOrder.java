@@ -4,9 +4,9 @@ import w.cargotrens.model.EStatus;
 import w.cargotrens.model.dao.IdaoBase;
 import w.cargotrens.model.entity.Order;
 
-import java.util.List;
-
 public interface IdaoOrder extends IdaoBase<Order> {
+    String nameById(Integer id);
+
     public Integer countReady();
     public Integer countDeliver();
     boolean setStatus(int id, EStatus eStatus, int iDriver);

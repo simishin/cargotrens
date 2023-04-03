@@ -12,10 +12,8 @@
 <!--  1-администратор= удаление выполненных заказов-->
 <!--  2- диспетчер = распределение заказов по водителям-->
 <!--  3- водитель = отмечает доставку заказа-->
-  <h2 class="text-center">Доставка Заказов</h2>
+  <h2 class="text-center">Передача Заказ по водителю</h2>
   <p class="bg-info"><span class="badge">===[[${irole}]]===</span></p>
-
-
 
   <!-- вывод goodMsg если он есть -->
   <div th:if="${gooMsg != null}" class="alert alert-success">
@@ -41,9 +39,9 @@
         <tr>
           <td>[[${elm.id}]]</td>
           <td>[[${elm.name}]]</td>
-          td>[[${elm.tonnage}]]</td>
+          <td>[[${elm.tonnage}]]</td>
           <td>[[${elm.dimension}]]</td>
-          td>[[${elm.playload}]]</td>
+          <td>[[${elm.playload}]]</td>
           <td>[[${elm.gross}]]</td>
           <td>[[${elm.orientation}]]</td>
 
@@ -55,14 +53,11 @@
 
             </div>
           </td>
-
        </tr>
       </th:block>
       </tbody>
     </table>
   </div>
-
-
 </div>
 <br>
 <footer  th:insert="~{layout/page-layouts.html :: footer}"></footer>

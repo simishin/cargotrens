@@ -13,6 +13,11 @@ public enum ERole {
     public String getRole(){ return "ROLE_"+role;}
     public String get(){return role;}
     public boolean is(int i){return  Math.abs(i)== ordinal(); }
+
+    /**
+     * Проверяю, имеет ли зарегитрировавшийся пользователь данную РОЛЬ
+     * @return истина, если пользователь обладает данной ролью
+     */
     public boolean is(){
         String login = SecurityContextHolder.getContext().getAuthentication().getName();
         if ( login.equals("anonymousUser") && this.ordinal()==0 ) return true;

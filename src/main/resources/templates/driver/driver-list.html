@@ -58,6 +58,7 @@
                 <span th:case="3">
                   <a th:if="${elm.status}==1" th:href="@{'/driver/take/'+${elm.id}}"  class="btn bg-danger btn-sm">Взять</a>
                   <a th:if="${elm.status}==2" th:href="@{'/driver/deliver/'+${elm.id}}"  class="btn bg-success btn-sm">Доставлен</a>
+                  <a th:if="${elm.status}==2" th:href="@{'/driver/refund/'+${elm.id}}"  class="btn bg-primary btn-sm">Возратить</a>
                 </span>
               </div>
             </div>
