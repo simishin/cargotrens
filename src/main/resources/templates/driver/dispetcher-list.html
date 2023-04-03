@@ -27,12 +27,12 @@
       <thead>
       <tr class="table-info text-center">
         <th class="col-1 text-center">№</th>
-        <th class="col-2">Имя</th>
-        <th class="col-1">габариты</th>
-        <th class="col-1">Вес</th>
+        <th class="col-2">Имя Водителя</th>
+        <th class="col-1">Допустимые габариты</th>
+        <th class="col-1">Суммарные габариты</th>
+        <th class="col-1">Допустимый Вес</th>
+        <th class="col-1">Суммарный Вес</th>
         <th class="col-1">Направление</th>
-        <th class="col-1">Автор</th>
-        <th class="col-1">Водитель</th>
         <th class="col-3"></th>
       </tr>
       </thead>
@@ -41,7 +41,9 @@
         <tr>
           <td>[[${elm.id}]]</td>
           <td>[[${elm.name}]]</td>
+          td>[[${elm.tonnage}]]</td>
           <td>[[${elm.dimension}]]</td>
+          td>[[${elm.playload}]]</td>
           <td>[[${elm.gross}]]</td>
           <td>[[${elm.orientation}]]</td>
 
@@ -49,7 +51,7 @@
             <div class="btn-group">
               <a th:href="@{'/order/detail/'+${elm.id}}"
                  class="btn bg-warning btn-sm">Detail</a>
-              <a  th:href="@{'/driver/shipans/'+${elm.id}+'&id='+${id}}"  class="btn bg-success btn-sm">Передать</a>
+              <a  th:href="@{'/driver/shipans/'+${elm.id}+'?idOrder='+${id}}"  class="btn bg-success btn-sm">Передать</a>
 
             </div>
           </td>

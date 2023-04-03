@@ -121,13 +121,13 @@ public class DriverController {
 
     @GetMapping("/ship/{id:\\d+}")
     public String ship(@PathVariable Integer id, Model model, RedirectAttributes z){
-        assert prnv(" ");
+//        assert prnv(" ");
         model.addAttribute("elms",iPublic.listDriver());
-        assert prnq("*");
+//        assert prnq("*");
         model.addAttribute("irole",iDaoUser.getIRole(AuthenticationName()));
         model.addAttribute("login",AuthenticationLogin());
         model.addAttribute("id",id==null ? 0 : id);
-        assert prnq("***");
+        assert prnv("*** Id Order "+id);
         return "driver/dispetcher-list";
     }
     @GetMapping("/shipans/{id:\\d+}")
