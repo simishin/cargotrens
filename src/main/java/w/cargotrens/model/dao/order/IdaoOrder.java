@@ -7,6 +7,8 @@ import w.cargotrens.model.entity.Order;
 public interface IdaoOrder extends IdaoBase<Order> {
     String nameById(Integer id);
 
+    boolean isIdDriverEqLogin(Integer order, Integer iPerson);
+
     public Integer countReady();
     public Integer countDeliver();
     boolean setStatus(int id, EStatus eStatus, int iDriver);

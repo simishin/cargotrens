@@ -27,6 +27,13 @@ public class DbDaoOrder implements IdaoOrder {
         if (x == null) return "---";
         return x.getName();
     }
+    @Override
+    public boolean isIdDriverEqLogin(Integer order, Integer iPerson){
+        if (order == null || iPerson == null) return false;
+        Order x = findById(order).orElse(null);
+        if (x == null) return false;
+        return x.getiDriver() == iPerson;
+    }
 
     @Override
     public Optional<Order> findById(String name) {

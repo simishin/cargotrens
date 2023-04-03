@@ -59,6 +59,11 @@ public class DbDaoUser implements IDaoUser{
         return addUser(new User(name, name,  Math.abs(role)));
     }//presenceLogin
 
+    /**
+     * Существование данного логина
+     * @param login
+     * @return
+     */
     @Override
     public boolean isExistLogin(String login) {
         if (login.isBlank()) return false;
