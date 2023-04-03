@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class Common implements IPublic{
+public class Common implements IdaoCommon {
 
     @Autowired
     private IdaoOrder idaoOrder;
@@ -41,10 +41,11 @@ public class Common implements IPublic{
         Float   gross=0F;      //суммарный вес
         Float   dimension=0F;  //суммарные габариты
         for (Order x : idaoOrder.findAll())
-            if (x.getiDriver()==iDriver && x.getStatus() == EStatus.CONVEYED.ordinal()){
-                gross += x.getGross();
-                dimension += x.getDimension();
-                count++;
+            if (x.getiDriver() != null && x.getStatus() == EStatus.CONVEYED.ordinal())
+                if (x.getiDriver()==iDriver){
+                    if ( x.getGross() != null ) gross += x.getGross();
+                    if ( x.getDimension() != null ) dimension += x.getDimension();
+                    count++;
         }
         return new SumShip(count,gross,dimension);
     }

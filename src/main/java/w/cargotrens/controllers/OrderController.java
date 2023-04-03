@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import w.cargotrens.model.ERole;
 import w.cargotrens.model.EStatus;
-import w.cargotrens.model.dao.IPublic;
+import w.cargotrens.model.dao.IdaoCommon;
 import w.cargotrens.model.dao.dispatcher.IdaoDispatcher;
 import w.cargotrens.model.dao.driver.IdaoDriver;
 import w.cargotrens.model.dao.order.IdaoOrder;
@@ -26,7 +26,7 @@ import static w.cargotrens.utilits.Loger.prnv;
 @RequestMapping("/order")
 public class OrderController {
     @Autowired
-    private IPublic iPublic;
+    private IdaoCommon iPublic;
     @Autowired
     private IdaoOrder dao;
     @Autowired

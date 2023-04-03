@@ -6,7 +6,7 @@ import w.cargotrens.model.dao.order.SumShip;
 
 import java.util.List;
 
-public interface IPublic {
+public interface IdaoCommon {
     List<OrderTemp> listOrders();
 
     SumShip SumShipW(int iDriver);
