@@ -50,7 +50,7 @@ public class BossController {
                 break;
         }
         model.addAttribute("elms",q);
-        model.addAttribute("irole",iRole);
+        model.addAttribute("irole",iDaoUser.getIRole(AuthenticationName()));
         model.addAttribute("login",AuthenticationLogin());
         return "boss/boss-list";
     }
@@ -60,6 +60,8 @@ public class BossController {
         if (! idaoBoss.isBoss(AuthenticationName())) return "redirect:/boss";
         model.addAttribute("elm",new Boss());
         model.addAttribute("act","A");//действие - добавление
+        model.addAttribute("irole",iDaoUser.getIRole(AuthenticationName()));
+        model.addAttribute("login",AuthenticationLogin());
         return  "boss/boss-form";
     }
     @PostMapping("/add_admin")
@@ -87,6 +89,8 @@ public class BossController {
         if (! idaoBoss.isBoss(AuthenticationName())) return "redirect:/boss";
         model.addAttribute("elm",new Dispatcher());
         model.addAttribute("act","A"); //действие - добавление
+        model.addAttribute("irole",iDaoUser.getIRole(AuthenticationName()));
+        model.addAttribute("login",AuthenticationLogin());
         return  "boss/disp-form";
     }
     @PostMapping("/add_dispc")
@@ -114,6 +118,8 @@ public class BossController {
         if (! idaoBoss.isBoss(AuthenticationName())) return "redirect:/boss";
         model.addAttribute("driver",new Driver());
         model.addAttribute("act","A"); //действие - добавление
+        model.addAttribute("irole",iDaoUser.getIRole(AuthenticationName()));
+        model.addAttribute("login",AuthenticationLogin());
         return  "boss/driv-form";
     }
 
@@ -143,6 +149,8 @@ public class BossController {
         String login = AuthenticationName();
         assert prnv("update "+login);
         model.addAttribute("act","U"); //действие - редактирование
+        model.addAttribute("irole",iDaoUser.getIRole(AuthenticationName()));
+        model.addAttribute("login",AuthenticationLogin());
         if (idaoDriver.findById(login).isPresent()){
             model.addAttribute("driver", idaoDriver.findById(login).get());
             prnq("~"+idaoDriver.findById(login).get());
@@ -164,6 +172,8 @@ public class BossController {
         if (idaoBoss.findById(id).isPresent())
             model.addAttribute("elm", idaoBoss.findById(id).get());
         model.addAttribute("act","U");//действие - редактирование
+        model.addAttribute("irole",iDaoUser.getIRole(AuthenticationName()));
+        model.addAttribute("login",AuthenticationLogin());
         return  "boss/boss-form";
     }
     @GetMapping("/update_dispc/{id:\\d+}")
@@ -171,6 +181,8 @@ public class BossController {
         if (idaoDispatcher.findById(id).isPresent())
             model.addAttribute("elm", idaoDispatcher.findById(id).get());
         model.addAttribute("act","U");//действие - редактирование
+        model.addAttribute("irole",iDaoUser.getIRole(AuthenticationName()));
+        model.addAttribute("login",AuthenticationLogin());
         return  "boss/disp-form";
     }
     @GetMapping("/update_drivr/{id:\\d+}")
@@ -178,6 +190,8 @@ public class BossController {
         if (idaoDriver.findById(id).isPresent())
             model.addAttribute("driver", idaoDriver.findById(id).get());
         model.addAttribute("act","U");//действие - редактирование
+        model.addAttribute("irole",iDaoUser.getIRole(AuthenticationName()));
+        model.addAttribute("login",AuthenticationLogin());
         return  "boss/driv-form";
 
     }
@@ -199,6 +213,8 @@ public class BossController {
     @GetMapping("/detail/{id:\\d+}")
     public String detail(@PathVariable Integer id, Model model){
         assert prnv("id "+id);
+        model.addAttribute("irole",iDaoUser.getIRole(AuthenticationName()));
+        model.addAttribute("login",AuthenticationLogin());
         if (idaoDriver.findById(id).isPresent()){
             model.addAttribute("ims", idaoDriver.isIms(AuthenticationName(), id) ? "Y" :"N");
             model.addAttribute("elm", idaoDriver.findById(id).get());

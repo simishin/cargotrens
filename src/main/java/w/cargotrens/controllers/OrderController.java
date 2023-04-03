@@ -51,6 +51,8 @@ public class OrderController {
         assert prnv("--");
         model.addAttribute("elm",new Order());
         model.addAttribute("act","A");//действие - добавление
+        model.addAttribute("irole",iDaoUser.getIRole(AuthenticationName()));
+        model.addAttribute("login",AuthenticationLogin());
         return  "order/order-form";
     }
     @PostMapping("/add")
@@ -81,6 +83,8 @@ public class OrderController {
     public String getUpdateForm(@PathVariable Integer id, Model model){
         model.addAttribute("elm",dao.findById(id).get());
         model.addAttribute("act","U");//действие - редактирование
+        model.addAttribute("irole",iDaoUser.getIRole(AuthenticationName()));
+        model.addAttribute("login",AuthenticationLogin());
         return  "order/order-form";
     }
     //----------------------------------------------------------
@@ -106,6 +110,8 @@ public class OrderController {
 
     @GetMapping("/detail/{id:\\d+}")
     public String detail(@PathVariable Integer id, Model model, RedirectAttributes z){
+        model.addAttribute("irole",iDaoUser.getIRole(AuthenticationName()));
+        model.addAttribute("login",AuthenticationLogin());
         Order x = dao.findById(id).orElse(null);
         assert prnv("~"+x.toString());
         if (x == null) {

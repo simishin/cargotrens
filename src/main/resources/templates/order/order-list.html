@@ -50,14 +50,11 @@
                             <td th:if="${irole}=='2'">
                                 <div class="btn-group">
 
-                                    <a th:href="@{'/order/detail/'+${elm.id}}"
-                                        class="btn bg-warning btn-sm">Detail</a>
-                                <div th:switch="${elm.status}">
-                                    <a th:case="0"  th:href="@{'/order/update/'+${elm.id}}"  class="btn bg-primary btn-sm">Edit</a>
-                                    <a th:case="1"  th:href="@{'/driver/ship/'+${elm.id}}"  class="btn bg-success btn-sm">Link</a>
-                                </div>
-                                <a th:href="@{'/order/delete/'+${elm.id}}"
-                                   class="btn bg-danger btn-sm">Delete</a>
+                                <a th:unless="${elm.status} <2" th:href="@{'/order/detail/'+${elm.id}}" class="btn bg-warning btn-sm">Detail</a>
+                                <a th:if="${elm.status} <2"  th:href="@{'/order/update/'+${elm.id}}"  class="btn bg-primary btn-sm">Edit</a>
+                                <a th:if="${elm.status}==1" th:href="@{'/driver/ship/'+${elm.id}}"  class="btn bg-success btn-sm">Link</a>
+
+                                <a th:unless="${elm.status}==2" th:href="@{'/order/delete/'+${elm.id}}" class="btn bg-danger btn-sm">Delete</a>
                                 </div>
                             </td>
                             <td th:unless="${irole}=='2'">

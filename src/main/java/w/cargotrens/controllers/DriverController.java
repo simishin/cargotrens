@@ -38,19 +38,19 @@ public class DriverController {
         return "driver/driver-list";
     }
     //---------------------------------------------------
-    @GetMapping("/add")
-    public String getAddForm(Model model){
-        assert prnv(" ");
-        Driver x =  new Driver();
-        model.addAttribute("elm",x);
-        return  "driver/driver-form";
-    }
-    @PostMapping("/add")
-    public String addNewEtem(Driver x){
-        assert prnv("Order ADD");
-        dao.update(x);
-        return "redirect:/driver";
-    }
+//    @GetMapping("/add")
+//    public String getAddForm(Model model){
+//        assert prnv(" ");
+//        Driver x =  new Driver();
+//        model.addAttribute("elm",x);
+//        return  "driver/driver-form";
+//    }
+//    @PostMapping("/add")
+//    public String addNewEtem(Driver x){
+//        assert prnv("Order ADD");
+//        dao.update(x);
+//        return "redirect:/driver";
+//    }
     //------------------------------------------------------
 //    @GetMapping("/update/{id:\\d+}")
 //    public String getUpdateForm(@PathVariable Integer id, Model model){
@@ -58,12 +58,12 @@ public class DriverController {
 //        model.addAttribute("elm",dao.findById(id).get());
 //        return  "driver/driver-update";
 //    }
-    @PostMapping("/update")
-    public String getUpdateForm(Driver x){
-        assert prnv(" ");
-        dao.update(x);
-        return "redirect:/driver";
-    }
+//    @PostMapping("/update")
+//    public String getUpdateForm(Driver x){
+//        assert prnv(" ");
+//        dao.update(x);
+//        return "redirect:/driver";
+//    }
     //----------------------------------------------------------
 
     /**
@@ -124,6 +124,12 @@ public class DriverController {
                     " Вы этот Заказ не принимали.");
         return "redirect:/driver";
     }
+
+    /**
+     * Передача Заказа в доставку
+     * @param id идентификатор заказа
+     * @param z сообщение о результате операции
+     */
     @GetMapping("/take/{id:\\d+}")
     public String take(@PathVariable Integer id, RedirectAttributes z){
         assert prnv(" ");
