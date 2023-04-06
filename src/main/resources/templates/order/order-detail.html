@@ -9,35 +9,81 @@
 <body>
 <header th:insert="~{layout/page-layouts.html :: header}"></header>
 <div class="container-fluid text-center">
-    <h1>Дополнительная информация о Заказе</h1>
-    <input class="btn btn-info"  type="button" onclick="history.back();" value="Назад"/>
-    <p class="text-primary text-left"><pre> <small>Код заказа</small></pre><mark>[[${elm.name}]]</mark></p>
-    <p class="text-success text-left"><pre> <small>Автор Заказа</small></pre><mark>***************</mark></p>
+    <h2>Дополнительная информация о Заказе</h2>
+    <div  class="container">
+        <div class="row  px-md-3">
+            <div class="col text-danger">
+                <pre> <small>Код заказа</small></pre>
+                <p class="text-danger text-left bg-info">[[${elm.name}]]</p>
+            </div>
+            <div class="col">
+                <pre> <small>общий вес</small></pre>
+                <p class="bg-info text-white text-left">[[${elm.gross}]]</p>
 
-    <p class="text-success text-left"><pre> <small>Состояние Заказа</small></pre>
-    <p th:switch="${elm.status}">
-    <span th:case="1" class="text-danger" th:text="сформирован"></span>
-    <span th:case="2" class="text-primary" th:text="передан"></span>
-    <span th:case="3" class="text-success" th:text="доставлен"></span>
-    <span th:case="0" class="text-muted" th:text="подготавливается"></span>
-    </p>
-    <p th:if="${elm.status}==2"><mark>[[ ${driver}]]</mark></p>
-
-
-    <mark th:if="${elm.status} > 0" class="text-success">Активен</mark></p>
-    <p class="text-info text-left"><pre>    <small>Дополнительная информация  </small></pre>
-    <p class="text-justify text-info text-left">[[${elm.description}]]</p>
-    <!--      информация объекта-->
-    <p class="text-success text-left"><pre> <small>общий вес</small></pre><mark>[[${elm.gross}]]</mark></p>
-    <p class="text-success text-left"><pre> <small>общее направление</small></pre><mark>[[${elm.orientation}]]</mark></p>
-    <p class="text-success text-left"><pre> <small>габариты</small></pre><mark>[[${elm.dimension}]]</mark></p>
-    <p class="text-success text-left"><pre> <small>место погрузки</small></pre><mark>[[${elm.loadingPlace}]]</mark></p>
-    <p class="text-success text-left"><pre> <small>место назначения</small></pre><mark>[[${elm.destination}]]</mark></p>
-    <!--      информация объекта-->
+            </div>
+            <div class="col">
+                <pre> <small>габариты</small></pre>
+                <p class="bg-info text-white text-left">[[${elm.dimension}]]</p>
+            </div>
 
 
 
-    <input class="btn btn-info"  type="button" onclick="history.back();" value="Назад"/>
+        </div>
+        <div class="row  px-md-3 text-success">
+            <div class="col text-primary">
+                <pre> <small>Сформировал</small></pre>
+                <p class="text-white text-left bg-info">[[ ${dispatcher}]]</p>
+            </div>
+            <div class="col col-3 text-primary  bg-light">
+                <pre> <small>Состояние Заказа</small></pre>
+                <p th:switch="${elm.status}">
+                    <span th:case="1" class="text-danger" th:text="сформирован"></span>
+                    <span th:case="2" class="text-primary" th:text="передан"></span>
+                    <span th:case="3" class="text-success" th:text="доставлен"></span>
+                    <span th:case="0" class="text-muted" th:text="подготавливается"></span>
+                </p>
+            </div>
+            <div class="col text-primary"  th:if="${elm.status}==2">
+                <pre> <small>Водитель</small></pre>
+                <p class="text-white bg-info">[[ ${driver}]]</p>
+            </div>
+
+        </div>
+        <div class="row  px-md-3 text-info">
+            <div class="col">
+                <pre> <small>общее направление</small></pre>
+                <p class="bg-success text-white text-left">[[${elm.orientation}]]</p>
+
+            </div>
+            <div class="col">
+                <pre> <small>место погрузки</small></pre>
+                <p class="bg-info text-white  text-left">[[${elm.loadingPlace}]]</p>
+
+            </div>
+            <div class="col">
+                <pre> <small>место назначения</small></pre>
+                <p class="bg-info text-white  text-left">[[${elm.destination}]]</p>
+            </div>
+
+            <div class="row  px-md-3 text-secondary">
+                <div class="col align-top">
+                    <p class="col-3 text-info text-left"><pre>    <small>Примечание</small></pre>
+                    <p class="col-12 text-justify bg-warning text-dark">[[${elm.description}]]</p>
+                </div>
+                <div class="col">
+
+                </div>
+            </div>
+
+
+        </div>
+        <div class="row  px-md-3">
+            <div class="col text-danger">
+                <input class="btn btn-info"  type="button" onclick="history.back();" value="Назад"/>
+            </div>
+
+        </div>
+    </div>
 </div>
 <footer  th:insert="~{layout/page-layouts.html :: footer}"></footer>
 </body>

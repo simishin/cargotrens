@@ -26,10 +26,10 @@
                 <thead>
                     <tr class="table-info text-center">
                         <th class="col-1 text-center">№</th>
-                        <th class="col-2">Имя</th>
-                        <th>Описание</th>
+                        <th class="col-2">Код заказа</th>
+                        <th>Примечание</th>
                         <th class="col-1">Выполнение</th>
-                        <th class="col-1">Автор</th>
+                        <th class="col-1">Сформировал</th>
                         <th class="col-3"></th>
                     </tr>
                 </thead>
@@ -41,10 +41,10 @@
                             <td>[[${elm.description}]]</td>
 <!--                            normall-->
                             <td th:switch="${elm.status}">
-                                <span th:case="1" class="text-danger" th:text="сформирован"></span>
-                                <span th:case="2" class="text-primary" th:text="передан "></span>
-                                <span th:case="3" class="text-success" th:text="доставлен"></span>
-                                <span th:case="0" class="text-muted" th:text="подготавливается"></span>
+                                <span th:case="1" class="text-danger" th:text="Сформирован"></span>
+                                <span th:case="2" class="text-primary" th:text="Доставляется "></span>
+                                <span th:case="3" class="text-success" th:text="Выполнен"></span>
+                                <span th:case="0" class="text-muted" th:text="Подготавливается"></span>
                             </td>
                             <td> [[${elm.dispatcher}]] </td>
                             <td th:if="${irole}=='2'">

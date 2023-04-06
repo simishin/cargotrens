@@ -126,6 +126,11 @@ public class OrderController {
             prnq("!"+ idaoDriver.nameById(x.getiDriver())); //перестало сбоить при двойном вызове
             model.addAttribute("driver", idaoDriver.nameById(x.getiDriver()));
         }
+        if (x.getiDispatcher() == null)
+            model.addAttribute("dispatcher", "---");
+        else
+            model.addAttribute("dispatcher", idaoDispatcher.getDispatcher(x.getiDispatcher()));
+
         return  "order/order-detail";
     }
 
