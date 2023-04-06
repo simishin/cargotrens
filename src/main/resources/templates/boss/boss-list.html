@@ -42,10 +42,10 @@
                             <td>[[${elm.name}]]</td>
 <!--                            <td>[[${elm.affordability}]]</td>-->
                             <td th:switch="${elm.affordability}">
-                                <span th:case="1" class="text-danger" th:text="admin"></span>
+                                <span th:case="1" class="text-danger" th:text="Администратор"></span>
                                 <span th:case="2" class="text-primary" th:text="Диспетчер"></span>
                                 <span th:case="3" class="text-success" th:text="Водитель"></span>
-                                <span th:case="-1" class="text-muted" th:text="admin"></span>
+                                <span th:case="-1" class="text-muted" th:text="Администратор"></span>
                                 <span th:case="-2" class="text-muted" th:text="Диспетчер"></span>
                                 <span th:case="-3" class="text-muted" th:text="Водитель"></span>
                             </td>
@@ -53,22 +53,22 @@
                                 <div class="btn-group">
 
                                 <a th:href="@{'/boss/detail/'+${elm.id}}"
-                                   class="btn bg-warning btn-sm">Detail</a>
+                                   class="btn bg-warning btn-sm">Посмотреть</a>
                                 <div th:switch="${elm.affordability}">
-                                    <a th:case="1"  th:href="@{'/boss/update_admin/'+${elm.id}}"  class="btn bg-primary btn-sm">Edit</a>
-                                    <a th:case="2"  th:href="@{'/boss/update_dispc/'+${elm.id}}"  class="btn bg-success btn-sm">Edit</a>
-                                    <a th:case="3"  th:href="@{'/boss/update_drivr/'+${elm.id}}"  class="btn bg-info btn-sm">Edit</a>
-                                    <a th:case="-1" th:href="@{'/boss/update_admin/'+${elm.id}}"  class="btn bg-muted btn-sm">Edit</a>
-                                    <a th:case="-2" th:href="@{'/boss/update_dispc/'+${elm.id}}"  class="btn bg-muted btn-sm">Edit</a>
-                                    <a th:case="-3" th:href="@{'/boss/update_drivr/'+${elm.id}}"  class="btn bg-muted btn-sm">Edit</a>
+                                    <a th:case="1"  th:href="@{'/boss/update_admin/'+${elm.id}}"  class="btn bg-primary btn-sm">Уточнить</a>
+                                    <a th:case="2"  th:href="@{'/boss/update_dispc/'+${elm.id}}"  class="btn bg-success btn-sm">Уточнить</a>
+                                    <a th:case="3"  th:href="@{'/boss/update_drivr/'+${elm.id}}"  class="btn bg-info btn-sm">Уточнить</a>
+                                    <a th:case="-1" th:href="@{'/boss/update_admin/'+${elm.id}}"  class="btn bg-muted btn-sm">Уточнить</a>
+                                    <a th:case="-2" th:href="@{'/boss/update_dispc/'+${elm.id}}"  class="btn bg-muted btn-sm">Уточнить</a>
+                                    <a th:case="-3" th:href="@{'/boss/update_drivr/'+${elm.id}}"  class="btn bg-muted btn-sm">Уточнить</a>
                                 </div>
                                 <a th:href="@{'/boss/delete/'+${elm.id}}"
-                                   class="btn bg-danger btn-sm">Delete</a>
+                                   class="btn bg-danger btn-sm">Удалить</a>
                                 </div>
                             </td>
                             <td th:unless="${irole}=='1'">
                                 <a th:href="@{'/boss/detail/'+${elm.id}}"
-                                   class="btn bg-warning btn-sm">Detail</a>
+                                   class="btn bg-warning btn-sm">Посмотреть</a>
 <!--тест-->
 <!--                                <a th:href="@{'/boss/delete/'+${elm.id}}"-->
 <!--                                   class="btn bg-danger btn-sm">Delete</a>-->

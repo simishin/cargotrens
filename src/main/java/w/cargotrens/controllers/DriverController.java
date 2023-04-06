@@ -153,7 +153,7 @@ public class DriverController {
         assert prnv("*** Id Order "+id);
         return "driver/dispetcher-list";
     }
-    @GetMapping("/shipans/{id:\\d+}")
+    @GetMapping("/vshipans/{id:\\d+}")
     public String shipAnswer(@PathVariable Integer id, @RequestParam(defaultValue = "0") Integer idOrder, RedirectAttributes z){
         assert prnv("Driver: "+id+"\t Order: "+idOrder);
         if (ERole.DISPATCHER.is() &&  idaoOrder.isStatus(idOrder,EStatus.SHAPED)

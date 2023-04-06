@@ -9,34 +9,60 @@
 <body>
 <header th:insert="~{layout/page-layouts.html :: header}"></header>
 <div class="container-fluid text-center">
-    <h1>Дополнительная информация о водителе</h1>
-    <div class="text-left">
-        <p class="text-primary text-left"><pre> <small>Имя администратора         </small></pre><mark>[[${elm.name}]]</mark></p>
-        <p class="text-success text-left"><pre> <small>Login администратора       </small></pre><mark>[[${elm.user.login}]]</mark></p>
+    <h2
+    >Дополнительная информация о водителе</h2>
+    <div class="container">
+        <div class="row  px-md-3">
+            <div class="col text-danger">
+                <pre> <small>Имя администратора         </small></pre>
+                <p class="text-danger text-left bg-info">[[${elm.name}]]</p>
+            </div>
+            <div class="col">
+                <pre> <small>Login администратора       </small></pre>
+                <p class="bg-info text-white text-left">[[${elm.user.login}]]</p>
+            </div>
+        </div>
+        <div class="row  px-md-3">
+            <div class="col">
+                <pre> <small>общее направление</small></pre>
+                <p class="bg-primary text-white text-left">[[${elm.orientation}]]</p>
+            </div>
+            <div class="col">
+                <pre> <small>полезная нагрузка</small></pre>
+                <p class="bg-primary text-white text-left">[[${elm.playload}]]</p>
+            </div>
+            <div class="col">
+                <pre> <small>вместимость      </small></pre>
+                <p class="bg-primary text-white text-left">[[${elm.tonnage}]]</p>
+            </div>
+        </div>
+        <div class="row  px-md-3">
+            <div class="col">
+                <pre> <small>Администратор       </small></pre>
+                <p class="bg-info text-white text-left">[[${boss}]]</p>
+            </div>
+            <div class="col">
+                <p class="col-3 text-info text-left"><pre>    <small>Дополнительная информация  </small></pre>
+                <p class="col-12 text-justify bg-warning text-dark">[[${elm.description}]]</p>
+            </div>
+        </div>
+        <div class="row  px-md-3">
+            <div class="col text-danger">
+                <p class="text-info text-left"><pre>    <small>Список Заказов </small></pre>
+                <div th:unless="${ #lists.isEmpty(elms)}">
+                    <span th:text="${ #lists.size(elms)}"></span>
+                    <th:block th:each="itm: ${elms}">
+                        <p class="text-success">[[${itm.name}]]</p>
+                    </th:block>
+                </div>
+            </div>
+            <div class="col">
 
-        <p class="text-success text-left"><pre> <small>Состояние акаунта          </small></pre>
-        <mark th:if="${elm.affordability} > 0" class="text-success">Активен</mark></p>
-        <mark th:unless="${elm.affordability} > 0" lass="text-warning"> НЕ Активен</mark></p>
-        <p class="text-info text-left"><pre>    <small>Дополнительная информация  </small></pre>
-        <p class="text-justify text-info text-left">[[${elm.description}]]</p>
-        <!--      информация объекта-->
-        <p class="text-success text-left"><pre> <small>полезная нагрузка</small></pre><mark>[[${elm.playload}]]</mark></p>
-        <p class="text-success text-left"><pre> <small>общее направление</small></pre><mark>[[${elm.orientation}]]</mark></p>
-        <p class="text-success text-left"><pre> <small>вместимость      </small></pre><mark>[[${elm.tonnage}]]</mark></p>
+            </div>
 
-        <!--      информация объекта-->
-        <p class="text-success text-left"><pre> <small>Администратор       </small></pre><mark>[[${boss}]]</mark></p>
-
-        <p class="text-info text-left"><pre>    <small>Список Заказов </small></pre>
-        <div th:unless="${ #lists.isEmpty(elms)}">
-            <span th:text="${ #lists.size(elms)}"></span>
-            <th:block th:each="itm: ${elms}">
-                <p class="text-success">[[${itm.name}]]</p>
-            </th:block>
         </div>
     </div>
-
-    <a th:href="@{/boss}" class="btn btn-danger">Cancel</a>
+    <a th:href="@{/boss}" class="btn btn-danger">Вернуться</a>
 </div>
 <footer  th:insert="~{layout/page-layouts.html :: footer}"></footer>
 </body>

@@ -9,43 +9,60 @@
 <body>
 <header th:insert="~{layout/page-layouts.html :: header}"></header>
   <div class="container-fluid text-center">
-    <h1>Дополнителная информация администратора</h1>
-    <div class="text-left">
-      <p class="text-primary text-left"><pre> <small>Имя администратора         </small></pre><mark>[[${elm.name}]]</mark></p>
-      <p class="text-success text-left"><pre> <small>Login администратора       </small></pre><mark>[[${elm.user.login}]]</mark></p>
-
-      <p class="text-success text-left"><pre> <small>Состояние акаунта          </small></pre>
-      <mark th:if="${elm.affordability} > 0" class="text-success">Активен</mark></p>
-      <mark th:unless="${elm.affordability} > 0" lass="text-warning"> НЕ Активен</mark></p>
-      <p class="text-info text-left"><pre>    <small>Дополнительная информация  </small></pre>
-      <p class="text-justify text-info text-left">[[${elm.description}]]</p>
-<!--      информация объекта-->
-      <p class="text-info text-left"><pre>    <small>Список диспетчеров  </small></pre>
-      <div th:unless="${ #lists.isEmpty(elms)}">
-        <span th:text="${ #lists.size(elms)}"></span>
-        <th:block th:each="itm: ${elms}">
-          <p class="text-success">[[${itm.name}]]</p>
-        </th:block>
+    <h2>Дополнителная информация администратора</h2>
+    <div  class="container">
+      <div class="row  px-md-3">
+        <div class="col text-danger">
+          <pre> <small>Имя администратора</small></pre>
+          <p class="text-danger text-left bg-info">[[${elm.name}]]</p>
+        </div>
+        <div class="col">
+          <pre> <small>Login администратора       </small></pre>
+          <p class="bg-info text-white text-left">[[${elm.user.login}]]</p>
+        </div>
       </div>
-      <div th:if="${ #lists.isEmpty(elms)}">
-        <p class="text-danger">Список диспетчеров пуст</p>
+      <div class="row  px-md-3">
+        <div class="col align-top">
+          <p class="col-3 text-info text-left"><pre>    <small>Дополнительная информация  </small></pre>
+          <p class="col-12 text-justify bg-warning text-dark">[[${elm.description}]]</p>
+        </div>
       </div>
-      <p class="text-info text-left"><pre>    <small>Список Водителей</small> </pre>
+      <div class="row  px-md-3">
+        <div class="col">
+          <p class="text-info text-left"><pre>    <small>Список диспетчеров  </small></pre></p>
+           </div>
+        </div>
+        <div class="col">
+          <div th:unless="${ #lists.isEmpty(elms)}">
+            <span th:text="${ #lists.size(elms)}"></span>
+            <th:block th:each="itm: ${elms}">
+              <p class="text-success">[[${itm.name}]]</p>
+            </th:block>
+          </div>
+          <div th:if="${ #lists.isEmpty(elms)}">
+            <p class="col-12 text-danger">Список диспетчеров пуст</p>
 
-      <div th:unless="${ #lists.isEmpty(elmq)}">
-        <span th:text="${ #lists.size(elmq)}"></span>
-        <th:block th:each="itm: ${elmq}">
-          <p class="text-success">[[${itm.name}]]</p>
-        </th:block>
+        </div>
       </div>
-      <div th:if="${ #lists.isEmpty(elmq)}">
-        <p class="text-danger">Список Водителей пуст</p>
+      <div class="row  px-md-3">
+        <div class="col">
+          <p class="text-info text-left"><pre>    <small>Список Водителей</small> </pre></p>
+
+        </div>
+        <div class="col">
+          <div th:unless="${ #lists.isEmpty(elmq)}">
+            <span th:text="${ #lists.size(elmq)}"></span>
+            <th:block th:each="itm: ${elmq}">
+              <p class="text-success">[[${itm.name}]]</p>
+            </th:block>
+          </div>
+          <div th:if="${ #lists.isEmpty(elmq)}">
+            <p class="col-12 text-danger">Список Водителей пуст</p>
+          </div>
+        </div>
       </div>
-
-
-      <p class="text-info text-left"><pre>    <small>Список водителей  </small></pre>
     </div>
-    <a th:href="@{/boss}" class="btn btn-danger">Cancel</a>
+    <a th:href="@{/boss}" class="btn btn-danger">Вернуться</a>
   </div>
 <footer  th:insert="~{layout/page-layouts.html :: footer}"></footer>
 </body>
