@@ -1,8 +1,10 @@
 package w.cargotrens.model.dao.order;
 import org.springframework.stereotype.Service;
 import w.cargotrens.model.EStatus;
+import w.cargotrens.model.dao.driver.DriverTemp;
 import w.cargotrens.model.entity.Order;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -108,5 +110,18 @@ public class DbDaoOrder implements IdaoOrder {
     public boolean isStatus(int id, EStatus eStatus) {
         if (repository.findById(id).isEmpty()) return false;
         return repository.findById(id).get().getStatus() == eStatus.ordinal();
+    }
+    @Override
+    public List<String> listOrderByPerson(int id){
+        assert prnv("~"+id);
+        List<String> elms = new ArrayList<>();
+        for (Order x: repository.findAll()) {
+            if (x.getiDispatcher() != null )
+                if (x.getiDispatcher() == id ) elms.add(x.getName());
+            if (x.getiDriver() != null )
+                if (x.getiDriver() == id) elms.add(x.getName());
+        }
+//        elms.add(";");
+        return elms;
     }
 }//class DbDaoOrder

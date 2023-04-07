@@ -47,19 +47,18 @@
             </div>
         </div>
         <div class="row  px-md-3">
-            <div class="col text-danger">
-                <p class="text-info text-left"><pre>    <small>Список Заказов </small></pre>
-                <div th:unless="${ #lists.isEmpty(elms)}">
-                    <span th:text="${ #lists.size(elms)}"></span>
+            <div class="col text-info">
+                <small>Список Заказов </small>
+                <div th:unless="${ #lists.isEmpty(elms)} " class="bg-primary text-white text-left">
+                    <small>из </small><b>[[${ #lists.size(elms)}]] : </b>
                     <th:block th:each="itm: ${elms}">
-                        <p class="text-success">[[${itm.name}]]</p>
+                        <span >[[${itm}]], </span>
                     </th:block>
                 </div>
+                <div th:if="${ #lists.isEmpty(elms)}">
+                    <span class="text-success">пустой </span>
+                </div>
             </div>
-            <div class="col">
-
-            </div>
-
         </div>
     </div>
     <a th:href="@{/boss}" class="btn btn-danger">Вернуться</a>

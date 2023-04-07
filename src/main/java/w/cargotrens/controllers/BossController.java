@@ -14,6 +14,7 @@ import w.cargotrens.model.ERole;
 import w.cargotrens.model.dao.boss.IdaoBoss;
 import w.cargotrens.model.dao.dispatcher.IdaoDispatcher;
 import w.cargotrens.model.dao.driver.IdaoDriver;
+import w.cargotrens.model.dao.order.IdaoOrder;
 import w.cargotrens.model.dao.user.IDaoUser;
 import w.cargotrens.model.entity.*;
 
@@ -37,6 +38,9 @@ public class BossController {
 
     @Autowired
     private IDaoUser iDaoUser;
+
+    @Autowired
+    private IdaoOrder idaoOrder;
 
     @GetMapping("")
     public String  listAll(Model model, Authentication auth){
@@ -218,7 +222,7 @@ public class BossController {
         if (idaoDriver.findById(id).isPresent()){
             model.addAttribute("ims", idaoDriver.isIms(AuthenticationName(), id) ? "Y" :"N");
             model.addAttribute("elm", idaoDriver.findById(id).get());
-//            model.addAttribute("elms", idaoDriver.findById(id).get().getListOrder());
+            model.addAttribute("elms", idaoOrder.listOrderByPerson(id));
             if (idaoDriver.findById(id).get().getBoss() == null)
                 model.addAttribute("boss", "---");
                 else
@@ -229,7 +233,7 @@ public class BossController {
         if (idaoDispatcher.findById(id).isPresent()){
             model.addAttribute("ims", idaoDispatcher.isIms(AuthenticationName(), id) ? "Y" :"N");
             model.addAttribute("elm", idaoDispatcher.findById(id).get());
-//            model.addAttribute("elms", idaoDispatcher.findById(id).get().getListOrder());
+            model.addAttribute("elms", idaoOrder.listOrderByPerson(id));
             if (idaoDispatcher.findById(id).get().getBoss() == null)
                 model.addAttribute("boss", "---");
             else
