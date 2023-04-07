@@ -13,9 +13,6 @@
 <!--  2- диспетчер = распределение заказов по водителям-->
 <!--  3- водитель = отмечает доставку заказа-->
   <h2 class="text-center">Распределение Заказов между водителями</h2>
-  <p class="bg-info"><span class="badge">===[[${irole}]]=== (Представился как : [[${login}]] )</span></p>
-
-
 
   <!-- вывод goodMsg если он есть -->
   <div th:if="${gooMsg != null}" class="alert alert-success">
@@ -27,11 +24,11 @@
       <thead>
       <tr class="table-info text-center">
         <th class="col-1 text-center">№</th>
-        <th class="col-2">Имя</th>
+        <th class="col-2">Код Заказа</th>
         <th class="col-1">габариты</th>
         <th class="col-1">Вес</th>
         <th class="col-1">Направление</th>
-        <th class="col-1">Автор</th>
+        <th class="col-1">Диспетчер</th>
         <th class="col-1">Водитель</th>
         <th class="col-3"></th>
       </tr>
@@ -39,7 +36,7 @@
       <tbody>
       <th:block th:each="elm: ${elms}">
         <tr>
-          <td>[[${elm.id}]]</td>
+          <td><small>[[${elm.id}]]</small></td>
           <td>[[${elm.name}]]</td>
           <td>[[${elm.dimension}]]</td>
           <td>[[${elm.gross}]]</td>
@@ -50,20 +47,20 @@
             <div th:switch="${irole}">
               <span th:case="1">
                 <div class="btn-group">
-                <a th:href="@{'/order/detail/'+${elm.id}}" class="btn bg-warning btn-sm">Detail</a>
+                <a th:href="@{'/order/detail/'+${elm.id}}" class="btn bg-warning btn-sm">Посмотреть</a>
                 <a   th:href="@{'/driver/delete/'+${elm.id}}"  class="btn bg-primary btn-sm">Удалить</a>
                 </div>
               </span>
               <span th:case="2" >
                 <div class="btn-group">
-                <a th:unless="${elm.status} <2" th:href="@{'/order/detail/'+${elm.id}}" class="btn bg-warning btn-sm">Detail</a>
-                <a th:if="${elm.status} <2" th:href="@{'/order/update/'+${elm.id}}"  class="btn bg-primary btn-sm">Edit</a>
-                <a th:if="${elm.status}==1" th:href="@{'/driver/ship/'+${elm.id}}"  class="btn bg-success btn-sm">отправить</a>
+                <a th:unless="${elm.status} <2" th:href="@{'/order/detail/'+${elm.id}}" class="btn bg-warning btn-sm">Посмотреть</a>
+                <a th:if="${elm.status} <2" th:href="@{'/order/update/'+${elm.id}}"  class="btn bg-primary btn-sm">Уточнить</a>
+                <a th:if="${elm.status}==1" th:href="@{'/driver/ship/'+${elm.id}}"  class="btn bg-success btn-sm">Отправить</a>
                 </div>
               </span>
               <span th:case="3">
                 <div class="btn-group">
-                <a th:href="@{'/order/detail/'+${elm.id}}" class="btn bg-warning btn-sm">Detail</a>
+                <a th:href="@{'/order/detail/'+${elm.id}}" class="btn bg-warning btn-sm">Посмотреть</a>
                 <a th:if="${elm.status}==1" th:href="@{'/driver/take/'+${elm.id}}"  class="btn bg-danger btn-sm">Взять</a>
                 <a th:if="${elm.status}==2" th:href="@{'/driver/deliver/'+${elm.id}}"  class="btn bg-success btn-sm">Доставлен</a>
                 <a th:if="${elm.status}==2" th:href="@{'/driver/refund/'+${elm.id}}"  class="btn bg-primary btn-sm">Возратить</a>

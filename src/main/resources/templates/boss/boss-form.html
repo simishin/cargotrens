@@ -9,18 +9,32 @@
 <body>
 <header th:insert="~{layout/page-layouts.html :: header}"></header>
 <div class="container-fluid text-center">
-    <h1 th:if="${act}=='A'">Добавление Администратора</h1>
-    <h1 th:unless="${act}=='A'">Редактирование записи Администратора</h1>
+    <h2 th:if="${act}=='A'">Добавление Администратора</h2>
+    <h2 th:unless="${act}=='A'">Редактирование данных об Администраторе</h2>
     <form method="post" th:action="@{/boss/add_admin}" th:object="${elm}">
-    <input th:field="*{id}" hidden>
-    <label for="rx">Имя:</label>
-    <input id="rx" th:type="text" th:field="*{name}" required minlength="1" maxlength="233"/>
-    <label for="ry">Примечание:</label>
-    <input id="ry" th:type="text" th:field="*{description}"  minlength="1" maxlength="233"/>
-    <button th:if="${act}=='A'" class="btn btn-success">Добавить</button>
-    <button th:unless="${act}=='A'" class="btn btn-success">Сохранить</button>
-</form>
-    <a th:href="@{/boss}" class="btn btn-danger">Cancel</a>
+        <input th:field="*{id}" hidden>
+        <div class="row  px-md-3 text-danger">
+            <div class="col text-danger active">
+                <label  for="rx">Имя:
+                    <input id="rx" th:type="text" th:field="*{name}" required minlength="1" maxlength="233"/>
+                    <p class="help-footnote text-secondary"><small>1-32 символа</small></p>
+                </label>
+            </div>
+            <div class="col  text-info">
+                <label  for="ry">Примечание:
+                    <input id="ry" th:type="text" th:field="*{description}"  minlength="1" maxlength="233"/>
+                    <p class="help-footnote text-secondary"><small>1-233 символа</small></p>
+                </label>
+            </div>
+        </div>
+        <div class="row text-primary px-md-3">
+            <div class="col">
+                <button th:if="${act}=='A'" class="btn btn-success">Добавить</button>
+                <button th:unless="${act}=='A'" class="btn btn-success">Сохранить</button>
+                <a th:href="@{/boss}" class="btn btn-danger">Вернуться</a>
+            </div>
+        </div>
+    </form>
 </div>
 <footer  th:insert="~{layout/page-layouts.html :: footer}"></footer>
 </body>

@@ -9,28 +9,52 @@
 <body>
 <header th:insert="~{layout/page-layouts.html :: header}"></header>
 <div class="container-fluid text-center">
-  <h1 th:if="${act}=='A'">Добавление Водителя</h1>
-  <h1 th:unless="${act}=='A'">Редактирование записи Водителя</h1>
+  <h2 th:if="${act}=='A'">Добавление Водителя</h2>
+  <h2 th:unless="${act}=='A'">Редактирование данных об Водителе</h2>
   <form method="post" th:action="@{/boss/add_drivr}" th:object="${driver}">
     <input th:field="*{id}" hidden>
-    <label for="rx">Имя:</label>
-    <input id="rx" th:type="text" th:field="*{name}" required minlength="1" maxlength="233"/>
-    <label for="ry">Примечание:</label>
-    <input id="ry" th:type="text" th:field="*{description}"  minlength="1" maxlength="233"/>
-
-
-    <label for="x1">полезная нагрузка:</label>
-    <input id="x1" th:type="number" th:field="*{playload}" required minlength="1" maxlength="233"/>
-    <label for="x2">код направленя:</label>
-    <input id="x2" th:type="number" th:field="*{orientation}" required minlength="1" maxlength="233"/>
-    <label for="x3">вместимость:</label>
-    <input id="x3" th:type="number" th:field="*{tonnage}" required minlength="1" maxlength="233"/>
-
-
-    <button th:if="${act}=='A'" class="btn btn-success">Добавить</button>
-    <button th:unless="${act}=='A'" class="btn btn-success">Сохранить</button>
+    <div class="row  px-md-3 text-danger">
+      <div class="col text-danger active">
+        <label for="rx">Имя:
+          <input id="rx" th:type="text" th:field="*{name}" required minlength="1" maxlength="233"/>
+          <p class="help-footnote text-secondary"><small>1-32 символа</small></p>
+        </label>
+      </div>
+      <div class="col text-info">
+        <label for="ry">Примечание:
+          <input id="ry" th:type="text" th:field="*{description}"  minlength="1" maxlength="233"/>
+          <p class="help-footnote text-secondary"><small>1-233 символа</small></p>
+        </label>
+      </div>
+    </div>
+    <div class="row text-primary px-md-3">
+      <div class="col">
+        <label for="x2">код направленя:
+          <input id="x2" th:type="number" th:field="*{orientation}" required minlength="1" maxlength="233"/>
+          <p class="help-footnote text-secondary"><small>Код по справочнику</small></p>
+        </label>
+      </div>
+      <div class="col">
+        <label for="x1">полезная нагрузка:
+          <input id="x1" th:type="number" th:field="*{playload}" required minlength="1" maxlength="233"/>
+          <p class="help-footnote  text-secondary"><small>В тоннах</small></p>
+        </label>
+      </div>
+      <div class="col">
+        <label for="x3">вместимость:
+          <input id="x3" th:type="number" th:field="*{tonnage}" required minlength="1" maxlength="233"/>
+          <p class="help-footnote  text-secondary"><small>В кубометрах</small></p>
+        </label>
+      </div>
+    </div>
+    <div class="row text-primary px-md-3">
+      <div class="col">
+        <button th:if="${act}=='A'" class="btn btn-success">Добавить</button>
+        <button th:unless="${act}=='A'" class="btn btn-success">Сохранить</button>
+        <a th:href="@{/boss}" class="btn btn-danger">Вернуться</a>
+      </div>
+    </div>
   </form>
-  <a th:href="@{/boss}" class="btn btn-danger">Cancel</a>
 </div>
 <footer  th:insert="~{layout/page-layouts.html :: footer}"></footer>
 </body>
